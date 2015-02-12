@@ -1,0 +1,4 @@
+This is just a file for us to keep track of our thoughts of things we should consider when programming
+
+1. We should probably cache the list of Friends for FB and Twitter and set an update schedule for the (e.g. every minute or so)
+
