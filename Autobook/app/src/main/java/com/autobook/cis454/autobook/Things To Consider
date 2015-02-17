@@ -2,3 +2,4 @@ This is just a file for us to keep track of our thoughts of things we should con
 
 1. We should probably cache the list of Friends for FB and Twitter and set an update schedule for the (e.g. every minute or so)
 
+2. There's a limit on the amount of times you can post using Twitter (about 15 times every 15 minutes).

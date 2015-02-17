@@ -21,7 +21,6 @@ public class Event
     private FacebookNotification faceNotification;
     private TwitterNotification twitNotification;
     private TextMessageNotification textNotification;
-    //Kenton: Moved Receiver to Notification class; notifications have receivers, events have notifications
     private RecurrenceType recurrenceType;
 
     /*

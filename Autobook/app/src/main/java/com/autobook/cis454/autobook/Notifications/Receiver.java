@@ -7,6 +7,8 @@ public class Receiver {
     private int id;
     private String name;
     private String facebookAccount; //not sure if correct type
+    private String twitterAccount; //not sure if correct type
+    private String phoneNumber;
 
     public Receiver(String phoneNumber, String twitterAccount, String facebookAccount, String name, int id) {
         this.phoneNumber = phoneNumber;
@@ -56,6 +58,4 @@ public class Receiver {
         this.phoneNumber = phoneNumber;
     }
 
-    private String twitterAccount; //not sure if correct type
-    private String phoneNumber;
 }
