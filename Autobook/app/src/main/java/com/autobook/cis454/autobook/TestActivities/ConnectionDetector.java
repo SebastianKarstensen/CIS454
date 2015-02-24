@@ -1,4 +1,4 @@
-package com.autobook.cis454.autobook;
+package com.autobook.cis454.autobook.TestActivities;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_twitter_test">TwitterTestActivity</string>
     <string name="title_activity_twitter_tweet">TwitterTweet</string>
+    <string name="title_activity_twitter">TwitterActivity</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.autobook.cis454.autobook;
+package com.autobook.cis454.autobook.TestActivities;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -8,14 +8,11 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
-import android.app.Activity;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
@@ -27,6 +24,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.autobook.cis454.autobook.R;
 
 public class TwitterTweet extends ActionBarActivity {
 
