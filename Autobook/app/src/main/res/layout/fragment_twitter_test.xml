@@ -12,10 +12,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Post To Twitter:"
-        android:id="@+id/textView"
+        android:id="@+id/textView_twitter_headline"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textColor="#f5efeefc"
+        android:textColor="@color/off_white"
         android:textStyle="bold" />
 
     <EditText
@@ -23,20 +23,43 @@
         android:layout_height="400dp"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/editText"
-        android:layout_below="@+id/textView"
+        android:id="@+id/textArea_tweet_message"
+        android:layout_below="@+id/textView_twitter_headline"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
-        android:text="\@SebKarstensen Tweeted from Android App!"
-        android:textColor="#f5efeefc"
+        android:textColor="@color/twitter_standard"
         android:gravity="center_horizontal"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:background="@color/off_white"
+        android:text="\@SebKarstensen I&apos;m tweeting at you through Autobook!"
+        android:padding="20dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tweet!"
-        android:id="@+id/button"
-        android:layout_below="@+id/editText"
-        android:layout_centerHorizontal="true" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/textArea_tweet_message"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOG-IN"
+            android:id="@+id/button_login_twitter"
+            android:layout_below="@+id/textArea_tweet_message"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tweet!"
+            android:id="@+id/button_tweet"
+            android:layout_below="@+id/textArea_tweet_message"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp" />
+
+    </LinearLayout>
+
 </RelativeLayout>
