@@ -86,7 +86,6 @@ public class TwitterTweet extends ActionBarActivity
         TextView header = (TextView) this.findViewById(R.id.textView_twitter_headline);
         final TextView userName = (TextView) this.findViewById(R.id.textView_username);
         final EditText tweet_message = (EditText) this.findViewById(R.id.textArea_tweet_message);
-        final String message = tweet_message.getText().toString();
         final Button tweet_login = (Button) this.findViewById(R.id.button_login_twitter);
         final Button tweet_logout = (Button) this.findViewById(R.id.button_logout_twitter);
         Button tweet_button = (Button) this.findViewById(R.id.button_tweet);
@@ -206,6 +205,7 @@ public class TwitterTweet extends ActionBarActivity
                     }
                 }
 
+                String message = tweet_message.getText().toString();
                 new updateTwitterStatus().execute(message);
             }
         });
@@ -277,8 +277,11 @@ public class TwitterTweet extends ActionBarActivity
 
                         requestToken = twitter
                                 .getOAuthRequestToken(TWITTER_CALLBACK_URL);
+
+                        String auth_url = requestToken.getAuthenticationURL();
+
                         TwitterTweet.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                                .parse(requestToken.getAuthorizationURL())));
+                                .parse(auth_url)));
 
                     } catch (Exception e) {
                         e.printStackTrace();
