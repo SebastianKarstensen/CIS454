@@ -69,8 +69,8 @@ public class TwitterTestActivity extends ActionBarActivity {
 
         public static final String ARG_URI = "ARGUMENT_URI";
 
-        static String TWITTER_CONSUMER_KEY = "PPdcTyXkb1yipqFAa4RdTnjux";
-        static String TWITTER_CONSUMER_SECRET = "bOwYdfmkQX2DsRgVeVxlrhtOUoWS8vlTn2ZXLP8qpnxRoEDC9u";
+        static String TWITTER_CONSUMER_KEY = "ljTAGW8VXet3qGw08JQ8yjhVJ";
+        static String TWITTER_CONSUMER_SECRET = "ShPObDg7rPohIqXTVhs2BxArrao2kbwMEj4koGZrge9Xx58KQt";
 
         // Preference Constants
         static String PREFERENCE_NAME = "twitter_oauth";
