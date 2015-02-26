@@ -38,8 +38,8 @@ import twitter4j.auth.RequestToken;
 public class TwitterActivity extends ActionBarActivity {
 
     SharedPreferences pref;
-    static String CONSUMER_KEY = "PPdcTyXkb1yipqFAa4RdTnjux";
-    static String CONSUMER_SECRET = "bOwYdfmkQX2DsRgVeVxlrhtOUoWS8vlTn2ZXLP8qpnxRoEDC9u";
+    static final String CONSUMER_KEY = "PPdcTyXkb1yipqFAa4RdTnjux";
+    static final String CONSUMER_SECRET = "bOwYdfmkQX2DsRgVeVxIrhtOUoWS8vlTn2ZXLP8qpnxRoEDC9u";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
