@@ -3,6 +3,7 @@ package com.autobook.cis454.autobook.Event;
 import com.autobook.cis454.autobook.Notifications.FacebookNotification;
 import com.autobook.cis454.autobook.Notifications.Notification;
 import com.autobook.cis454.autobook.Notifications.NotificationType;
+import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.Notifications.TextMessageNotification;
 import com.autobook.cis454.autobook.Notifications.TwitterNotification;
 
@@ -22,6 +23,8 @@ public class Event
     private TwitterNotification twitNotification;
     private TextMessageNotification textNotification;
     private RecurrenceType recurrenceType;
+
+    private List<Receiver> receivers;
 
     /*
     Kenton: My idea of how to implement notifications. Rather than have a bunch of different

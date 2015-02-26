@@ -8,8 +8,6 @@ public abstract class Notification {
 
     private NotificationType nType;
 
-    private Receiver receiver;
-
     public Notification(String message, NotificationType nType)
     {
         this.nType = nType;
