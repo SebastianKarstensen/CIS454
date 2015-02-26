@@ -11,19 +11,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".TwitterActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-
-                <data
-                    android:host="t4jsample"
-                    android:scheme="oauth" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".TestActivities.TwitterTestActivity"
             android:label="@string/title_activity_twitter_test" >
         </activity>
@@ -32,6 +19,9 @@
             android:label="@string/title_activity_twitter_tweet" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
