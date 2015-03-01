@@ -7,5 +7,7 @@
     <string name="title_activity_twitter_test">TwitterTestActivity</string>
     <string name="title_activity_twitter_tweet">TwitterTweet</string>
     <string name="title_activity_twitter">TwitterActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_new_event">NewEvent</string>
 
 </resources>

@@ -5,5 +5,5 @@ package com.autobook.cis454.autobook.Event;
  */
 public enum EventType
 {
-    Birthday, Anniversary, Wedding, American_Holiday
+    Birthday, Anniversary, Wedding, American_Holiday, Other
 }
