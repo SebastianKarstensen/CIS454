@@ -24,12 +24,12 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Title"
-            android:id="@+id/textView" />
+            android:id="@+id/text_event_title" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
+            android:id="@+id/editText_title"
             android:layout_marginBottom="20dp" />
 
         <TextView
@@ -37,12 +37,12 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Message"
-            android:id="@+id/textView2" />
+            android:id="@+id/text_event_message" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText2"
+            android:id="@+id/editText_message"
             android:layout_marginBottom="20dp" />
 
         <TextView
@@ -50,14 +50,14 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Date"
-            android:id="@+id/textView3" />
+            android:id="@+id/text_event_date" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="date"
             android:ems="10"
-            android:id="@+id/editText3"
+            android:id="@+id/editText_date"
             android:layout_marginBottom="20dp" />
 
         <TextView
@@ -65,14 +65,14 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Time"
-            android:id="@+id/textView4" />
+            android:id="@+id/text_event_time" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="time"
             android:ems="10"
-            android:id="@+id/editText5"
+            android:id="@+id/editText_time"
             android:layout_marginBottom="20dp" />
 
         <TextView
@@ -80,14 +80,14 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Event Type"
-            android:id="@+id/textView5" />
+            android:id="@+id/text_event_type" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="time"
             android:ems="10"
-            android:id="@+id/editText6"
+            android:id="@+id/editText_type"
             android:layout_marginBottom="20dp" />
 
         <TextView
@@ -95,14 +95,38 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Receiver"
-            android:id="@+id/textView6" />
+            android:id="@+id/text_event_receiver" />
 
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Choose Receivers"
-            android:id="@+id/button"
+            android:id="@+id/button_select_receivers"
             android:layout_marginBottom="20dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:id="@+id/checkBox_twitter" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Facebook"
+                    android:id="@+id/checkBox_facebook" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Text Message"
+                    android:id="@+id/checkBox_textMessaging" />
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"

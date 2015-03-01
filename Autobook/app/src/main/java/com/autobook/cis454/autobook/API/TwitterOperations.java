@@ -7,8 +7,6 @@ import java.io.UnsupportedEncodingException;
  */
 public class TwitterOperations
 {
-
-
     public String convertToURL(String tweet) {
 
         String tweetMaxLength = tweet;

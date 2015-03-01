@@ -8,9 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.autobook.cis454.autobook.Event.MediaType;
 import com.autobook.cis454.autobook.R;
+import com.autobook.cis454.autobook.TestActivities.TwitterTweet;
 
 public class HomeActivity extends ActionBarActivity {
+
+    public static final String INTENT_EXTRA_MEDIA_TYPE = "EXTRA_TWITTER_TYPE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +26,40 @@ public class HomeActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), NewEvent.class);
+                intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.Twitter);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton createFacebook = (ImageButton) findViewById(R.id.imageButton_home_facebook);
+        createFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), NewEvent.class);
+                intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.Facebook);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton createText = (ImageButton) findViewById(R.id.imageButton_home_text);
+        createText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), NewEvent.class);
+                intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.TextMessaging);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton testTweet = (ImageButton) findViewById(R.id.imageButton_testTweet);
+        testTweet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), TwitterTweet.class);
                 startActivity(intent);
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

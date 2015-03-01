@@ -37,7 +37,7 @@ public class TwitterTweet extends ActionBarActivity
 {
     //region Variables
     // Constants
-/*
+    /*
      * Register your here app https://dev.twitter.com/apps/new and get your
      * consumer key and secret
      */
@@ -70,11 +70,18 @@ public class TwitterTweet extends ActionBarActivity
     private static SharedPreferences mSharedPreferences;
 
     // Internet Connection detector
-    private ConnectionDetector cd;
+    //private ConnectionDetector cd;
 
     // Alert Dialog Manager
     AlertDialogManager alert = new AlertDialogManager();
 
+
+    private TextView header;
+    private TextView userName;
+    private TextView tweet_message;
+    private Button tweet_login;
+    private Button tweet_logout;
+    private Button tweet_button;
 
     //endregion
 
@@ -83,14 +90,14 @@ public class TwitterTweet extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitter_tweet);
 
-        TextView header = (TextView) this.findViewById(R.id.textView_twitter_headline);
-        final TextView userName = (TextView) this.findViewById(R.id.textView_username);
-        final EditText tweet_message = (EditText) this.findViewById(R.id.textArea_tweet_message);
-        final Button tweet_login = (Button) this.findViewById(R.id.button_login_twitter);
-        final Button tweet_logout = (Button) this.findViewById(R.id.button_logout_twitter);
-        Button tweet_button = (Button) this.findViewById(R.id.button_tweet);
+        header = (TextView) this.findViewById(R.id.textView_twitter_headline);
+        userName = (TextView) this.findViewById(R.id.textView_username);
+        tweet_message = (TextView) this.findViewById(R.id.textArea_tweet_message);
+        tweet_login = (Button) this.findViewById(R.id.button_login_twitter);
+        tweet_logout = (Button) this.findViewById(R.id.button_logout_twitter);
+        tweet_button = (Button) this.findViewById(R.id.button_tweet);
 
-        cd = new ConnectionDetector(getApplicationContext());
+        //cd = new ConnectionDetector(getApplicationContext());
 
         //region CheckInternetCode
         // Check if Internet present
@@ -102,15 +109,6 @@ public class TwitterTweet extends ActionBarActivity
         //    return;
         //}
         //endregion
-
-        if(TWITTER_CONSUMER_KEY.trim().length() == 0 || TWITTER_CONSUMER_SECRET.trim().length() == 0){
-            // Internet Connection is not present
-            alert.showAlertDialog(TwitterTweet.this, "Twitter oAuth tokens", "Please set your twitter oauth tokens first!", false);
-            // stop executing code by return
-            return;
-        }
-
-
 
         // Shared Preferences
         mSharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
@@ -141,76 +139,79 @@ public class TwitterTweet extends ActionBarActivity
             @Override
             public void onClick(View v)
             {
-/* This if conditions is tested once is
+                /* This if conditions is tested once is
                  * redirected from twitter page. Parse the uri to get oAuth
                  * Verifier
                  */
 
-                if (!isTwitterLoggedInAlready()) {
-                    Uri uri = getIntent().getData();
-                    if (uri != null && uri.toString().startsWith(TWITTER_CALLBACK_URL)) {
-                        // oAuth verifier
-                        final String verifier = uri
-                                .getQueryParameter(URL_TWITTER_OAUTH_VERIFIER);
-
-                        try {
-
-                            Thread thread = new Thread(new Runnable(){
-                                @Override
-                                public void run() {
-                                    try {
-
-                                        // Get the access token
-                                        TwitterTweet.this.accessToken = twitter.getOAuthAccessToken(
-                                                requestToken, verifier);
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                            thread.start();
-
-                            // Shared Preferences
-                            Editor e = mSharedPreferences.edit();
-
-                            // After getting access token, access token secret
-                            // store them in application preferences
-                            e.putString(PREF_KEY_OAUTH_TOKEN, accessToken.getToken());
-                            e.putString(PREF_KEY_OAUTH_SECRET,
-                                    accessToken.getTokenSecret());
-                            // Store login status - true
-                            e.putBoolean(PREF_KEY_TWITTER_LOGIN, true);
-                            e.commit(); // save changes
-
-
-
-                            // Hide login button
-                            tweet_login.setVisibility(View.GONE);
-
-
-                            // Getting user details from twitter
-                            // For now i am getting his name only
-                            long userID = accessToken.getUserId();
-                            User user = twitter.showUser(userID);
-                            String username = user.getName();
-
-                            // Displaying in xml ui
-                            userName.setText(username);
-                        } catch (Exception e) {
-                            // Check log for login errors
-                            Log.e("Twitter Login Error", "> " + e.getMessage());
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
+                checkLogin();
                 String message = tweet_message.getText().toString();
                 new updateTwitterStatus().execute(message);
             }
         });
 
 
+    }
+
+    private void checkLogin() {
+        if (!isTwitterLoggedInAlready()) {
+            Uri uri = getIntent().getData();
+            if (uri != null && uri.toString().startsWith(TWITTER_CALLBACK_URL)) {
+                // oAuth verifier
+                final String verifier = uri
+                        .getQueryParameter(URL_TWITTER_OAUTH_VERIFIER);
+
+                try {
+
+                    Thread thread = new Thread(new Runnable(){
+                        @Override
+                        public void run() {
+                            try {
+
+                                // Get the access token
+                                TwitterTweet.this.accessToken = twitter.getOAuthAccessToken(
+                                        requestToken, verifier);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    thread.start();
+
+                    Toast.makeText(getApplicationContext(),"Ran the Thread",Toast.LENGTH_SHORT).show();
+
+                    // Shared Preferences
+                    Editor e = mSharedPreferences.edit();
+
+                    // After getting access token, access token secret
+                    // store them in application preferences
+                    e.putString(PREF_KEY_OAUTH_TOKEN, accessToken.getToken());
+                    e.putString(PREF_KEY_OAUTH_SECRET,
+                            accessToken.getTokenSecret());
+                    // Store login status - true
+                    e.putBoolean(PREF_KEY_TWITTER_LOGIN, true);
+                    e.commit(); // save changes
+
+                    // Hide login button
+                    tweet_login.setVisibility(View.GONE);
+
+
+                    // Getting user details from twitter
+                    // For now i am getting his name only
+                    long userID = accessToken.getUserId();
+                    User user = twitter.showUser(userID);
+                    String username = user.getName();
+
+                    // Displaying in xml ui
+                    userName.setText(username);
+                } catch (Exception e) {
+                    // Check log for login errors
+                    Log.e("Twitter Login Error", "> " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     class updateTwitterStatus extends AsyncTask<String, String, String> {
@@ -274,7 +275,6 @@ public class TwitterTweet extends ActionBarActivity
                 @Override
                 public void run() {
                     try {
-
                         requestToken = twitter
                                 .getOAuthRequestToken(TWITTER_CALLBACK_URL);
 
@@ -323,6 +323,13 @@ public class TwitterTweet extends ActionBarActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_twitter_tweet, menu);
         return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Toast.makeText(getApplicationContext(),"Resumed",Toast.LENGTH_SHORT).show();
+        checkLogin();
     }
 
     @Override
