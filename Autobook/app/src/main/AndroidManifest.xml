@@ -11,10 +11,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".TestActivities.TwitterTestActivity"
-            android:label="@string/title_activity_twitter_test" >
-        </activity>
-        <activity
             android:name=".TestActivities.TwitterTweet"
             android:label="@string/title_activity_twitter_tweet" >
             <intent-filter>
