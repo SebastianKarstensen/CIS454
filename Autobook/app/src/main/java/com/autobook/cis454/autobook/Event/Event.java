@@ -17,6 +17,7 @@ import java.util.List;
 public class Event
 {
     private int id;
+    private String title;
     private Date date; //probably use Joda Time library instead (if we're allowed to do so)
     private EventType type;
     private FacebookNotification faceNotification;
