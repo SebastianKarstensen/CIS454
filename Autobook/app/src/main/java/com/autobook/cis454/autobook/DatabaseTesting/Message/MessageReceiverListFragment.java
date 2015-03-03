@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
+import com.autobook.cis454.autobook.Fragments.NewEventFragment;
 import com.autobook.cis454.autobook.R;
 
 
@@ -69,6 +70,7 @@ public class MessageReceiverListFragment extends android.support.v4.app.Fragment
             public void onItemClick(View v, int position) {
                //System.out.println("EventID: " + eventID + " ReceiverID: " + position);
                System.out.println("Does this already exist?: " + db.messageExist(eventID, position));
+
                if(db.messageExist(eventID, position)){
                    //receiver is already at even therefore delete
                    db.deleteMessage(eventID, position);
@@ -83,7 +85,6 @@ public class MessageReceiverListFragment extends android.support.v4.app.Fragment
                }
                int maxEventID = db.maxEventId();
                System.out.println("@@@ maxeventid " + maxEventID);
-
             }
 
             @Override
