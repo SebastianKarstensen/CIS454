@@ -112,11 +112,6 @@ public class TwitterWebFragment extends Fragment {
                         new AccessTokenGet().execute();
                     }else if(url.contains("denied")){
                         //If it doesn't succeed
-                        getActivity().getSupportFragmentManager().beginTransaction()
-                                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                                .replace(R.id.container, TwitterLogin.TwitterLoginFragment.newInstance(100))
-                                .addToBackStack(null)
-                                .commit();
                         Toast.makeText(getActivity(), "Sorry !, Permission Denied", Toast.LENGTH_SHORT).show();
                     }
                 }

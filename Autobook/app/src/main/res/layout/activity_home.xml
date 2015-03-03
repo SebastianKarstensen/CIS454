@@ -1,13 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.autobook.cis454.autobook.Activities.HomeActivity">
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Prototype"
-        android:id="@+id/databasedestingbutton"/>
+    tools:context="com.autobook.cis454.autobook.Activities.HomeActivity"
+    android:background="@drawable/background_gradient_main">
 
     <LinearLayout
         android:orientation="vertical"
@@ -28,11 +23,11 @@
             android:textIsSelectable="false" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:id="@+id/image_home_logo"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/logoautobook" />
+            android:src="@drawable/autobook_logo_v01" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -85,11 +80,12 @@
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:id="@+id/imageButton3"
+                android:id="@+id/imageButton_database_prototype"
                 android:cropToPadding="false"
                 android:adjustViewBounds="false"
                 android:layout_weight="1"
-                android:layout_margin="10dp" />
+                android:layout_margin="10dp"
+                android:src="@android:drawable/star_big_on" />
         </LinearLayout>
 
         <LinearLayout

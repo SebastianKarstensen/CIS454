@@ -3,5 +3,7 @@
 
     <color name="twitter_standard">#5EA9DD</color>
     <color name="off_white">#f5EFEEFC</color>
+    <color name="topbottom_gradient">#ff033b6d</color>
+    <color name="center_gradient">#ff2c66b9</color>
 
 </resources>

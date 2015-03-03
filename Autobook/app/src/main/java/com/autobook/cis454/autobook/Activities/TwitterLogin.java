@@ -26,7 +26,7 @@ public class TwitterLogin extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, TwitterLoginFragment.newInstance(1))
+                    .add(R.id.container, new TwitterLoginFragment())
                     .commit();
         }
     }
@@ -59,23 +59,12 @@ public class TwitterLogin extends ActionBarActivity {
      */
     public static class TwitterLoginFragment extends Fragment {
 
-        private int fragmentId;
-
         public TwitterLoginFragment() {
-        }
-
-        public static Fragment newInstance(int fragmentId) {
-            TwitterLoginFragment fragment = new TwitterLoginFragment();
-            Bundle arguments = new Bundle();
-            arguments.putSerializable(ARG_FRAGMENT_ID,fragmentId);
-            fragment.setArguments(arguments);
-            return fragment;
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            fragmentId = getArguments().getInt(ARG_FRAGMENT_ID);
 
             View rootView = inflater.inflate(R.layout.fragment_twitter_login, container, false);
 
@@ -90,9 +79,6 @@ public class TwitterLogin extends ActionBarActivity {
                             .commit();
                 }
             });
-
-            TextView header = (TextView) rootView.findViewById(R.id.textView_loginToTwitter);
-            header.setText(header.getText() + ": " + fragmentId);
 
             return rootView;
         }

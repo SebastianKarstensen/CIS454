@@ -70,7 +70,7 @@ public class HomeActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
-        Button databaseTesting = (Button) findViewById(R.id.databasedestingbutton);
+        ImageButton databaseTesting = (ImageButton) findViewById(R.id.imageButton_database_prototype);
         databaseTesting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
