@@ -11,11 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
+import com.autobook.cis454.autobook.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import domain.databasetesting.Database.MyDatabaseHandler;
-import domain.databasetesting.R;
 
 public class AddReceiverFragment extends Fragment {
 

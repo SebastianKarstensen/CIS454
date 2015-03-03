@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.autobook.cis454.autobook.DatabaseTesting.FrontPage.FrontPageActivity;
 import com.autobook.cis454.autobook.Event.MediaType;
 import com.autobook.cis454.autobook.R;
 import com.autobook.cis454.autobook.TestActivities.TwitterTweet;
@@ -68,6 +70,15 @@ public class HomeActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+        Button databaseTesting = (Button) findViewById(R.id.databasedestingbutton);
+        databaseTesting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), FrontPageActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override

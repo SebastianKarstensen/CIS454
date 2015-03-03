@@ -3,12 +3,11 @@ package com.autobook.cis454.autobook.DatabaseTesting.FrontPage;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
+import com.autobook.cis454.autobook.R;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import domain.databasetesting.R;
-
 
 public class FrontPageActivity extends ActionBarActivity {
 
