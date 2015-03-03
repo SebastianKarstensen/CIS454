@@ -29,16 +29,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Event` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `mydb`.`EventType`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`EventType` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`EventType` (
-  `id` INT NOT NULL,
-  `Type` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
