@@ -111,7 +111,8 @@
                 android:cropToPadding="false"
                 android:adjustViewBounds="false"
                 android:layout_weight="1"
-                android:layout_margin="10dp" />
+                android:layout_margin="10dp"
+                android:src="@android:drawable/ic_menu_manage" />
         </LinearLayout>
 
     </LinearLayout>

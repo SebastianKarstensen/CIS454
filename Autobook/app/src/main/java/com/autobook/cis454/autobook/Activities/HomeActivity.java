@@ -59,6 +59,15 @@ public class HomeActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
+        ImageButton loginTwitter = (ImageButton) findViewById(R.id.imageButton_login);
+        loginTwitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), TwitterLogin.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.autobook.cis454.autobook.TestActivities;
 
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -11,22 +10,22 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.SharedPreferences.Editor;
@@ -76,12 +75,10 @@ public class TwitterTweet extends ActionBarActivity
     AlertDialogManager alert = new AlertDialogManager();
 
 
-    private TextView header;
-    private TextView userName;
-    private TextView tweet_message;
-    private Button tweet_login;
-    private Button tweet_logout;
-    private Button tweet_button;
+    private TextView header, userName, tweet_message;
+    private Button tweet_login, tweet_logout, tweet_button;
+
+    private Dialog login_dialog;
 
     //endregion
 
@@ -118,7 +115,7 @@ public class TwitterTweet extends ActionBarActivity
             @Override
             public void onClick(View v)
             {
-                loginToTwitter();
+                new TokenGet().execute();
             }
 
         });
@@ -151,6 +148,62 @@ public class TwitterTweet extends ActionBarActivity
         });
 
 
+    }
+
+    private class TokenGet extends AsyncTask<String, String, String> {
+
+        Dialog auth_dialog;
+
+        @Override
+        protected String doInBackground(String... args) {
+            String oauth_url = "";
+            try {
+                requestToken = twitter.getOAuthRequestToken();
+                oauth_url = requestToken.getAuthorizationURL();
+            } catch (TwitterException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return oauth_url;
+        }
+        @Override
+        protected void onPostExecute(String oauth_url) {
+            if(oauth_url != null){
+                Log.e("URL", oauth_url);
+                auth_dialog = new Dialog(getApplicationContext());
+                auth_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                auth_dialog.setContentView(R.layout.auth_dialog);
+                WebView web = (WebView)auth_dialog.findViewById(R.id.webView_twitter_login);
+                web.getSettings().setJavaScriptEnabled(true);
+                web.loadUrl(oauth_url);
+                web.setWebViewClient(new WebViewClient() {
+                    boolean authComplete = false;
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon){
+                        super.onPageStarted(view, url, favicon);
+                    }
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        if (url.contains("oauth_verifier") && authComplete == false){
+                            authComplete = true;
+                            Log.e("Url",url);
+                            Uri uri = Uri.parse(url);
+                            String oauth_verifier = uri.getQueryParameter("oauth_verifier");
+                            auth_dialog.dismiss();
+                            //new AccessTokenGet().execute();
+                        }else if(url.contains("denied")){
+                            auth_dialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Sorry !, Permission Denied", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                auth_dialog.show();
+                auth_dialog.setCancelable(true);
+            }else{
+                Toast.makeText(getApplicationContext(), "Sorry !, Network Error or Invalid Credentials", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void checkLogin() {
@@ -280,8 +333,39 @@ public class TwitterTweet extends ActionBarActivity
 
                         String auth_url = requestToken.getAuthenticationURL();
 
-                        TwitterTweet.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                                .parse(auth_url)));
+                        login_dialog = new Dialog(getApplicationContext());
+                        login_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        login_dialog.setContentView(R.layout.fragment_twitter_webview);
+
+                        WebView web = (WebView) login_dialog.findViewById(R.id.webView_twitter_login);
+
+                        web.loadUrl(auth_url);
+                        web.setWebViewClient(new WebViewClient() {
+                            boolean authComplete = false;
+                            @Override
+                            public void onPageStarted(WebView view, String url, Bitmap favicon){
+                                super.onPageStarted(view, url, favicon);
+                            }
+                            @Override
+                            public void onPageFinished(WebView view, String url) {
+                                super.onPageFinished(view, url);
+                                if (url.contains("oauth_verifier") && authComplete == false){
+                                    authComplete = true;
+                                    Log.e("Url",url);
+                                    Uri uri = Uri.parse(url);
+                                    String oauth_verifier = uri.getQueryParameter("oauth_verifier");
+                                    login_dialog.dismiss();
+                                    //new AccessTokenGet().execute();
+                                }else if(url.contains("denied")){
+                                    login_dialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Sorry !, Permission Denied", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        login_dialog.show();
+                        login_dialog.setCancelable(true);
+
+                        //TwitterTweet.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(auth_url)));
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -323,13 +407,6 @@ public class TwitterTweet extends ActionBarActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_twitter_tweet, menu);
         return true;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Toast.makeText(getApplicationContext(),"Resumed",Toast.LENGTH_SHORT).show();
-        checkLogin();
     }
 
     @Override
