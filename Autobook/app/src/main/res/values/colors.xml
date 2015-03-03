@@ -5,5 +5,6 @@
     <color name="off_white">#f5EFEEFC</color>
     <color name="topbottom_gradient">#ff033b6d</color>
     <color name="center_gradient">#ff2c66b9</color>
+    <color name="card_view_background">#ff0800b9</color>
 
 </resources>

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.autobook.cis454.autobook.R;
@@ -56,7 +57,7 @@ public class MessageReceiverRecyclerAdapter extends RecyclerView.Adapter<Message
                 return;
             }
         }
-        holder.itemView.setBackgroundColor(Color.WHITE);
+        holder.colorPallet.setBackgroundResource(R.color.card_view_background);
     }
 
     @Override
@@ -70,17 +71,19 @@ public class MessageReceiverRecyclerAdapter extends RecyclerView.Adapter<Message
         TextView facebook;
         TextView twitter;
         TextView phone;
+        LinearLayout colorPallet;
 
 
-    public ViewHolder(View v) {
+        public ViewHolder(View v) {
         super(v);
         name = (TextView) v.findViewById(R.id.nameText);
         facebook = (TextView) v.findViewById(R.id.facebookText);
         twitter = (TextView) v.findViewById(R.id.twitterText);
         phone = (TextView) v.findViewById(R.id.phoneText);
+        colorPallet = (LinearLayout) v.findViewById(R.id.cardlinearmain);
 
 
-        v.setOnClickListener(new View.OnClickListener(){
+            v.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(mItemClickListener != null){

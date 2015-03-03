@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.autobook.cis454.autobook.R;
@@ -45,6 +46,7 @@ public class MessageEventRecyclerAdapter extends RecyclerView.Adapter<MessageEve
         holder.textMessage.setText((String) entry.get("textMessage"));
         holder.eventType.setText((String) entry.get("eventType"));
         holder.title.setText((String) entry.get("title"));
+        holder.colorPallet.setBackgroundResource(R.color.card_view_background);
     }
 
     @Override
@@ -59,6 +61,8 @@ public class MessageEventRecyclerAdapter extends RecyclerView.Adapter<MessageEve
         TextView textMessage;
         TextView eventType;
         TextView title;
+        LinearLayout colorPallet;
+
 
         public ViewHolder(View v) {
             super(v);
@@ -68,6 +72,8 @@ public class MessageEventRecyclerAdapter extends RecyclerView.Adapter<MessageEve
             textMessage = (TextView) v.findViewById(R.id.textMessageText);
             eventType = (TextView) v.findViewById(R.id.eventTypeText);
             title = (TextView) v.findViewById(R.id.titleText);
+            colorPallet = (LinearLayout) v.findViewById(R.id.cardlinearmain);
+
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
