@@ -53,7 +53,7 @@ public class MessageReceiverRecyclerAdapter extends RecyclerView.Adapter<Message
             HashMap<String, ?> messageEntry = messageList.get(i);
             int receiverID = (Integer) messageEntry.get("receiverid");
             if(receiverID == position){
-                holder.itemView.setBackgroundColor(Color.GREEN);
+                holder.colorPallet.setBackgroundResource(R.color.card_view_selected);
                 return;
             }
         }
