@@ -1,13 +1,17 @@
 package com.autobook.cis454.autobook.Activities;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.autobook.cis454.autobook.DatabaseTesting.FrontPage.FrontPageActivity;
 import com.autobook.cis454.autobook.Event.MediaType;
@@ -17,23 +21,53 @@ import com.autobook.cis454.autobook.TestActivities.TwitterTweet;
 public class HomeActivity extends ActionBarActivity {
 
     public static final String INTENT_EXTRA_MEDIA_TYPE = "EXTRA_TWITTER_TYPE";
+    private GestureDetector gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        ImageButton createTwitterEvent = (ImageButton) findViewById(R.id.imageButton_home_twitter);
-        createTwitterEvent.setOnClickListener(new View.OnClickListener() {
+        gestureDetector = new GestureDetector(this, new SingleTapConfirm());
+        gestureDetector.setIsLongpressEnabled(false);
+
+        ImageView createTwitterEvent = (ImageView) findViewById(R.id.imageView_btn_twitter);
+        createTwitterEvent.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), NewEvent.class);
-                intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.Twitter);
-                startActivity(intent);
+            public boolean onTouch(View v, MotionEvent event) {
+                ImageView view = (ImageView) v;
+
+                if(gestureDetector.onTouchEvent(event)) {
+                    Intent intent = new Intent(v.getContext(), NewEvent.class);
+                    intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.Twitter);
+                    startActivity(intent);
+                }
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        //Set ColorFilter with a light blue, slight transparent color
+                        //view.getDrawable().setColorFilter(0x77739ef4,PorterDuff.Mode.SRC_ATOP);
+                        //view.invalidate();
+
+                        view.setImageResource(R.drawable.btn_home_twitter_glow);
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL: {
+                        //Clear the ColorFilter
+                        //view.getDrawable().clearColorFilter();
+                        //view.invalidate();
+
+                        view.setImageResource(R.drawable.btn_home_twitter);
+                        break;
+                    }
+                }
+
+                return true;
             }
         });
 
-        ImageButton createFacebook = (ImageButton) findViewById(R.id.imageButton_home_facebook);
+        ImageView createFacebook = (ImageView) findViewById(R.id.imageView_btn_facebook);
         createFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,12 +77,21 @@ public class HomeActivity extends ActionBarActivity {
             }
         });
 
-        ImageButton createText = (ImageButton) findViewById(R.id.imageButton_home_text);
+        ImageView createText = (ImageView) findViewById(R.id.imageView_btn_text);
         createText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), NewEvent.class);
                 intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.TextMessaging);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton databaseTesting = (ImageButton) findViewById(R.id.imageButton_login);
+        databaseTesting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), FrontPageActivity.class);
                 startActivity(intent);
             }
         });
@@ -62,19 +105,11 @@ public class HomeActivity extends ActionBarActivity {
             }
         });
 
-        ImageButton loginTwitter = (ImageButton) findViewById(R.id.imageButton_login);
+        ImageView loginTwitter = (ImageView) findViewById(R.id.imageView_btn_settings);
         loginTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), TwitterLogin.class);
-                startActivity(intent);
-            }
-        });
-        ImageButton databaseTesting = (ImageButton) findViewById(R.id.imageButton_database_prototype);
-        databaseTesting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), FrontPageActivity.class);
                 startActivity(intent);
             }
         });
@@ -101,5 +136,13 @@ public class HomeActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent event) {
+            return true;
+        }
     }
 }

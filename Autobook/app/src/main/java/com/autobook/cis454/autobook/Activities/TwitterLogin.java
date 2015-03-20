@@ -1,5 +1,6 @@
 package com.autobook.cis454.autobook.Activities;
 
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
@@ -69,6 +70,10 @@ public class TwitterLogin extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_twitter_login, container, false);
 
             Button loginTwitter = (Button) rootView.findViewById(R.id.button_twitter_login);
+            Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
+                    "fonts/HPSimplified_Rg.ttf");
+            loginTwitter.setTypeface(face);
+
             loginTwitter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
