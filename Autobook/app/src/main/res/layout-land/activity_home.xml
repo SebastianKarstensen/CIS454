@@ -26,7 +26,9 @@
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp">
 
             <ImageView
                 android:layout_width="0dp"
@@ -71,16 +73,17 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:layout_weight="1"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp">
 
-            <ImageButton
+            <ImageView
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:id="@+id/imageButton_login"
-                android:cropToPadding="false"
-                android:adjustViewBounds="false"
+                android:id="@+id/imageView_btn_calendar"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_manage"
+                android:src="@drawable/btn_home_calendar"
+                android:clickable="false"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp" />
 

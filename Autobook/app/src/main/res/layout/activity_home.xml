@@ -71,16 +71,15 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginBottom="5dp" />
 
-            <ImageButton
+            <ImageView
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:id="@+id/imageButton_login"
-                android:cropToPadding="false"
-                android:adjustViewBounds="false"
+                android:id="@+id/imageView_btn_calendar"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_manage"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp" />
+                android:src="@drawable/btn_home_calendar"
+                android:clickable="false"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp" />
 
         </LinearLayout>
 
