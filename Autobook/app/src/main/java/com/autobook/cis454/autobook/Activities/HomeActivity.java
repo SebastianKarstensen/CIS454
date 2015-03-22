@@ -31,6 +31,7 @@ public class HomeActivity extends ActionBarActivity {
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
         gestureDetector.setIsLongpressEnabled(false);
 
+        //Create Twitter event
         ImageView createTwitterEvent = (ImageView) findViewById(R.id.imageView_btn_twitter);
         createTwitterEvent.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -63,6 +64,7 @@ public class HomeActivity extends ActionBarActivity {
             }
         });
 
+        //Create Facebook event
         ImageView createFacebook = (ImageView) findViewById(R.id.imageView_btn_facebook);
         createFacebook.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -71,7 +73,7 @@ public class HomeActivity extends ActionBarActivity {
 
                 if(gestureDetector.onTouchEvent(event)) {
                     Intent intent = new Intent(v.getContext(), NewEvent.class);
-                    intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.Twitter);
+                    intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.Facebook);
                     startActivity(intent);
                 }
 
@@ -95,6 +97,7 @@ public class HomeActivity extends ActionBarActivity {
             }
         });
 
+        //Create TextMessage event
         ImageView createText = (ImageView) findViewById(R.id.imageView_btn_text);
         createText.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -103,7 +106,7 @@ public class HomeActivity extends ActionBarActivity {
 
                 if(gestureDetector.onTouchEvent(event)) {
                     Intent intent = new Intent(v.getContext(), NewEvent.class);
-                    intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.Twitter);
+                    intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.TextMessaging);
                     startActivity(intent);
                 }
 
@@ -127,6 +130,7 @@ public class HomeActivity extends ActionBarActivity {
             }
         });
 
+        //Calendar, used for database testing
         ImageView databaseTesting = (ImageView) findViewById(R.id.imageView_btn_calendar);
         databaseTesting.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -158,15 +162,39 @@ public class HomeActivity extends ActionBarActivity {
             }
         });
 
-        ImageButton testTweet = (ImageButton) findViewById(R.id.imageButton_testTweet);
-        testTweet.setOnClickListener(new View.OnClickListener() {
+        //Contacts, used for original test tweet
+        ImageView testTweet = (ImageView) findViewById(R.id.imageView_btn_contacts);
+        testTweet.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), TwitterTweet.class);
-                startActivity(intent);
+            public boolean onTouch(View v, MotionEvent event) {
+                ImageView view = (ImageView) v;
+
+                if(gestureDetector.onTouchEvent(event)) {
+                    Intent intent = new Intent(v.getContext(), TwitterTweet.class);
+                    startActivity(intent);
+                }
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        //Set ColorFilter with a light blue, slight transparent color
+                        view.getDrawable().setColorFilter(0x8542bbf7,PorterDuff.Mode.SRC_ATOP);
+                        view.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL: {
+                        //Clear the ColorFilter
+                        view.getDrawable().clearColorFilter();
+                        view.invalidate();
+                        break;
+                    }
+                }
+
+                return true;
             }
         });
 
+        //Settings, used to login to Twitter, Facebook, etc.
         ImageView loginTwitter = (ImageView) findViewById(R.id.imageView_btn_settings);
         loginTwitter.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -174,8 +202,7 @@ public class HomeActivity extends ActionBarActivity {
                 ImageView view = (ImageView) v;
 
                 if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), NewEvent.class);
-                    intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.Twitter);
+                    Intent intent = new Intent(v.getContext(), TwitterLogin.class);
                     startActivity(intent);
                 }
 

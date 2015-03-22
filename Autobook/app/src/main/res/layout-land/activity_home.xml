@@ -87,17 +87,15 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp" />
 
-            <ImageButton
+            <ImageView
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:id="@+id/imageButton_testTweet"
-                android:cropToPadding="false"
-                android:adjustViewBounds="false"
+                android:id="@+id/imageView_btn_contacts"
                 android:layout_weight="1"
-                android:src="@drawable/ic_launcher"
+                android:src="@drawable/btn_home_contacts"
+                android:clickable="false"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+                android:layout_marginLeft="5dp" />
 
             <ImageView
                 android:layout_width="0dp"
