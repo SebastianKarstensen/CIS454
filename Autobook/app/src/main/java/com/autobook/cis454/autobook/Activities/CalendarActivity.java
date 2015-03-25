@@ -71,6 +71,7 @@ public class CalendarActivity extends ActionBarActivity {
             Calendar cal = Calendar.getInstance();
             args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
             args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
+            args.putInt(CaldroidFragment.START_DAY_OF_WEEK, CaldroidFragment.MONDAY);
             caldroidFragment.setArguments(args);
 
             getFragmentManager().beginTransaction()

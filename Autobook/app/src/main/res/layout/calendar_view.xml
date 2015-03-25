@@ -68,14 +68,6 @@
             android:src="@android:drawable/ic_input_add"
             android:layout_weight="1"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:minHeight="30dp"
-            android:id="@+id/imageView_btn_calendarView_viewEvents"
-            android:src="@android:drawable/ic_delete"
-            android:layout_weight="1" />
-
     </LinearLayout>
 
 </LinearLayout>

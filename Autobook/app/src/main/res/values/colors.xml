@@ -12,8 +12,8 @@
     <color name="card_view_selected">#ff3cb90d</color>
 
     <!--Colors used for determining the calendar background gradient-->
-    <color name="calendar_background_top">#ee1f2b84</color>
-    <color name="calendar_background_center">#e3324776</color>
+    <color name="calendar_background_top">#ad282b41</color>
+    <color name="calendar_background_center">#a94a4e74</color>
     <color name="calendar_background_bottom">@color/calendar_background_top</color>
 
     <!--Not actually gray, but overwrites the calendar with a transparent background-->

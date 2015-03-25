@@ -4,7 +4,7 @@
         android:startColor="@color/calendar_background_top"
         android:centerColor="@color/calendar_background_center"
         android:endColor="@color/calendar_background_bottom"
-        android:angle="0" />
+        android:angle="90" />
     <stroke android:width="2dip" android:color="@color/off_white" />
     <corners android:radius="30dip"/>
     <padding android:left="0dip" android:top="0dip" android:right="0dip" android:bottom="0dip" />
