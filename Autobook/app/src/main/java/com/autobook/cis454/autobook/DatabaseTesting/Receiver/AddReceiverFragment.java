@@ -33,24 +33,13 @@ public class AddReceiverFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_add_receiver, container, false);
         Button saveButton = (Button) rootView.findViewById(R.id.savebutton);
         final EditText nametextField = (EditText) rootView.findViewById(R.id.nameTextField);
-        final EditText facebooktextField = (EditText) rootView.findViewById(R.id.facebookTextField);
-        final EditText twittertextField = (EditText) rootView.findViewById(R.id.twitterTextField);
-        final EditText phonetextField = (EditText) rootView.findViewById(R.id.phoneTextField);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = nametextField.getText().toString();
-                String facebook = facebooktextField.getText().toString();
-                String twitter = twittertextField.getText().toString();
-                String phone = phonetextField.getText().toString();
-
-                db.insertReceiver(name, facebook, twitter, phone);
 
                 nametextField.setText("");
-                facebooktextField.setText("");
-                twittertextField.setText("");
-                phonetextField.setText("");
             }
         });
 

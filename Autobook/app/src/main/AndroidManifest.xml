@@ -45,7 +45,10 @@
         <activity android:name=".DatabaseTesting.Message.MessageActivity" />
         <activity android:name=".DatabaseTesting.DatabaseEventThingy.EventActivity" />
         <activity android:name=".DatabaseTesting.FrontPage.FrontPageActivity" />
-
+        <activity
+            android:name=".Activities.CalendarActivity"
+            android:label="@string/title_activity_calendar" >
+        </activity>
     </application>
 
 </manifest>

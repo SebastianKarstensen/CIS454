@@ -17,6 +17,9 @@ import com.autobook.cis454.autobook.DatabaseTesting.FrontPage.FrontPageActivity;
 import com.autobook.cis454.autobook.Event.MediaType;
 import com.autobook.cis454.autobook.R;
 import com.autobook.cis454.autobook.TestActivities.TwitterTweet;
+import com.roomorama.caldroid.CaldroidFragment;
+
+import java.util.Calendar;
 
 public class HomeActivity extends ActionBarActivity {
 
@@ -131,21 +134,21 @@ public class HomeActivity extends ActionBarActivity {
         });
 
         //Calendar, used for database testing
-        ImageView databaseTesting = (ImageView) findViewById(R.id.imageView_btn_calendar);
-        databaseTesting.setOnTouchListener(new View.OnTouchListener() {
+        ImageView openCalendar = (ImageView) findViewById(R.id.imageView_btn_calendar);
+        openCalendar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 ImageView view = (ImageView) v;
 
-                if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), FrontPageActivity.class);
+                if (gestureDetector.onTouchEvent(event)) {
+                    Intent intent = new Intent(v.getContext(), CalendarActivity.class);
                     startActivity(intent);
                 }
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         //Set ColorFilter with a light blue, slight transparent color
-                        view.getDrawable().setColorFilter(0x8542bbf7,PorterDuff.Mode.SRC_ATOP);
+                        view.getDrawable().setColorFilter(0x8542bbf7, PorterDuff.Mode.SRC_ATOP);
                         view.invalidate();
                         break;
                     }

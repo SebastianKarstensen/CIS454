@@ -30,14 +30,26 @@
                 android:src="@drawable/image_contact_placeholder"
                 android:adjustViewBounds="true"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginLeft="100dp" />
 
-            <EditText
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText_contactDetails_name"
-                android:gravity="center_horizontal"
-                android:singleLine="true" />
+                android:weightSum="100"
+                android:gravity="center_horizontal">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText_contactDetails_name"
+                    android:gravity="center_horizontal"
+                    android:singleLine="true"
+                    android:layout_weight="70" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,13 +59,23 @@
                 android:id="@+id/textView_contactDetails_name"
                 android:layout_gravity="center_horizontal" />
 
-            <Button
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Import Facebook Account"
-                android:id="@+id/btn_contactDetails_facebook"
-                android:layout_marginTop="20dp"
-                android:singleLine="true" />
+                android:weightSum="100"
+                android:gravity="center_horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:text="Import Facebook Account"
+                    android:id="@+id/btn_contactDetails_facebook"
+                    android:layout_marginTop="20dp"
+                    android:singleLine="false"
+                    android:layout_weight="70" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -63,13 +85,23 @@
                 android:id="@+id/textView_contactDetails_facebook"
                 android:layout_gravity="center_horizontal" />
 
-            <Button
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Import Twitter Account"
-                android:id="@+id/btn_contactDetails_twitter"
-                android:layout_marginTop="20dp"
-                android:singleLine="true" />
+                android:weightSum="100"
+                android:gravity="center_horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:text="Import Twitter Account"
+                    android:id="@+id/btn_contactDetails_twitter"
+                    android:layout_marginTop="20dp"
+                    android:singleLine="false"
+                    android:layout_weight="70" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -79,13 +111,23 @@
                 android:id="@+id/textView_contactDetails_twitter"
                 android:layout_gravity="center_horizontal" />
 
-            <Button
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Import Contact Information"
-                android:id="@+id/btn_contactDetails_contact"
-                android:layout_marginTop="20dp"
-                android:singleLine="true" />
+                android:weightSum="100"
+                android:gravity="center_horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:text="Import Contact Information"
+                    android:id="@+id/btn_contactDetails_contact"
+                    android:layout_marginTop="20dp"
+                    android:singleLine="false"
+                    android:layout_weight="70" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
