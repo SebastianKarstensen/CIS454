@@ -41,11 +41,7 @@ public class AddReceiverFragment extends Fragment {
 
                 nametextField.setText("");
 
-
-
 //                db.insertReceiver(name, facebook, twitter, phone);
-
-
 
                 nametextField.setText("");
             }
