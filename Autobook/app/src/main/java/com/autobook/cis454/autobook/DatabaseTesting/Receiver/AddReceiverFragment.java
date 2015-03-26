@@ -34,33 +34,24 @@ public class AddReceiverFragment extends Fragment {
         Button saveButton = (Button) rootView.findViewById(R.id.savebutton);
         final EditText nametextField = (EditText) rootView.findViewById(R.id.nameTextField);
 
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = nametextField.getText().toString();
 
                 nametextField.setText("");
+
+
+
+//                db.insertReceiver(name, facebook, twitter, phone);
+
+                nametextField.setText("");
+
             }
         });
 
-        final Button displayButton = (Button) rootView.findViewById(R.id.displaybutton);
-        displayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                try {
-                    db.updateReceiverList();
-                    ArrayList<HashMap<String, ?>> receiverList  = db.getReceiverList();
-                    for (int i = 0; i < receiverList.size(); i++){
-                        HashMap<String, ?> receiver = receiverList.get(i);
-                        displayReceiver(receiver, getActivity());
-                    }
-
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
         return rootView;
     }
 
