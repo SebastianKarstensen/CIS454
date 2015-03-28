@@ -75,6 +75,16 @@
                     android:singleLine="false"
                     android:layout_weight="70" />
 
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="Import Facebook Account"
+                    android:id="@+id/btn_contactDetails_removeFacebook"
+                    android:layout_marginTop="20dp"
+                    android:singleLine="false"
+                    android:visibility="gone"
+                    android:src="@android:drawable/ic_delete" />
+
             </LinearLayout>
 
             <TextView
@@ -100,6 +110,16 @@
                     android:layout_marginTop="20dp"
                     android:singleLine="false"
                     android:layout_weight="70" />
+
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="Import Facebook Account"
+                    android:id="@+id/btn_contactDetails_removeTwitter"
+                    android:layout_marginTop="20dp"
+                    android:singleLine="false"
+                    android:visibility="gone"
+                    android:src="@android:drawable/ic_delete" />
 
             </LinearLayout>
 
@@ -127,6 +147,16 @@
                     android:singleLine="false"
                     android:layout_weight="70" />
 
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="Import Facebook Account"
+                    android:id="@+id/btn_contactDetails_removePhone"
+                    android:layout_marginTop="20dp"
+                    android:singleLine="false"
+                    android:visibility="gone"
+                    android:src="@android:drawable/ic_delete" />
+
             </LinearLayout>
 
             <TextView
@@ -136,6 +166,32 @@
                 android:text="Phone Number"
                 android:id="@+id/textView_contactDetails_contact"
                 android:layout_gravity="center_horizontal" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:weightSum="100"
+                android:gravity="center_horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:text="Save"
+                    android:id="@+id/btn_contactDetails_save"
+                    android:layout_weight="35"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="5dp" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:text="Cancel"
+                    android:id="@+id/btn_contactDetails_cancel"
+                    android:layout_weight="35"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="5dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
