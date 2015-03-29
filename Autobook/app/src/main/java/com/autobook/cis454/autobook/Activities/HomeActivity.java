@@ -19,11 +19,13 @@ import com.autobook.cis454.autobook.R;
 import com.autobook.cis454.autobook.TestActivities.TwitterTweet;
 import com.roomorama.caldroid.CaldroidFragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class HomeActivity extends ActionBarActivity {
 
-    public static final String INTENT_EXTRA_MEDIA_TYPE = "EXTRA_TWITTER_TYPE";
+    public static final String INTENT_EXTRA_MEDIA_TYPE = "EXTRA_MEDIA_TYPE";
+    public static final String INTENT_EXTRA_LIST_OF_TYPES = "EXTRA_LIST_OF_TYPES";
     private GestureDetector gestureDetector;
 
     @Override
@@ -43,7 +45,9 @@ public class HomeActivity extends ActionBarActivity {
 
                 if(gestureDetector.onTouchEvent(event)) {
                     Intent intent = new Intent(v.getContext(), NewEvent.class);
-                    intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.Twitter);
+                    ArrayList<MediaType> types = new ArrayList<>();
+                    types.add(MediaType.Twitter);
+                    intent.putExtra(INTENT_EXTRA_LIST_OF_TYPES, types);
                     startActivity(intent);
                 }
 
@@ -76,7 +80,9 @@ public class HomeActivity extends ActionBarActivity {
 
                 if(gestureDetector.onTouchEvent(event)) {
                     Intent intent = new Intent(v.getContext(), NewEvent.class);
-                    intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.Facebook);
+                    ArrayList<MediaType> types = new ArrayList<>();
+                    types.add(MediaType.Facebook);
+                    intent.putExtra(INTENT_EXTRA_LIST_OF_TYPES, types);
                     startActivity(intent);
                 }
 
@@ -109,7 +115,9 @@ public class HomeActivity extends ActionBarActivity {
 
                 if(gestureDetector.onTouchEvent(event)) {
                     Intent intent = new Intent(v.getContext(), NewEvent.class);
-                    intent.putExtra(INTENT_EXTRA_MEDIA_TYPE, MediaType.TextMessaging);
+                    ArrayList<MediaType> types = new ArrayList<>();
+                    types.add(MediaType.TextMessaging);
+                    intent.putExtra(INTENT_EXTRA_LIST_OF_TYPES, types);
                     startActivity(intent);
                 }
 

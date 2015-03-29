@@ -67,4 +67,38 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:weightSum="100" >
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="Help/FAQ"
+            android:id="@+id/btn_settings_help"
+            android:layout_marginTop="30dp"
+            android:singleLine="false"
+            android:layout_weight="60" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:weightSum="100" >
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="Credits"
+            android:id="@+id/btn_settings_credits"
+            android:layout_marginTop="30dp"
+            android:singleLine="false"
+            android:layout_weight="60" />
+    </LinearLayout>
+
 </LinearLayout>

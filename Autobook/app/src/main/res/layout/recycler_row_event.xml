@@ -172,7 +172,7 @@
         <Button
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:id="@+id/button"
+            android:id="@+id/btn_calendar_delete"
             android:background="@mipmap/ic_delete"
             android:layout_gravity="center_vertical"
             android:padding="10dp" />
