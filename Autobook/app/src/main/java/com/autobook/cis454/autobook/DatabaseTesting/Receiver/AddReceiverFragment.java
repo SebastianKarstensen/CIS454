@@ -44,7 +44,7 @@ public class AddReceiverFragment extends Fragment {
         Button twitterButton = (Button) rootView.findViewById(R.id.twitterButton);
         Button phoneButton = (Button) rootView.findViewById(R.id.phoneButton);
         final EditText nametextField = (EditText) rootView.findViewById(R.id.nameTextField);
-        nameResult = (EditText) rootView.findViewById(R.id.nameTextField);
+        nameResult = nametextField;
         phoneResult = (TextView) rootView.findViewById(R.id.phonenumbertextiview);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
