@@ -9,14 +9,26 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/editText2" />
+        android:id="@+id/editText_tab_message" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textView_tab_tip"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:textSize="14sp"
+        android:gravity="center_horizontal"
+        android:textColor="#ffc2d1e6"
+        android:textStyle="italic" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Max Characters: 140"
-        android:id="@+id/textView11"
+        android:id="@+id/textView_tab_max_characters"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp" />
 </LinearLayout>

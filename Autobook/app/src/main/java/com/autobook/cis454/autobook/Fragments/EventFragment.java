@@ -22,6 +22,7 @@ import java.util.List;
  */
 public class EventFragment extends Fragment {
 
+    public static final String BUNDLE_TAB_ARGUMENT = "ARGUMENT_TAB_EVENT";
     FragmentTabHost tabHost;
     FragmentTabHost.TabSpec facebookTab;
     FragmentTabHost.TabSpec twitterTab;
@@ -41,6 +42,8 @@ public class EventFragment extends Fragment {
         if(getActivity().getIntent().getExtras() != null) {
             mediaTypes = (ArrayList<MediaType>) getActivity().getIntent().getSerializableExtra(HomeActivity.INTENT_EXTRA_LIST_OF_TYPES);
         }
+
+        Button saveButton = (Button) rootView.findViewById(R.id.btn_event_save);
 
         checkFacebook = (CheckBox) rootView.findViewById(R.id.checkbox_event_facebook);
         checkTwitter = (CheckBox) rootView.findViewById(R.id.checkbox_event_twitter);
@@ -99,13 +102,19 @@ public class EventFragment extends Fragment {
     public void updateTabs() {
         tabHost.clearAllTabs();
         if(checkFacebook.isChecked()) {
-            tabHost.addTab(facebookTab,TabEventFragment.class,null);
+            Bundle bundle = new Bundle();
+            bundle.putInt(BUNDLE_TAB_ARGUMENT,0);
+            tabHost.addTab(facebookTab,TabEventFragment.class,bundle);
         }
         if(checkTwitter.isChecked()) {
-            tabHost.addTab(twitterTab, TabEventFragment.class, null);
+            Bundle bundle = new Bundle();
+            bundle.putInt(BUNDLE_TAB_ARGUMENT,1);
+            tabHost.addTab(twitterTab, TabEventFragment.class,bundle);
         }
         if(checkText.isChecked()) {
-            tabHost.addTab(textTab, TabEventFragment.class,null);
+            Bundle bundle = new Bundle();
+            bundle.putInt(BUNDLE_TAB_ARGUMENT,2);
+            tabHost.addTab(textTab, TabEventFragment.class,bundle);
         }
     }
 }
