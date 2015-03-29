@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.autobook.cis454.autobook.Autobook;
+import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
 import com.autobook.cis454.autobook.DatabaseTesting.FrontPage.FrontPageActivity;
 import com.autobook.cis454.autobook.DatabaseTesting.Receiver.ReceiverActivity;
 import com.autobook.cis454.autobook.Event.MediaType;
@@ -28,6 +30,8 @@ public class HomeActivity extends ActionBarActivity {
     public static final String INTENT_EXTRA_MEDIA_TYPE = "EXTRA_MEDIA_TYPE";
     public static final String INTENT_EXTRA_LIST_OF_TYPES = "EXTRA_LIST_OF_TYPES";
     private GestureDetector gestureDetector;
+
+    public static MyDatabaseHandler dbHandler = new MyDatabaseHandler(Autobook.getAppContext());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

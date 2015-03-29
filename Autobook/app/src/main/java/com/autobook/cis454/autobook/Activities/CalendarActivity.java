@@ -25,6 +25,7 @@ import com.roomorama.caldroid.CaldroidFragment;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class CalendarActivity extends ActionBarActivity {
@@ -98,6 +99,11 @@ public class CalendarActivity extends ActionBarActivity {
             makeMyScrollSmart();
 
             List<Event> events = new ArrayList<>();
+            HomeActivity.dbHandler.updateEventList();
+            ArrayList<HashMap<String,?>> eventList = HomeActivity.dbHandler.getEventList();
+            //Event event = eventList.get(0).get((String) "id");
+
+
             List<Receiver> receivers = new ArrayList<>();
             for(int i = 0; i < 100; i++) {
                 Event event = new Event(i,"Event #" + i, new Date(), EventType.American_Holiday, receivers);
