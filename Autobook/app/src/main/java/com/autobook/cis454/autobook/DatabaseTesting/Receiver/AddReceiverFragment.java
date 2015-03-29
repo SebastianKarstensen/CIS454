@@ -2,13 +2,18 @@ package com.autobook.cis454.autobook.DatabaseTesting.Receiver;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
@@ -20,6 +25,9 @@ import java.util.HashMap;
 public class AddReceiverFragment extends Fragment {
 
     MyDatabaseHandler db;
+    public static final int PICK_CONTACT_REQUEST = 5;
+    TextView phoneResult;
+    EditText nameResult;
 
     @Override
     public void onAttach(Activity activity) {
@@ -32,7 +40,12 @@ public class AddReceiverFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_add_receiver, container, false);
         Button saveButton = (Button) rootView.findViewById(R.id.savebutton);
+        Button facebookButton = (Button) rootView.findViewById(R.id.facebookButton);
+        Button twitterButton = (Button) rootView.findViewById(R.id.twitterButton);
+        Button phoneButton = (Button) rootView.findViewById(R.id.phoneButton);
         final EditText nametextField = (EditText) rootView.findViewById(R.id.nameTextField);
+        nameResult = (EditText) rootView.findViewById(R.id.nameTextField);
+        phoneResult = (TextView) rootView.findViewById(R.id.phonenumbertextiview);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,26 +60,47 @@ public class AddReceiverFragment extends Fragment {
             }
         });
 
-        final Button displayButton = (Button) rootView.findViewById(R.id.displaybutton);
-        displayButton.setOnClickListener(new View.OnClickListener() {
+        phoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                try {
-                    db.updateReceiverList();
-                    ArrayList<HashMap<String, ?>> receiverList  = db.getReceiverList();
-                    for (int i = 0; i < receiverList.size(); i++){
-                        HashMap<String, ?> receiver = receiverList.get(i);
-                        displayReceiver(receiver, getActivity());
-                    }
-
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+                Intent intent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
+                intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+                startActivityForResult(intent, PICK_CONTACT_REQUEST);
             }
         });
+
+
+
         return rootView;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+
+        if(resultCode != Activity.RESULT_OK) return;
+
+        if(requestCode == PICK_CONTACT_REQUEST) {
+            Uri contactUri = data.getData();
+
+            String[] projection = {
+                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                    ContactsContract.CommonDataKinds.Phone.NUMBER};
+
+            Cursor cursor = getActivity().getContentResolver()
+                    .query(contactUri, projection, null, null, null);
+            cursor.moveToFirst();
+
+            int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+            String number = cursor.getString(column);
+            column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+            String name = cursor.getString(column);
+
+            phoneResult.setText(number);
+            nameResult.setText(name);
+        }
+    }
+
+
 
     public void displayReceiver(HashMap<String, ?> receiver, Context ctx)
     {
