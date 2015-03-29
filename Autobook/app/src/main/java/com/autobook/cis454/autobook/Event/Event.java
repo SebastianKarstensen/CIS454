@@ -25,6 +25,31 @@ public class Event
     private TextMessageNotification textNotification;
     private RecurrenceType recurrenceType;
 
+    public Event(int id, String title, Date date, EventType type, List<Receiver> receivers) {
+        this.id = id;
+        this.title = title;
+        this.date = date;
+        this.type = type;
+        this.receivers = receivers;
+    }
+
+    public String getTitle() {
+
+        return title;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public List<Receiver> getReceivers() {
+        return receivers;
+    }
+
     private List<Receiver> receivers;
 
     /*

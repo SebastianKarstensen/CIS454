@@ -5,16 +5,27 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
+import com.autobook.cis454.autobook.Calendar.EventRecyclerAdapter;
+import com.autobook.cis454.autobook.Event.Event;
+import com.autobook.cis454.autobook.Event.EventType;
+import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
 import com.roomorama.caldroid.CaldroidFragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class CalendarActivity extends ActionBarActivity {
 
@@ -58,6 +69,10 @@ public class CalendarActivity extends ActionBarActivity {
      */
     public static class CalendarFragment extends Fragment {
 
+        private RecyclerView recyclerView;
+        private EventRecyclerAdapter recyclerAdapter;
+        private ScrollView scrollView;
+
         public CalendarFragment() {
         }
 
@@ -78,7 +93,46 @@ public class CalendarActivity extends ActionBarActivity {
                     .replace(R.id.container_calendar, caldroidFragment)
                     .commit();
 
+            recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_widget);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            makeMyScrollSmart();
+
+            List<Event> events = new ArrayList<>();
+            List<Receiver> receivers = new ArrayList<>();
+            for(int i = 0; i < 100; i++) {
+                Event event = new Event(i,"Event #" + i, new Date(), EventType.American_Holiday, receivers);
+                events.add(event);
+            }
+
+            recyclerAdapter = new EventRecyclerAdapter(events);
+            recyclerView.setAdapter(recyclerAdapter);
+
             return rootView;
+        }
+
+        private void makeMyScrollSmart() {
+            recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View __v, MotionEvent __event) {
+                    if (__event.getAction() == MotionEvent.ACTION_DOWN) {
+                        //  Disallow the touch request for parent scroll on touch of child view
+                        requestDisallowParentInterceptTouchEvent(__v, true);
+                    } else if (__event.getAction() == MotionEvent.ACTION_UP || __event.getAction() == MotionEvent.ACTION_CANCEL) {
+                        // Re-allows parent events
+                        requestDisallowParentInterceptTouchEvent(__v, false);
+                    }
+                    return false;
+                }
+            });
+        }
+
+        private void requestDisallowParentInterceptTouchEvent(View __v, Boolean __disallowIntercept) {
+            while (__v.getParent() != null && __v.getParent() instanceof View) {
+                if (__v.getParent() instanceof ScrollView) {
+                    __v.getParent().requestDisallowInterceptTouchEvent(__disallowIntercept);
+                }
+                __v = (View) __v.getParent();
+            }
         }
     }
 }

@@ -4,6 +4,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.autobook.cis454.autobook.Fragments.EventFragment;
 import com.autobook.cis454.autobook.Fragments.NewEventFragment;
 import com.autobook.cis454.autobook.R;
 
@@ -17,7 +19,7 @@ public class NewEvent extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new NewEventFragment())
+                    .add(R.id.container, new EventFragment())
                     .commit();
         }
     }
