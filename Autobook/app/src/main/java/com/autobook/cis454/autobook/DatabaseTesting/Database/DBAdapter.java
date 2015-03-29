@@ -144,11 +144,11 @@ public class DBAdapter {
                     }
 
                     HashMap receiver = new HashMap();
-                    receiver.put("id", id);
-                    receiver.put("name", name);
-                    receiver.put("facebook", facebook);
-                    receiver.put("twitter", twitter);
-                    receiver.put("phone", phone);
+                    receiver.put(KEY_RECEIVER_ID, id);
+                    receiver.put(KEY_NAME, name);
+                    receiver.put(KEY_FACEBOOK, facebook);
+                    receiver.put(KEY_TWITTER, twitter);
+                    receiver.put(KEY_PHONENUMBER, phone);
                     receiverList.add(receiver);
             } while (c. moveToNext());
         }
@@ -232,13 +232,13 @@ public class DBAdapter {
                 }
 
                 HashMap event = new HashMap();
-                event.put("id", id);
-                event.put("date", date);
-                event.put("twitterMessage", twitterMessage);
-                event.put("facebookMessage", facebookMessage);
-                event.put("textMessage", textMessage);
-                event.put("eventType", eventType);
-                event.put("title", title);
+                event.put(KEY_EVENT_ID, id);
+                event.put(KEY_DATE, date);
+                event.put(KEY_TWITTERMESSAGE, twitterMessage);
+                event.put(KEY_FACEBOOKMESSAGE, facebookMessage);
+                event.put(KEY_TEXTMESSAGE, textMessage);
+                event.put(KEY_EVENTTYPE, eventType);
+                event.put(KEY_TITLE, title);
                 eventList.add(event);
             } while (c. moveToNext());
         }
@@ -271,8 +271,8 @@ public class DBAdapter {
                 int receiverID = c.getInt(1);
                // System.out.println("eventID : " + eventID + " receiverID: " + receiverID);
                 HashMap message = new HashMap();
-                message.put("eventid", eventID);
-                message.put("receiverid", receiverID);
+                message.put(KEY_EVENT_ID, eventID);
+                message.put(KEY_RECEIVER_ID, receiverID);
 
                 messageList.add(message);
             } while (c. moveToNext());
