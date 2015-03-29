@@ -177,16 +177,16 @@ public class CalendarActivity extends ActionBarActivity {
             EventType type = EventType.Other;
 
             switch (typeString) {
-                case "birthday":
+                case "Birthday":
                     type = EventType.Birthday;
                     break;
-                case "anniversary":
+                case "Anniversary":
                     type = EventType.Anniversary;
                     break;
-                case "wedding":
+                case "Wedding":
                     type = EventType.Wedding;
                     break;
-                case "american_holiday":
+                case "American_Holiday":
                     type = EventType.American_Holiday;
                     break;
                 default:

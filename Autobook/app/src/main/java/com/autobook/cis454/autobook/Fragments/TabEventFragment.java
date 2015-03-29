@@ -13,6 +13,12 @@ import com.autobook.cis454.autobook.R;
 
 public class TabEventFragment extends Fragment {
 
+    EditText message;
+
+    public String getMessage() {
+        return message.getText().toString();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -26,7 +32,7 @@ public class TabEventFragment extends Fragment {
 
         TextView tip = (TextView) rootView.findViewById(R.id.textView_tab_tip);
         TextView maxCharacters = (TextView) rootView.findViewById(R.id.textView_tab_max_characters);
-        EditText message = (EditText) rootView.findViewById(R.id.editText_tab_message);
+        message = (EditText) rootView.findViewById(R.id.editText_tab_message);
 
         int maxLength = 123;
         String tipMessage = "We put the Twitter handle of your receiver(s) in front of the message, so you don't need to tweet @ them!";
