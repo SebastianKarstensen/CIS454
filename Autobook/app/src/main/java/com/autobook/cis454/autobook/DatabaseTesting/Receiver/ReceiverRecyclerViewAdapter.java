@@ -29,7 +29,7 @@ public class ReceiverRecyclerViewAdapter extends RecyclerView.Adapter<ReceiverRe
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
         v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.cardview_receiver, parent, false);
+                .inflate(R.layout.recycler_row_contact, parent, false);
 
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -42,7 +42,7 @@ public class ReceiverRecyclerViewAdapter extends RecyclerView.Adapter<ReceiverRe
         holder.facebook.setText((String) entry.get("facebook"));
         holder.twitter.setText((String) entry.get("twitter"));
         holder.phone.setText((String) entry.get("phone"));
-        holder.colorPallet.setBackgroundResource(R.color.card_view_background);
+//        holder.colorPallet.setBackgroundResource(R.color.card_view_background);
     }
 
     @Override
@@ -58,14 +58,12 @@ public class ReceiverRecyclerViewAdapter extends RecyclerView.Adapter<ReceiverRe
         TextView phone;
         LinearLayout colorPallet;
 
-
-
         public ViewHolder(View v) {
             super(v);
-            name = (TextView) v.findViewById(R.id.nameText);
-            facebook = (TextView) v.findViewById(R.id.facebookText);
-            twitter = (TextView) v.findViewById(R.id.twitterText);
-            phone = (TextView) v.findViewById(R.id.phoneText);
+            name = (TextView) v.findViewById(R.id.nametextview);
+            facebook = (TextView) v.findViewById(R.id.facebooktextview);
+            twitter = (TextView) v.findViewById(R.id.twittertextview);
+            phone = (TextView) v.findViewById(R.id.phonenumbertextiview);
             colorPallet = (LinearLayout) v.findViewById(R.id.cardlinearmain);
 
             v.setOnClickListener(new View.OnClickListener(){

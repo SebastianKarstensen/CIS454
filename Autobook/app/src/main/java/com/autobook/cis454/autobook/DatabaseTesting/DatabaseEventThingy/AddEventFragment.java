@@ -1,6 +1,5 @@
 package com.autobook.cis454.autobook.DatabaseTesting.DatabaseEventThingy;
 
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
