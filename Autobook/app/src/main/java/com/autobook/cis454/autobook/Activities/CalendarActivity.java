@@ -16,12 +16,17 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 import com.autobook.cis454.autobook.Calendar.EventRecyclerAdapter;
+import com.autobook.cis454.autobook.DatabaseTesting.Database.DBAdapter;
 import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Event.EventType;
+import com.autobook.cis454.autobook.Event.MediaType;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
 import com.roomorama.caldroid.CaldroidFragment;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -101,12 +106,39 @@ public class CalendarActivity extends ActionBarActivity {
             List<Event> events = new ArrayList<>();
             HomeActivity.dbHandler.updateEventList();
             ArrayList<HashMap<String,?>> eventList = HomeActivity.dbHandler.getEventList();
-            //Event event = eventList.get(0).get((String) "id");
 
+            for(HashMap<String,?> eventMap : eventList) {
+                List<Receiver> receivers = new ArrayList<>();
+                HomeActivity.dbHandler.updateReceiverList();
+                ArrayList<HashMap<String,?>> receiversList = HomeActivity.dbHandler.getReceiverList();
 
-            List<Receiver> receivers = new ArrayList<>();
-            for(int i = 0; i < 100; i++) {
-                Event event = new Event(i,"Event #" + i, new Date(), EventType.American_Holiday, receivers);
+                for(HashMap<String,?> receiverMap : receiversList) {
+                    int id = Integer.parseInt((String) receiverMap.get(DBAdapter.KEY_RECEIVER_ID));
+                    String name = (String) receiverMap.get(DBAdapter.KEY_NAME);
+                    String facebookId = (String) receiverMap.get(DBAdapter.KEY_FACEBOOK);
+                    String twitterHandle = (String) receiverMap.get(DBAdapter.KEY_TWITTER);
+                    String phoneNumber = (String) receiverMap.get(DBAdapter.KEY_PHONENUMBER);
+                    Receiver receiver = new Receiver(phoneNumber,twitterHandle,facebookId,name,id);
+                    receivers.add(receiver);
+                }
+
+                int id = Integer.parseInt((String) eventMap.get(DBAdapter.KEY_EVENT_ID));
+                String title = (String) eventMap.get(DBAdapter.KEY_TITLE);
+                String dateString = (String) eventMap.get(DBAdapter.KEY_DATE);
+                String typeString = (String) eventMap.get(DBAdapter.KEY_EVENTTYPE);
+
+                EventType type = convertStringToEnum(typeString);
+
+                Calendar calDate = Calendar.getInstance();
+                Date date = new Date();
+                try {
+                    date = DateFormat.getInstance().parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                calDate.setTime(date);
+
+                Event event = new Event(id,title, calDate.getTime(), type, receivers);
                 events.add(event);
             }
 
@@ -139,6 +171,28 @@ public class CalendarActivity extends ActionBarActivity {
                 }
                 __v = (View) __v.getParent();
             }
+        }
+
+        public EventType convertStringToEnum(String typeString) {
+            EventType type = EventType.Other;
+
+            switch (typeString) {
+                case "birthday":
+                    type = EventType.Birthday;
+                    break;
+                case "anniversary":
+                    type = EventType.Anniversary;
+                    break;
+                case "wedding":
+                    type = EventType.Wedding;
+                    break;
+                case "american_holiday":
+                    type = EventType.American_Holiday;
+                    break;
+                default:
+            }
+
+            return type;
         }
     }
 }

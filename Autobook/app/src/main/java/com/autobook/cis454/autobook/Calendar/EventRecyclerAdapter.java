@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.R;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -55,8 +56,14 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
         public void bindData(Event event) {
             name.setText(event.getTitle());
-            date.setText(event.getDate().toString());
-            time.setText(event.getDate().toString());
+
+            SimpleDateFormat dfDate = new SimpleDateFormat("MM/dd/yyyy");
+            SimpleDateFormat dfTime = new SimpleDateFormat("h:mm a");
+            String dateString = dfDate.format(event.getDate());
+            String dateTime = dfTime.format(event.getDate());
+
+            date.setText(dateString);
+            time.setText(dateTime);
             //receivers.setText(0);
             //receivers.setText(event.getReceivers().size());
             type.setText(event.getType().toString());

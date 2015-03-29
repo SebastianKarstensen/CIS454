@@ -6,8 +6,8 @@ package com.autobook.cis454.autobook.Notifications;
 public class Receiver {
     private int id;
     private String name;
-    private String facebookAccount; //not sure if correct type
-    private String twitterAccount; //not sure if correct type
+    private String facebookAccount;
+    private String twitterAccount;
     private String phoneNumber;
 
     public Receiver(String phoneNumber, String twitterAccount, String facebookAccount, String name, int id) {
