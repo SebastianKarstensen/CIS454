@@ -34,9 +34,17 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         //You can do the processing here update the widget/remote views.
 
         Bundle b = intent.getExtras();
-        String twitter = (String) b.get("twitter");
-        String name = (String) b.get("name");
-        Toast.makeText(context, "Twitter message:" + twitter + "for person named " + name, Toast.LENGTH_LONG).show();
+        ArrayList<HashMap<String, ?>> receiverList = (ArrayList<HashMap<String,?>>) b.get("receivers");
+        String twitterMessage = (String) b.get("twitter");
+        String facebookMessage = (String) b.get("facebook");
+        String textMessage = (String) b.get("text");
+
+        for (int i = 0; i < receiverList.size(); i++){
+            System.out.println("Receiver Number " + i);
+        }
+//        String twitterTag = (String) receiverList.get(0).get(DBAdapter.KEY_TWITTER);
+//        Toast.makeText(context, "Twitter message:" + twitterMessage + " to twitter " + twitterTag, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Number of receivers: " + receiverList.size()+2, Toast.LENGTH_LONG).show();
 
         //Release the lock
         wl.release();
@@ -54,6 +62,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         intent.putExtra("twitter", event.getTwitterNotification());
         intent.putExtra("facebook", event.getFacebookNotification());
         intent.putExtra("text", event.getTextNotification());
+        intent.putExtra("type", event.getType());
+        intent.putExtra("title", event.getTitle());
         intent.putExtra("receivers", receiverList);
 
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context.getApplicationContext(), eventid, intent, 0);
