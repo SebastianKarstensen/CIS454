@@ -103,11 +103,14 @@ public class CalendarActivity extends ActionBarActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             makeMyScrollSmart();
 
+            //Create an empty list of events, then fill it from database
             List<Event> events = new ArrayList<>();
             HomeActivity.dbHandler.updateEventList();
             ArrayList<HashMap<String,?>> eventList = HomeActivity.dbHandler.getEventList();
 
+            //Loop through every row in database
             for(HashMap<String,?> eventMap : eventList) {
+                //Like eventsList, each event needs a list of receivers
                 List<Receiver> receivers = new ArrayList<>();
                 HomeActivity.dbHandler.updateReceiverList();
                 ArrayList<HashMap<String,?>> receiversList = HomeActivity.dbHandler.getReceiverList();
@@ -127,8 +130,10 @@ public class CalendarActivity extends ActionBarActivity {
                 String dateString = (String) eventMap.get(DBAdapter.KEY_DATE);
                 String typeString = (String) eventMap.get(DBAdapter.KEY_EVENTTYPE);
 
+                //Convert the string from the DB to an EventEnum
                 EventType type = convertStringToEnum(typeString);
 
+                //Parse the date string to the Date class
                 Calendar calDate = Calendar.getInstance();
                 Date date = new Date();
                 try {
