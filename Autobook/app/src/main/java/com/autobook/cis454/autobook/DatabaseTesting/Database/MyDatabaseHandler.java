@@ -18,6 +18,12 @@ public class MyDatabaseHandler {
         updateReceiverList();
     }
 
+    public void updateEverything(){
+        updateMessageList();
+        updateEventList();
+        updateReceiverList();
+    }
+
     //RECEIVER
 //    public int getReceiverListSize(){ return receiverList.size();  }
     public void updateReceiverList(){

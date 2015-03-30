@@ -2,6 +2,7 @@ package com.autobook.cis454.autobook.Scheduler;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.usage.UsageEvents;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
-
+    private static ArrayList<PendingIntent> intentArray = new ArrayList<>();
 
     final public static String ONE_TIME = "onetime";
     @Override
@@ -41,6 +42,29 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         wl.release();
 
     }
+
+    public void SetEventNotifications(Context context, Event event){
+        AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        int eventid = event.getID();
+
+        HomeActivity.dbHandler.updateEverything();
+        ArrayList<HashMap<String, ?>> receiverList = HomeActivity.dbHandler.getReceiversForEvent(eventid);
+
+        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
+        intent.putExtra("twitter", event.getTwitterNotification());
+        intent.putExtra("facebook", event.getFacebookNotification());
+        intent.putExtra("text", event.getTextNotification());
+        intent.putExtra("receivers", receiverList);
+
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context.getApplicationContext(), eventid, intent, 0);
+
+        alarmMgr.set(AlarmManager.RTC_WAKEUP,
+                    System.currentTimeMillis() + (2 * 1000),
+                    alarmIntent);
+        intentArray.add(alarmIntent);
+    }
+
+
     public void SetAlarm(Context context)
     {
         AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);

@@ -61,59 +61,52 @@ public class SchedulerActivity extends ActionBarActivity {
             startButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    HomeActivity.dbHandler.updateEventList();
-                    HomeActivity.dbHandler.updateReceiverList();
-                    HomeActivity.dbHandler.updateMessageList();
-                    eventList = HomeActivity.dbHandler.getEventList();
-                    alarmMgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-
-                    int counter = 0;
-                    for(int i = 0; i < eventList.size(); i++){
-                        HashMap<String, ?> entry = eventList.get(i);
-                        String date = (String) entry.get(DBAdapter.KEY_DATE);
-                        String twitter = (String) entry.get(DBAdapter.KEY_TWITTERMESSAGE);
-                        String facebook = (String) entry.get(DBAdapter.KEY_FACEBOOKMESSAGE);
-                        String text = (String) entry.get(DBAdapter.KEY_TEXTMESSAGE);
-                        String title = (String) entry.get(DBAdapter.KEY_TITLE);
-                        String type = (String) entry.get(DBAdapter.KEY_EVENTTYPE);
-                        String stringeventid = (String) entry.get(DBAdapter.KEY_EVENT_ID);
-                        int eventid = Integer.parseInt(stringeventid);
-
-                        ArrayList<HashMap<String, ?>> receiverList = HomeActivity.dbHandler.getReceiversForEvent(eventid);
-                        for(int j = 0; j < receiverList.size(); j++){
-                            HashMap<String, ?> receiver = receiverList.get(j);
-                            String number = (String) receiver.get(DBAdapter.KEY_PHONENUMBER);
-                            String twittertag = (String) receiver.get(DBAdapter.KEY_TWITTER);
-                            String facebookid = (String) receiver.get(DBAdapter.KEY_FACEBOOK);
-                            String name = (String) receiver.get(DBAdapter.KEY_NAME);
-
-                            Intent intent = new Intent(getActivity(), AlarmManagerBroadcastReceiver.class);
-                            intent.putExtra("twitter", twitter);
-                            intent.putExtra("facebook", facebook);
-                            intent.putExtra("text", text);
-                            intent.putExtra("number", number);
-                            intent.putExtra("twittertag", twittertag);
-                            intent.putExtra("facebookid", facebookid);
-                            intent.putExtra("name", name);
-
-                            PendingIntent alarmIntent = PendingIntent.getBroadcast(getActivity().getApplicationContext(), i, intent, 0);
-
-                            alarmMgr.set(AlarmManager.RTC_WAKEUP,
-                                    System.currentTimeMillis() + (i+1 * 1000),
-                                    alarmIntent);
-                            intentArray.add(alarmIntent);
-                            counter++;
-                        }
-//                        alarm.setOnetimeTimer(getActivity());
-
-                    }
-                    System.out.println("Created this - " + counter + " - many pending broadcasts");
-
+                    setAllEventNotifications();
                 }
             });
 
             return rootView;
+        }
+
+        public void setAllEventNotifications(){
+            HomeActivity.dbHandler.updateEventList();
+            HomeActivity.dbHandler.updateReceiverList();
+            HomeActivity.dbHandler.updateMessageList();
+            eventList = HomeActivity.dbHandler.getEventList();
+            alarmMgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+
+            int counter = 0;
+            for(int i = 0; i < eventList.size(); i++){
+                HashMap<String, ?> entry = eventList.get(i);
+                String date = (String) entry.get(DBAdapter.KEY_DATE);
+                String twitter = (String) entry.get(DBAdapter.KEY_TWITTERMESSAGE);
+                String facebook = (String) entry.get(DBAdapter.KEY_FACEBOOKMESSAGE);
+                String text = (String) entry.get(DBAdapter.KEY_TEXTMESSAGE);
+                String title = (String) entry.get(DBAdapter.KEY_TITLE);
+                String type = (String) entry.get(DBAdapter.KEY_EVENTTYPE);
+                String stringeventid = (String) entry.get(DBAdapter.KEY_EVENT_ID);
+                int eventid = Integer.parseInt(stringeventid);
+
+                ArrayList<HashMap<String, ?>> receiverList = HomeActivity.dbHandler.getReceiversForEvent(eventid);
+
+                Intent intent = new Intent(getActivity(), AlarmManagerBroadcastReceiver.class);
+                intent.putExtra("twitter", twitter);
+                intent.putExtra("facebook", facebook);
+                intent.putExtra("text", text);
+                intent.putExtra("receivers", receiverList);
+
+                PendingIntent alarmIntent = PendingIntent.getBroadcast(getActivity().getApplicationContext(), i, intent, 0);
+
+                alarmMgr.set(AlarmManager.RTC_WAKEUP,
+                        System.currentTimeMillis() + (i+1 * 1000),
+                        alarmIntent);
+                intentArray.add(alarmIntent);
+                counter++;
+//                        alarm.setOnetimeTimer(getActivity());
+
+            }
+            System.out.println("Created this - " + counter + " - many pending broadcasts");
+
         }
 
         public void onetimeTimer(View view){

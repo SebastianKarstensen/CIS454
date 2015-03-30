@@ -34,12 +34,27 @@ public class Event
     }
 
     public String getTitle() {
-
         return title;
     }
 
     public Date getDate() {
         return date;
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    public String getFacebookNotification() {
+        return faceNotification.toString();
+    }
+
+    public String getTwitterNotification() {
+        return twitNotification.toString();
+    }
+
+    public String getTextNotification() {
+        return textNotification.toString();
     }
 
     public EventType getType() {
