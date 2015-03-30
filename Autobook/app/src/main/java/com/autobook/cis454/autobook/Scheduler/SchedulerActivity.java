@@ -25,7 +25,7 @@ import java.util.HashMap;
 public class SchedulerActivity extends ActionBarActivity {
 
     private static AlarmManager alarmMgr;
-    private static PendingIntent alarmIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class SchedulerActivity extends ActionBarActivity {
 
         private AlarmManagerBroadcastReceiver alarm;
         private ArrayList<HashMap<String, ?>> eventList;
-
+        private static ArrayList<PendingIntent> intentArray = new ArrayList<>();
 
         public PlaceholderFragment() {
             alarm = new AlarmManagerBroadcastReceiver();
@@ -63,32 +63,53 @@ public class SchedulerActivity extends ActionBarActivity {
                 public void onClick(View v) {
 
                     HomeActivity.dbHandler.updateEventList();
+                    HomeActivity.dbHandler.updateReceiverList();
+                    HomeActivity.dbHandler.updateMessageList();
                     eventList = HomeActivity.dbHandler.getEventList();
                     alarmMgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
 
-
+                    int counter = 0;
                     for(int i = 0; i < eventList.size(); i++){
                         HashMap<String, ?> entry = eventList.get(i);
-                        Intent intent = new Intent(getActivity(), AlarmManagerBroadcastReceiver.class);
                         String date = (String) entry.get(DBAdapter.KEY_DATE);
                         String twitter = (String) entry.get(DBAdapter.KEY_TWITTERMESSAGE);
                         String facebook = (String) entry.get(DBAdapter.KEY_FACEBOOKMESSAGE);
                         String text = (String) entry.get(DBAdapter.KEY_TEXTMESSAGE);
                         String title = (String) entry.get(DBAdapter.KEY_TITLE);
                         String type = (String) entry.get(DBAdapter.KEY_EVENTTYPE);
+                        String stringeventid = (String) entry.get(DBAdapter.KEY_EVENT_ID);
+                        int eventid = Integer.parseInt(stringeventid);
 
-//                        intent.putExtra("twitter", twitter);
+                        ArrayList<HashMap<String, ?>> receiverList = HomeActivity.dbHandler.getReceiversForEvent(eventid);
+                        for(int j = 0; j < receiverList.size(); j++){
+                            HashMap<String, ?> receiver = receiverList.get(j);
+                            String number = (String) receiver.get(DBAdapter.KEY_PHONENUMBER);
+                            String twittertag = (String) receiver.get(DBAdapter.KEY_TWITTER);
+                            String facebookid = (String) receiver.get(DBAdapter.KEY_FACEBOOK);
+                            String name = (String) receiver.get(DBAdapter.KEY_NAME);
 
-                        alarmIntent = PendingIntent.getBroadcast(getActivity().getApplicationContext(), 0, intent, 0);
+                            Intent intent = new Intent(getActivity(), AlarmManagerBroadcastReceiver.class);
+                            intent.putExtra("twitter", twitter);
+                            intent.putExtra("facebook", facebook);
+                            intent.putExtra("text", text);
+                            intent.putExtra("number", number);
+                            intent.putExtra("twittertag", twittertag);
+                            intent.putExtra("facebookid", facebookid);
+                            intent.putExtra("name", name);
 
+                            PendingIntent alarmIntent = PendingIntent.getBroadcast(getActivity().getApplicationContext(), i, intent, 0);
 
-//                        alarmMgr.set(AlarmManager.RTC_WAKEUP,
-//                                System.currentTimeMillis() + (2 * 1000),
-//                                alarmIntent);
-                        System.out.println("timer now");
-                        alarm.setOnetimeTimer(getActivity());
+                            alarmMgr.set(AlarmManager.RTC_WAKEUP,
+                                    System.currentTimeMillis() + (i+1 * 1000),
+                                    alarmIntent);
+                            intentArray.add(alarmIntent);
+                            counter++;
+                        }
+//                        alarm.setOnetimeTimer(getActivity());
 
                     }
+                    System.out.println("Created this - " + counter + " - many pending broadcasts");
+
                 }
             });
 

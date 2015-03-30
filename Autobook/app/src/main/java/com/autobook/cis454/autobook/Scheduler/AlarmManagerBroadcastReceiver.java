@@ -29,12 +29,13 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         //Acquire the lock
         wl.acquire();
 
-        System.out.println("hello");
+        System.out.println("An alarm was triggered");
         //You can do the processing here update the widget/remote views.
 
-//        Bundle b = intent.getExtras();
-//        String twitter = (String) b.get("twitter");
-        Toast.makeText(context, "o hai there", Toast.LENGTH_LONG).show();
+        Bundle b = intent.getExtras();
+        String twitter = (String) b.get("twitter");
+        String name = (String) b.get("name");
+        Toast.makeText(context, "Twitter message:" + twitter + "for person named " + name, Toast.LENGTH_LONG).show();
 
         //Release the lock
         wl.release();
