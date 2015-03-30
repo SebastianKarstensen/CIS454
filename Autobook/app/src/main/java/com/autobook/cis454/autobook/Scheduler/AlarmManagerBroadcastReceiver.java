@@ -41,10 +41,15 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         for (int i = 0; i < receiverList.size(); i++){
             System.out.println("Receiver Number " + i);
+            HashMap<String, ?> currentReceiver = receiverList.get(i);
+            String twitterTag = (String) currentReceiver.get(DBAdapter.KEY_TWITTER);
+            if(twitterTag != null){
+                Toast.makeText(context, "Twitter message:" + twitterMessage + " to twitter " + twitterTag, Toast.LENGTH_LONG).show();
+            } else{
+                Toast.makeText(context, "receiver does not have twittertag", Toast.LENGTH_LONG).show();
+            }
         }
-//        String twitterTag = (String) receiverList.get(0).get(DBAdapter.KEY_TWITTER);
-//        Toast.makeText(context, "Twitter message:" + twitterMessage + " to twitter " + twitterTag, Toast.LENGTH_LONG).show();
-        Toast.makeText(context, "Number of receivers: " + receiverList.size()+2, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Number of receivers: " + receiverList.size(), Toast.LENGTH_LONG).show();
 
         //Release the lock
         wl.release();
