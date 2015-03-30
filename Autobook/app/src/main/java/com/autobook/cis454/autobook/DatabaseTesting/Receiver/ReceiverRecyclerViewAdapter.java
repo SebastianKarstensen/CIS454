@@ -84,6 +84,8 @@ public class ReceiverRecyclerViewAdapter extends RecyclerView.Adapter<ReceiverRe
         }
     }
 
+
+
     public Object getItem(int position) {
         return dataSet.get(position);
     }
