@@ -185,6 +185,9 @@ public class CalendarActivity extends ActionBarActivity {
                 case "Birthday":
                     type = EventType.Birthday;
                     break;
+                case "Party":
+                    type = EventType.Party;
+                    break;
                 case "Anniversary":
                     type = EventType.Anniversary;
                     break;

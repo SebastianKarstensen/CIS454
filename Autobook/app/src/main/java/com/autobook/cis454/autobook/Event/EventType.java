@@ -5,5 +5,6 @@ package com.autobook.cis454.autobook.Event;
  */
 public enum EventType
 {
-    Birthday, Anniversary, Wedding, American_Holiday, Other
+    //If changes are made, please remember to update the convertStringToEnum()-method in CalendarActivity
+    American_Holiday, Anniversary, Birthday, Party, Wedding, Other
 }
