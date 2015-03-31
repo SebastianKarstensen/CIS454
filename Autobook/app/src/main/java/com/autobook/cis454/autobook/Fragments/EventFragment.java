@@ -10,10 +10,14 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -42,12 +46,13 @@ public class EventFragment extends Fragment {
     CheckBox checkTwitter;
     CheckBox checkText;
 
-    boolean isDateSet;
-    boolean isTimeSet;
+    boolean isDateSet = false;
+    boolean isTimeSet = false;
 
     Date eventDate;
-    EventType eventType = EventType.Other;
+    EventType eventType;
 
+    final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
     SimpleDateFormat dfDate = new SimpleDateFormat("MM/dd/yyyy");
     SimpleDateFormat dfTime = new SimpleDateFormat("h:mm a");
 
@@ -64,7 +69,6 @@ public class EventFragment extends Fragment {
         }
 
         final Calendar calendar = Calendar.getInstance();
-        isTimeSet = false;
 
         final EditText eventTitle = (EditText) rootView.findViewById(R.id.editText_event_name);
 
@@ -126,6 +130,23 @@ public class EventFragment extends Fragment {
             }
         });
 
+        Spinner spinnerType = (Spinner) rootView.findViewById(R.id.spinner_event_type);
+        ArrayAdapter spinnerAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item,EventType.values());
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                eventType = (EventType) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        eventType = (EventType) spinnerType.getItemAtPosition(0);
+        spinnerType.setAdapter(spinnerAdapter);
+
         Button buttonReceivers = (Button) rootView.findViewById(R.id.btn_event_receivers);
         buttonReceivers.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,8 +205,6 @@ public class EventFragment extends Fragment {
                 updateTabs();
             }
         });
-
-        final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
 
         Button saveButton = (Button) rootView.findViewById(R.id.btn_event_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
