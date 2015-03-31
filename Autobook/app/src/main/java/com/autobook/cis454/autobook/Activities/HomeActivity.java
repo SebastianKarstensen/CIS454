@@ -19,6 +19,7 @@ import com.autobook.cis454.autobook.DatabaseTesting.FrontPage.FrontPageActivity;
 import com.autobook.cis454.autobook.DatabaseTesting.Receiver.ReceiverActivity;
 import com.autobook.cis454.autobook.Event.MediaType;
 import com.autobook.cis454.autobook.R;
+import com.autobook.cis454.autobook.Scheduler.SchedulerActivity;
 import com.autobook.cis454.autobook.TestActivities.TwitterTweet;
 import com.roomorama.caldroid.CaldroidFragment;
 
@@ -218,7 +219,7 @@ public class HomeActivity extends ActionBarActivity {
                 ImageView view = (ImageView) v;
 
                 if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), TwitterLogin.class);
+                    Intent intent = new Intent(v.getContext(), SchedulerActivity.class);
                     startActivity(intent);
                 }
 

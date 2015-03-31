@@ -18,6 +18,12 @@ public class MyDatabaseHandler {
         updateReceiverList();
     }
 
+    public void updateEverything(){
+        updateMessageList();
+        updateEventList();
+        updateReceiverList();
+    }
+
     //RECEIVER
 //    public int getReceiverListSize(){ return receiverList.size();  }
     public void updateReceiverList(){
@@ -96,13 +102,15 @@ public class MyDatabaseHandler {
         }
     }
 
+
+    //gets all the receivers for an event
     public ArrayList<HashMap<String, ?>> getReceiversForEvent(int EventID) {
         updateMessageList();
         ArrayList<HashMap<String, ?>> initialList = getMessageList();
         ArrayList<HashMap<String, ?>> finishedList = new ArrayList<>();
         for (int i = 0; i < initialList.size(); i++){
             HashMap<String, ?> entry = initialList.get(i);
-            int iEventID = (Integer) entry.get("eventid");
+            int iEventID = (Integer) entry.get(DBAdapter.KEY_EVENT_ID);
 
             if(EventID == iEventID){
                 finishedList.add(entry);
