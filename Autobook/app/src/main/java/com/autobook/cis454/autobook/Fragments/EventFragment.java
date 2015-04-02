@@ -1,8 +1,10 @@
 package com.autobook.cis454.autobook.Fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -10,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,6 +38,7 @@ import java.util.List;
 
 public class EventFragment extends Fragment {
 
+    private static final int REQUEST_CONTACTS = 0;
     public static final String BUNDLE_TAB_ARGUMENT = "ARGUMENT_TAB_EVENT";
 
     FragmentTabHost tabHost;
@@ -45,6 +49,8 @@ public class EventFragment extends Fragment {
     CheckBox checkFacebook;
     CheckBox checkTwitter;
     CheckBox checkText;
+
+    Button buttonReceivers;
 
     boolean isDateSet = false;
     boolean isTimeSet = false;
@@ -147,11 +153,16 @@ public class EventFragment extends Fragment {
         eventType = (EventType) spinnerType.getItemAtPosition(0);
         spinnerType.setAdapter(spinnerAdapter);
 
-        Button buttonReceivers = (Button) rootView.findViewById(R.id.btn_event_receivers);
+        buttonReceivers = (Button) rootView.findViewById(R.id.btn_event_receivers);
         buttonReceivers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ContactsFragment contactsFragment = ContactsFragment.newInstance(1);
+                contactsFragment.setTargetFragment(EventFragment.this, REQUEST_CONTACTS);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, contactsFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
@@ -182,8 +193,6 @@ public class EventFragment extends Fragment {
         facebookTab = tabHost.newTabSpec("tabFacebook").setIndicator("Facebook",null);
         twitterTab = tabHost.newTabSpec("tabTwitter").setIndicator("Twitter",null);
         textTab = tabHost.newTabSpec("tabText").setIndicator("Text",null);
-
-        updateTabs();
 
         checkFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,6 +276,7 @@ public class EventFragment extends Fragment {
                 }
 
                 HomeActivity.dbHandler.insertEvent(df.format(eventDate), facebookMessage, twitterMessage, textMessage, type, title);
+                getActivity().onBackPressed();
             }
         });
 
@@ -278,7 +288,23 @@ public class EventFragment extends Fragment {
             }
         });
 
+        updateTabs();
+
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode != Activity.RESULT_OK) return;
+        if(requestCode == REQUEST_CONTACTS) {
+            listOfReceivers = (ArrayList<Receiver>) data.getSerializableExtra(ContactsFragment.ARG_EVENT);
+            if(listOfReceivers != null && listOfReceivers.size() != 0) {
+                buttonReceivers.setText(listOfReceivers.size() + "receivers.");
+            }
+            else {
+                buttonReceivers.setText("NOT WORKING");
+            }
+        }
     }
 
     public void makeToast(Context context, String message) {

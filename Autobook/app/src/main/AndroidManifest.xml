@@ -7,7 +7,7 @@
     <uses-permission android:name='android.permission.WAKE_LOCK'/>
 
     <application
-        android:name="com.autobook.cis454.autobook.Autobook"
+        android:name=".Helpers.Autobook"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -56,6 +56,11 @@
         <activity
             android:name=".Activities.CalendarActivity"
             android:label="@string/title_activity_calendar" >
+        </activity>
+
+        <activity
+            android:name=".Activities.ContactsActivity"
+            android:label="@string/title_activity_contacts" >
         </activity>
 
     </application>

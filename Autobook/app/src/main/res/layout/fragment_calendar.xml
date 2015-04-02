@@ -35,13 +35,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
                 android:background="@color/off_white"
-                android:layout_marginTop="30dp"
-                android:paddingLeft="2dp"
-                android:paddingTop="2dp"
-                android:paddingRight="2dp"
-                android:paddingBottom="2dp">
+                android:layout_marginTop="30dp">
 
                 <android.support.v7.widget.RecyclerView
+                    android:layout_margin="2dp"
+                    android:background="@color/topbottom_gradient"
                     android:id="@+id/recycler_widget"
                     android:layout_height="fill_parent"
                     android:layout_width="fill_parent" />

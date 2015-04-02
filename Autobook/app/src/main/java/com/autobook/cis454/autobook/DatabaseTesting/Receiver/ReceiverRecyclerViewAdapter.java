@@ -56,15 +56,13 @@ public class ReceiverRecyclerViewAdapter extends RecyclerView.Adapter<ReceiverRe
         TextView facebook;
         TextView twitter;
         TextView phone;
-        LinearLayout colorPallet;
 
         public ViewHolder(View v) {
             super(v);
-            name = (TextView) v.findViewById(R.id.nametextview);
-            facebook = (TextView) v.findViewById(R.id.facebooktextview);
-            twitter = (TextView) v.findViewById(R.id.twittertextview);
-            phone = (TextView) v.findViewById(R.id.phonenumbertextiview);
-            colorPallet = (LinearLayout) v.findViewById(R.id.cardlinearmain);
+            name = (TextView) v.findViewById(R.id.txt_receiverRow_name);
+            facebook = (TextView) v.findViewById(R.id.txt_receiverRow_facebook);
+            twitter = (TextView) v.findViewById(R.id.txt_receiverRow_twitter);
+            phone = (TextView) v.findViewById(R.id.txt_receiverRow_phone);
 
             v.setOnClickListener(new View.OnClickListener(){
                 @Override

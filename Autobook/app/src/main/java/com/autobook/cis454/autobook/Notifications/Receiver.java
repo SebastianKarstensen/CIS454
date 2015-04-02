@@ -1,14 +1,17 @@
 package com.autobook.cis454.autobook.Notifications;
 
+import java.io.Serializable;
+
 /**
  * Created by Sebastian on 10-02-2015.
  */
-public class Receiver {
+public class Receiver implements Serializable {
     private int id;
     private String name;
     private String facebookAccount;
     private String twitterAccount;
     private String phoneNumber;
+    private boolean selected = false;
 
     public Receiver(String phoneNumber, String twitterAccount, String facebookAccount, String name, int id) {
         this.phoneNumber = phoneNumber;
@@ -56,6 +59,14 @@ public class Receiver {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
 }

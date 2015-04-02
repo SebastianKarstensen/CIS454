@@ -9,22 +9,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.autobook.cis454.autobook.Autobook;
+import com.autobook.cis454.autobook.Helpers.Autobook;
 import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
-import com.autobook.cis454.autobook.DatabaseTesting.FrontPage.FrontPageActivity;
 import com.autobook.cis454.autobook.DatabaseTesting.Receiver.ReceiverActivity;
 import com.autobook.cis454.autobook.Event.MediaType;
 import com.autobook.cis454.autobook.R;
 import com.autobook.cis454.autobook.Scheduler.SchedulerActivity;
-import com.autobook.cis454.autobook.TestActivities.TwitterTweet;
-import com.roomorama.caldroid.CaldroidFragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class HomeActivity extends ActionBarActivity {
 
@@ -180,14 +174,14 @@ public class HomeActivity extends ActionBarActivity {
         });
 
         //Contacts, used for original test tweet
-        ImageView testTweet = (ImageView) findViewById(R.id.imageView_btn_contacts);
-        testTweet.setOnTouchListener(new View.OnTouchListener() {
+        ImageView openContacts = (ImageView) findViewById(R.id.imageView_btn_contacts);
+        openContacts.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 ImageView view = (ImageView) v;
 
                 if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), ReceiverActivity.class);
+                    Intent intent = new Intent(v.getContext(), ContactsActivity.class);
                     startActivity(intent);
                 }
 
