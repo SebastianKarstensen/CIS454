@@ -1,7 +1,13 @@
 package com.autobook.cis454.autobook.Helpers;
 
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
 
+
+import com.autobook.cis454.autobook.Fragments.TwitterWebFragment;
 
 import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
@@ -30,20 +36,51 @@ public class TwitterHelper
     static AccessToken accessToken = new AccessToken(access_token, access_token_secret);
     static Twitter twitter;
 
+    /*
+     * AsyncTask used for sending a POST-request to the logged-in Twitter account
+     */
+    public static class updateTwitterStatus extends AsyncTask<String, String, String> {
 
+        @Override
+        protected String doInBackground(String... args) {
 
-    public static void sendTweet(String twitterHandle, String message) throws TwitterException
-    {
-        builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
-        builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
+            String status = args[0];
+            try {
+                ConfigurationBuilder builder = new ConfigurationBuilder();
+                builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
+                builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
 
-        twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
-        String status = twitterHandle + message;
-        twitter.updateStatus(status);
+                // Access Token
+                String access_token = "";
+                access_token = mSharedPreferences.getString(access_token, "");
+                // Access Token Secret
+                String access_token_secret = "";
+                access_token_secret = mSharedPreferences.getString(access_token_secret, "");
+
+                AccessToken accessToken = new AccessToken(access_token, access_token_secret);
+                Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+
+                twitter.updateStatus(status);
+
+                //Log.d("*** Update Status: ",response.getText());
+            } catch (TwitterException e) {
+                Log.d("*** Twitter Error: ", e.getMessage());
+            }
+            return null;
+        }
     }
 
-    public static PagableResponseList<User> getFriendsList(String username) throws TwitterException
-    {
-        return twitter.getFriendsList(username, 0);
+    public static class getFriendsList extends AsyncTask<Void,Void,PagableResponseList<User>> {
+
+        @Override
+        protected PagableResponseList<User> doInBackground(Void... params) {
+            long username;
+            try {
+                username = twitter.getId();
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
