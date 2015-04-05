@@ -8,6 +8,7 @@ import com.autobook.cis454.autobook.Notifications.Receiver;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,7 +46,7 @@ public class Storage {
             Calendar calDate = Calendar.getInstance();
             Date date = new Date();
             try {
-                date = DateFormat.getInstance().parse(dateString);
+                date = SimpleDateFormat.getDateInstance().parse(dateString);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -85,9 +86,16 @@ public class Storage {
     public static List<Event> getEventsForDate(Date date){
         ArrayList<Event> eventList = (ArrayList<Event>) getEventsFromDatabase();
         ArrayList<Event> initialList = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
 
         for(Event e: eventList){
-            if(e.getDate().equals(date)){
+            calendar.setTime(date);
+            int day = calendar.get(Calendar.DAY_OF_MONTH) + 1;
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+
+            calendar.setTime(e.getDate());
+            if(day == calendar.get(Calendar.DAY_OF_MONTH) && month == calendar.get(Calendar.MONTH) && year == calendar.get(Calendar.YEAR)){
                 initialList.add(e);
             }
         }

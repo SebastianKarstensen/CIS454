@@ -61,7 +61,6 @@ public class EventFragment extends Fragment {
     Date eventDate;
     EventType eventType;
 
-    final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
     SimpleDateFormat dfDate = new SimpleDateFormat("MM/dd/yyyy");
     SimpleDateFormat dfTime = new SimpleDateFormat("h:mm a");
 

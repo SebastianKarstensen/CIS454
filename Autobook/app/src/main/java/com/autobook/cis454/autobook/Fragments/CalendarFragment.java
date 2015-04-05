@@ -43,10 +43,18 @@ public class CalendarFragment extends Fragment {
         args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
         args.putInt(CaldroidFragment.START_DAY_OF_WEEK, CaldroidFragment.MONDAY);
         caldroidFragment.setArguments(args);
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_widget);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        makeMyScrollSmart();
+
+        recyclerAdapter = new EventRecyclerAdapter(Storage.getEventsFromDatabase());
+
         caldroidFragment.setCaldroidListener(new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
-                view.setBackgroundColor(Color.GREEN);
+                recyclerAdapter.setEventList(Storage.getEventsForDate(date));
+                recyclerAdapter.notifyDataSetChanged();
             }
         });
 
@@ -54,11 +62,7 @@ public class CalendarFragment extends Fragment {
                 .replace(R.id.container_calendar, caldroidFragment)
                 .commit();
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_widget);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        makeMyScrollSmart();
 
-        recyclerAdapter = new EventRecyclerAdapter(Storage.getEventsFromDatabase());
         recyclerView.setAdapter(recyclerAdapter);
 
         return rootView;

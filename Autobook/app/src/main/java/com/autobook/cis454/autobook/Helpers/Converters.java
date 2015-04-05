@@ -36,7 +36,6 @@ public class Converters {
     }
 
     public static String convertDateToString(Date date) {
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
-        return df.format(date);
+        return SimpleDateFormat.getDateInstance().format(date);
     }
 }
