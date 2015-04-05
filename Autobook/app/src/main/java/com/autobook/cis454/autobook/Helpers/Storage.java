@@ -107,13 +107,12 @@ public class Storage {
     }
     public static List<Receiver> getReceiversForEvent(int id){
         int eventID = id;
-        ArrayList<Receiver> receivers = (ArrayList<Receiver>) getReceiversFromDatabase();
         ArrayList<Receiver> initialList = new ArrayList<>();
         ArrayList<HashMap<String, ?>> receiversForEvent = HomeActivity.dbHandler.getReceiversForEvent(eventID);
         for(int i = 0; i < receiversForEvent.size(); i++){
             HashMap<String , ?> entry = receiversForEvent.get(i);
             Integer receiverID = (Integer) entry.get( DBAdapter.KEY_RECEIVER_ID);
-            initialList.add(receivers.get(receiverID));
+            initialList.add(getReceiver(receiverID));
         }
         return initialList;
     }
@@ -136,6 +135,17 @@ public class Storage {
 
         return receivers;
     }
+    public static Receiver getReceiver(int id){
+        HashMap<String, ?> receiverMap = HomeActivity.dbHandler.getReceiver(id);
+        int receiverID = Integer.parseInt((String) receiverMap.get(DBAdapter.KEY_RECEIVER_ID));
+        String name = (String) receiverMap.get(DBAdapter.KEY_NAME);
+        String facebookId = (String) receiverMap.get(DBAdapter.KEY_FACEBOOK);
+        String twitterHandle = (String) receiverMap.get(DBAdapter.KEY_TWITTER);
+        String phoneNumber = (String) receiverMap.get(DBAdapter.KEY_PHONENUMBER);
+        Receiver receiver = new Receiver(phoneNumber,twitterHandle,facebookId,name,receiverID);
+        return receiver;
+    }
+
     public static void updateReceiver(Receiver receiver){
         HomeActivity.dbHandler.updateReceiver(receiver.getId(), receiver.getName(), receiver.getFacebookAccount(), receiver.getTwitterAccount(), receiver.getPhoneNumber());
     }

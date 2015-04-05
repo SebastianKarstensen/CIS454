@@ -74,6 +74,18 @@ public class MyDatabaseHandler {
             e.printStackTrace();
         }
     }
+    public HashMap<String,?> getReceiver(long receiverID){
+        updateReceiverList();
+        ArrayList<HashMap<String, ?>> receiverList = getReceiverList();
+        for(int i = 0; i < receiverList.size(); i++){
+            HashMap<String, ?> entry = receiverList.get(i);
+            Integer entryID = (Integer) entry.get(DBAdapter.KEY_RECEIVER_ID);
+            if(entryID == receiverID){
+                return entry;
+            }
+        }
+        return null;
+    }
 
     //EVENT
 //    public int getEventListSize(){ return eventList.size(); }
