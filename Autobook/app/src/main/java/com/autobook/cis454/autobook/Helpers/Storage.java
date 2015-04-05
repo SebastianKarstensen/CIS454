@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class Storage {
 
+    //EVENTS
     public static List<Event> getEventsFromDatabase() {
         //Create an empty list of events, then fill it from database
         List<Event> events = new ArrayList<>();
@@ -54,7 +55,19 @@ public class Storage {
 
         return events;
     }
+    public static void updateEvent(Event event){
+        HomeActivity.dbHandler.updateEvent(event.getID(), "get date as string here", event.getFacebookNotification(),
+                event.getTwitterNotification(), event.getTextNotification(), event.getType().toString(), event.getTitle());
+    }
+    public static void insertEvent(Event event){
+        HomeActivity.dbHandler.insertEvent("get date as string here", event.getFacebookNotification(), event.getTwitterNotification(),
+                               event.getTextNotification(), event.getType().toString(), event.getTitle());
+    }
+    public static void deleteEvent(Event event){
+        HomeActivity.dbHandler.deleteEvent(event.getID());
+    }
 
+    //RECEIVERS
     public static List<Receiver> getReceiversFromDatabase() {
         List<Receiver> receivers = new ArrayList<>();
         HomeActivity.dbHandler.updateReceiverList();
@@ -72,5 +85,13 @@ public class Storage {
 
         return receivers;
     }
-
+    public static void updateReceiver(Receiver receiver){
+        HomeActivity.dbHandler.updateReceiver(receiver.getId(), receiver.getName(), receiver.getFacebookAccount(), receiver.getTwitterAccount(), receiver.getPhoneNumber());
+    }
+    public static void insertReceiver(Receiver receiver){
+        HomeActivity.dbHandler.insertReceiver(receiver.getName(), receiver.getFacebookAccount(), receiver.getTwitterAccount(), receiver.getPhoneNumber());
+    }
+    public static void deleteReceiver(Receiver receiver){
+        HomeActivity.dbHandler.deleteReceiver(receiver.getId());
+    }
 }

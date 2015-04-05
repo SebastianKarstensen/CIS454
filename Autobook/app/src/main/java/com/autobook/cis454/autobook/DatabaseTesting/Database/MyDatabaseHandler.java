@@ -54,6 +54,15 @@ public class MyDatabaseHandler {
             e.printStackTrace();
         }
     }
+    public void deleteReceiver(long rowId){
+        try {
+            db.open();
+            db.deleteReceiver(rowId);
+            db.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     //EVENT
 //    public int getEventListSize(){ return eventList.size(); }
@@ -97,6 +106,15 @@ public class MyDatabaseHandler {
             e.printStackTrace();
         }
         return -1;
+    }
+    public void deleteEvent(long eventId){
+        try {
+            db.open();
+            db.deleteEvent(eventId);
+            db.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     //MESSAGES

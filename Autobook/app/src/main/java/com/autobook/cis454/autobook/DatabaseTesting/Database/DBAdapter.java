@@ -209,7 +209,7 @@ public class DBAdapter {
         initialValues.put(KEY_TEXTMESSAGE, textMessage);
         initialValues.put(KEY_EVENTTYPE, eventType);
         initialValues.put(KEY_TITLE, title);
-        return db.update(RECEIVER_TABLE, initialValues, KEY_ROWID + "=" + rowId, null) > 0;
+        return db.update(EVENT_TABLE, initialValues, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
     public ArrayList<HashMap<String, ?>> getAllEvents(){
@@ -268,6 +268,9 @@ public class DBAdapter {
         int eventid = c.getInt(0);
 
         return eventid;
+    }
+    public boolean deleteEvent(long rowId){
+        return db.delete(EVENT_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
    //CRUD
