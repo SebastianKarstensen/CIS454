@@ -2,6 +2,7 @@ package com.autobook.cis454.autobook.Helpers;
 
 import android.content.SharedPreferences;
 
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -13,7 +14,7 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class TwitterHelper
 {
-    private static SharedPreferences mSharedPreferences;
+    static SharedPreferences mSharedPreferences = Autobook.getAppContext().getSharedPreferences("MyPref", 0);
 
     static String TWITTER_CONSUMER_KEY = "ljTAGW8VXet3qGw08JQ8yjhVJ";
     static String TWITTER_CONSUMER_SECRET = "ShPObDg7rPohIqXTVhs2BxArrao2kbwMEj4koGZrge9Xx58KQt";

@@ -15,6 +15,7 @@ import com.autobook.cis454.autobook.DatabaseTesting.Database.DBAdapter;
 import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
 import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Helpers.Converters;
+import com.autobook.cis454.autobook.Helpers.Storage;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,12 +35,17 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         System.out.println("An alarm was triggered");
         //You can do the processing here update the widget/remote views.
-
         Bundle b = intent.getExtras();
-        ArrayList<HashMap<String, ?>> receiverList = (ArrayList<HashMap<String,?>>) b.get("receivers");
-        String twitterMessage = (String) b.get("twitter");
-        String facebookMessage = (String) b.get("facebook");
-        String textMessage = (String) b.get("text");
+        int eventid = (Integer) b.get("eventID");
+
+        HomeActivity.dbHandler.updateEverything();
+        ArrayList<HashMap<String, ?>> receiverList = HomeActivity.dbHandler.getReceiversForEvent(eventid);
+        ArrayList<Event> events = (ArrayList) Storage.getEventsFromDatabase();
+        Event currentEvent = events.get(eventid);
+
+        String twitterMessage = currentEvent.getTwitterMessage();
+        String facebookMessage = currentEvent.getFacebookMessage();
+        String textMessage = currentEvent.getTextMessage();
 
         for (int i = 0; i < receiverList.size(); i++){
             System.out.println("Receiver Number " + i);
@@ -62,16 +68,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         int eventid = event.getID();
 
-        HomeActivity.dbHandler.updateEverything();
-        ArrayList<HashMap<String, ?>> receiverList = HomeActivity.dbHandler.getReceiversForEvent(eventid);
-
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        intent.putExtra("twitter", event.getTwitterMessage());
-        intent.putExtra("facebook", event.getFacebookMessage());
-        intent.putExtra("text", event.getTextMessage());
-        intent.putExtra("type", event.getType());
-        intent.putExtra("title", event.getTitle());
-        intent.putExtra("receivers", receiverList);
+        intent.putExtra("eventID", eventid);
 
         Date date = event.getDate();
         long l = Converters.timeDifferenceFromNow(date);
