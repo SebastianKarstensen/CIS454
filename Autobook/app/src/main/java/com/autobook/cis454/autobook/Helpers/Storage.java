@@ -33,12 +33,12 @@ public class Storage {
         //Loop through every row in database
         for(HashMap<String,?> eventMap : eventList) {
             //Like eventsList, each event needs a list of receivers
-            List<Receiver> receivers = getReceiversFromDatabase();
 
             int id = Integer.parseInt((String) eventMap.get(DBAdapter.KEY_EVENT_ID));
             String title = (String) eventMap.get(DBAdapter.KEY_TITLE);
             String dateString = (String) eventMap.get(DBAdapter.KEY_DATE);
             String typeString = (String) eventMap.get(DBAdapter.KEY_EVENTTYPE);
+            List<Receiver> receivers = getReceiversForEvent(id);
             String facebookMessage = (String) eventMap.get(DBAdapter.KEY_FACEBOOKMESSAGE);
             String twitterMessage = (String) eventMap.get(DBAdapter.KEY_TWITTERMESSAGE);
             String textMessage = (String) eventMap.get(DBAdapter.KEY_TEXTMESSAGE);
@@ -105,15 +105,15 @@ public class Storage {
         }
         return initialList;
     }
-    public static List<Receiver> getReceiversForEvent(Event event){
-        int eventID = event.getID();
+    public static List<Receiver> getReceiversForEvent(int id){
+        int eventID = id;
         ArrayList<Receiver> receivers = (ArrayList<Receiver>) getReceiversFromDatabase();
         ArrayList<Receiver> initialList = new ArrayList<>();
         ArrayList<HashMap<String, ?>> receiversForEvent = HomeActivity.dbHandler.getReceiversForEvent(eventID);
         for(int i = 0; i < receiversForEvent.size(); i++){
             HashMap<String , ?> entry = receiversForEvent.get(i);
-            String receiverID = (String) entry.get( DBAdapter.KEY_RECEIVER_ID);
-            initialList.add(receivers.get(Integer.parseInt(receiverID)));
+            Integer receiverID = (Integer) entry.get( DBAdapter.KEY_RECEIVER_ID);
+            initialList.add(receivers.get(receiverID));
         }
         return initialList;
     }
