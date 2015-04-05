@@ -103,6 +103,12 @@ public class DBAdapter {
         DBHelper.close();
     }
 
+    public void deleteEverything(){
+        db.delete(RECEIVER_TABLE, null, null);
+        db.delete(EVENT_TABLE, null, null);
+        db.delete(MESSAGES_TABLE, null, null);
+    }
+
     //CRUD RECEIVER
     public long insertReceiver(String name, String facebook, String twitter, String phoneNumber){
         ContentValues initialValues = new ContentValues();

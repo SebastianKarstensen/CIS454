@@ -58,6 +58,7 @@ public class SchedulerActivity extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_scheduler, container, false);
             Button startButton = (Button) rootView.findViewById(R.id.start_button);
             Button endButton = (Button) rootView.findViewById(R.id.end_button);
+            Button wipebutton = (Button) rootView.findViewById(R.id.wipeDatabaseButton);
             final EditText input = (EditText) rootView.findViewById(R.id.inputtext);
 
             startButton.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +78,12 @@ public class SchedulerActivity extends ActionBarActivity {
                 }
             });
 
+            wipebutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HomeActivity.dbHandler.deleteEverything();
+                }
+            });
             return rootView;
         }
 
@@ -118,6 +125,7 @@ public class SchedulerActivity extends ActionBarActivity {
 
             }
             System.out.println("Created this - " + counter + " - many pending broadcasts");
+
 
         }
 

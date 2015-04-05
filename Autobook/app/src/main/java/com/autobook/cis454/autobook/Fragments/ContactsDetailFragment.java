@@ -1,7 +1,12 @@
 package com.autobook.cis454.autobook.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -9,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Helpers.Storage;
@@ -23,6 +29,8 @@ public class ContactsDetailFragment extends Fragment {
     private static final String ARG_RECEIVER = "ARGUMENT_RECEIVER";
     private Receiver receiver;
     private boolean isNewContact;
+    public static final int PICK_CONTACT_REQUEST = 5;
+    Button number;
 
     public static ContactsDetailFragment newInstance(Receiver receiver) {
         ContactsDetailFragment fragment = new ContactsDetailFragment();
@@ -50,6 +58,7 @@ public class ContactsDetailFragment extends Fragment {
         final Button buttonFacebook = (Button) rootView.findViewById(R.id.btn_contactDetails_facebook);
         final Button buttonTwitter = (Button) rootView.findViewById(R.id.btn_contactDetails_twitter);
         final Button buttonText = (Button) rootView.findViewById(R.id.btn_contactDetails_contact);
+        number = buttonText;
         Button buttonSave = (Button) rootView.findViewById(R.id.btn_contactDetails_save);
         Button buttonCancel = (Button) rootView.findViewById(R.id.btn_contactDetails_cancel);
 
@@ -65,6 +74,15 @@ public class ContactsDetailFragment extends Fragment {
                 buttonText.setText(receiver.getPhoneNumber());
             }
         }
+
+        buttonText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
+                intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+                startActivityForResult(intent, PICK_CONTACT_REQUEST);
+            }
+        });
 
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,5 +115,30 @@ public class ContactsDetailFragment extends Fragment {
         Toast toast = Toast.makeText(context,message,Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+
+        if(resultCode != Activity.RESULT_OK) return;
+
+        if(requestCode == PICK_CONTACT_REQUEST) {
+            Uri contactUri = data.getData();
+
+            String[] projection = {
+                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                    ContactsContract.CommonDataKinds.Phone.NUMBER};
+
+            Cursor cursor = getActivity().getContentResolver()
+                    .query(contactUri, projection, null, null, null);
+            cursor.moveToFirst();
+
+            int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+            String number = cursor.getString(column);
+            column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+            String name = cursor.getString(column);
+
+            this.number.setText(number);
+        }
     }
 }

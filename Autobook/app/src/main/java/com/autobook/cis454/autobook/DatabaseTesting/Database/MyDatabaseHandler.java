@@ -24,6 +24,17 @@ public class MyDatabaseHandler {
         updateReceiverList();
     }
 
+    public void deleteEverything(){
+        try{
+            db.open();
+            db.deleteEverything();
+            db.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
     //RECEIVER
 //    public int getReceiverListSize(){ return receiverList.size();  }
     public void updateReceiverList(){
