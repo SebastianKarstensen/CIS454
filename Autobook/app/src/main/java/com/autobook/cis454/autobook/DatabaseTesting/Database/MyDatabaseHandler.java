@@ -79,11 +79,8 @@ public class MyDatabaseHandler {
         ArrayList<HashMap<String, ?>> receiverList = getReceiverList();
         System.out.println("@@@ Receiverlistsize: " + receiverList.size());
         for(int i = 0; i < receiverList.size(); i++){
-            System.out.println("@@@ Entering loop");
             HashMap<String, ?> entry = receiverList.get(i);
-            System.out.println("@@@ before parse");
             String entryID = (String) entry.get(DBAdapter.KEY_RECEIVER_ID);
-            System.out.println("@@@ middle of parse");
             int intid = Integer.parseInt(entryID);
             System.out.println("@@@ ReceiverID from parameter: " + receiverID + " and we test it against: " + intid);
             if(intid == receiverID){
