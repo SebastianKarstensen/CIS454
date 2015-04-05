@@ -19,6 +19,8 @@ import java.util.List;
  */
 public class Storage {
 
+
+
     //EVENTS
     public static List<Event> getEventsFromDatabase() {
         //Create an empty list of events, then fill it from database
@@ -58,10 +60,15 @@ public class Storage {
     public static void updateEvent(Event event){
         HomeActivity.dbHandler.updateEvent(event.getID(), Converters.convertDateToString(event.getDate()), event.getFacebookNotification(),
                 event.getTwitterNotification(), event.getTextNotification(), event.getType().toString(), event.getTitle());
+
     }
     public static void insertEvent(Event event){
         HomeActivity.dbHandler.insertEvent(Converters.convertDateToString(event.getDate()), event.getFacebookNotification(), event.getTwitterNotification(),
                                event.getTextNotification(), event.getType().toString(), event.getTitle());
+        ArrayList<Receiver> receivers = (ArrayList<Receiver>) event.getReceivers();
+        for(Receiver r : receivers){
+            HomeActivity.dbHandler.insertMessage(event.getID(), r.getId());
+        }
     }
     public static void deleteEvent(Event event){
         HomeActivity.dbHandler.deleteEvent(event.getID());
