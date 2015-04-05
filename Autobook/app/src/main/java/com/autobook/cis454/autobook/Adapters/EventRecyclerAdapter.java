@@ -65,8 +65,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
             date.setText(dateString);
             time.setText(dateTime);
-            receivers.setText(0);
-            //receivers.setText(event.getReceivers().size());
+            receivers.setText("0");
+            Integer numberOfReceivers = event.getReceivers().size();
+            receivers.setText(numberOfReceivers.toString());
             type.setText(event.getType().toString());
         }
     }
