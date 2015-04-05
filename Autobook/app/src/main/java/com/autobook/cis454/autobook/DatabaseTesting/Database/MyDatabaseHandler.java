@@ -173,7 +173,7 @@ public class MyDatabaseHandler {
         ArrayList<HashMap<String, ?>> list = getReceiversForEvent(eventID);
         for(int i = 0; i < list.size(); i++){
             HashMap<String, ?> entry = list.get(i);
-            int receiver = (Integer) entry.get("receiverid");
+            int receiver = (Integer) entry.get(DBAdapter.KEY_RECEIVER_ID);
             if(receiver == receiverID){
                 return true;
             }

@@ -273,7 +273,7 @@ public class DBAdapter {
         return db.delete(EVENT_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
-   //CRUD
+   //CRUD MESSAGE
    public long insertMessage(int eventId, int receiverId){
        ContentValues initialValues = new ContentValues();
        initialValues.put(KEY_EVENT_ID, eventId);

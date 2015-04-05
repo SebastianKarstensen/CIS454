@@ -60,7 +60,16 @@ public class Storage {
     public static void updateEvent(Event event){
         HomeActivity.dbHandler.updateEvent(event.getID(), Converters.convertDateToString(event.getDate()), event.getFacebookNotification(),
                 event.getTwitterNotification(), event.getTextNotification(), event.getType().toString(), event.getTitle());
-
+        ArrayList<HashMap<String, ?>> receiversFromDatabase = HomeActivity.dbHandler.getReceiversForEvent(event.getID());
+        for(int i = 0; i < receiversFromDatabase.size(); i++){
+            HashMap<String, ?> entry = receiversFromDatabase.get(i);
+            int receiverID = Integer.parseInt((String) entry.get(DBAdapter.KEY_RECEIVER_ID));
+            HomeActivity.dbHandler.deleteMessage(event.getID(), receiverID);
+        }
+        ArrayList<Receiver> receivers = (ArrayList<Receiver>) event.getReceivers();
+        for(Receiver r : receivers){
+            HomeActivity.dbHandler.insertMessage(event.getID(), r.getId());
+        }
     }
     public static void insertEvent(Event event){
         HomeActivity.dbHandler.insertEvent(Converters.convertDateToString(event.getDate()), event.getFacebookNotification(), event.getTwitterNotification(),
