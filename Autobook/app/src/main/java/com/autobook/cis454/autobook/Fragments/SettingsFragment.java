@@ -19,9 +19,9 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_twitter_login, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        Button loginTwitter = (Button) rootView.findViewById(R.id.button_twitter_login);
+        Button loginTwitter = (Button) rootView.findViewById(R.id.btn_settings_loginTwitter);
         Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
                 "fonts/HPSimplified_Rg.ttf");
         loginTwitter.setTypeface(face);

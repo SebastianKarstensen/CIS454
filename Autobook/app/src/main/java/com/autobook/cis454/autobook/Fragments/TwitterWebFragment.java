@@ -164,12 +164,6 @@ public class TwitterWebFragment extends Fragment {
         protected void onPostExecute(Boolean response) {
             if(response){
                 progress.dismiss();
-
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.container, TwitterTweetFragment.newInstance(user))
-                        .addToBackStack(null)
-                        .commit();
             }
         }
     }

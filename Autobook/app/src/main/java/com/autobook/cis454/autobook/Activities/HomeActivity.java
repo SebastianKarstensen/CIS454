@@ -212,7 +212,7 @@ public class HomeActivity extends ActionBarActivity {
                 ImageView view = (ImageView) v;
 
                 if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), SchedulerActivity.class);
+                    Intent intent = new Intent(v.getContext(), SettingsActivity.class);
                     startActivity(intent);
                 }
 

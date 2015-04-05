@@ -58,7 +58,7 @@
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:text="Edit Message Templates"
             android:id="@+id/btn_settings_editTemplates"
             android:layout_marginTop="30dp"
