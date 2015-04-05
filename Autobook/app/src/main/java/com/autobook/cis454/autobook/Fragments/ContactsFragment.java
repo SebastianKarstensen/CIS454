@@ -124,4 +124,11 @@ public class ContactsFragment extends Fragment {
         getActivity().setResult(Activity.RESULT_OK,i);
         getActivity().finish();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        recyclerAdapter.setReceiverList(Storage.getReceiversFromDatabase());
+        recyclerAdapter.notifyDataSetChanged();
+    }
 }

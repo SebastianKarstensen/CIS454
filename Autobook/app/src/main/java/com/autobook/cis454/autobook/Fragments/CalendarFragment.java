@@ -1,5 +1,6 @@
 package com.autobook.cis454.autobook.Fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,8 +15,10 @@ import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.R;
 import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidListener;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -40,6 +43,12 @@ public class CalendarFragment extends Fragment {
         args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
         args.putInt(CaldroidFragment.START_DAY_OF_WEEK, CaldroidFragment.MONDAY);
         caldroidFragment.setArguments(args);
+        caldroidFragment.setCaldroidListener(new CaldroidListener() {
+            @Override
+            public void onSelectDate(Date date, View view) {
+                view.setBackgroundColor(Color.GREEN);
+            }
+        });
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.container_calendar, caldroidFragment)

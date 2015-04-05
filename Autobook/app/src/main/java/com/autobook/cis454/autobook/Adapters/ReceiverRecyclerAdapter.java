@@ -1,6 +1,7 @@
 package com.autobook.cis454.autobook.Adapters;
 
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,8 @@ public class ReceiverRecyclerAdapter extends RecyclerView.Adapter<ReceiverRecycl
     public List<Receiver> getReceiverList() {
         return receiverList;
     }
+
+    public void setReceiverList(List<Receiver> newList) { receiverList = newList; }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -72,6 +75,12 @@ public class ReceiverRecyclerAdapter extends RecyclerView.Adapter<ReceiverRecycl
             number.setText(receiver.getPhoneNumber());
             facebook.setText(receiver.getFacebookAccount());
             twitter.setText(receiver.getTwitterAccount());
+            if(receiver.getSelected()) {
+                itemView.setBackgroundColor(Color.GREEN);
+            }
+            else {
+                itemView.setBackgroundResource(R.drawable.background_gradient_list_row);
+            }
         }
     }
 
