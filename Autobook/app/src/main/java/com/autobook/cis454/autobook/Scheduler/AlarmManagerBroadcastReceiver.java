@@ -74,10 +74,11 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         intent.putExtra("receivers", receiverList);
 
         Date date = event.getDate();
+        long l = Converters.timeDifferenceFromNow(date);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context.getApplicationContext(), eventid, intent, 0);
 
         alarmMgr.set(AlarmManager.RTC_WAKEUP,
-                    System.currentTimeMillis() + (2 * 1000),
+                    System.currentTimeMillis() + l,
                     alarmIntent);
         intentArray.add(alarmIntent);
     }
