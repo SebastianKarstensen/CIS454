@@ -3,9 +3,11 @@ package com.autobook.cis454.autobook.Helpers;
 import android.content.SharedPreferences;
 
 
+import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.User;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -38,5 +40,10 @@ public class TwitterHelper
         twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
         String status = twitterHandle + message;
         twitter.updateStatus(status);
+    }
+
+    public static PagableResponseList<User> getFriendsList(String username) throws TwitterException
+    {
+        return twitter.getFriendsList(username, 0);
     }
 }
