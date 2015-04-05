@@ -6,6 +6,7 @@ import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Event.EventType;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -104,6 +105,18 @@ public class Storage {
         }
         return initialList;
     }
+    public static List<Receiver> getReceiversForEvent(Event event){
+        int eventID = event.getID();
+        ArrayList<Receiver> receivers = (ArrayList<Receiver>) getReceiversFromDatabase();
+        ArrayList<Receiver> initialList = new ArrayList<>();
+        ArrayList<HashMap<String, ?>> receiversForEvent = HomeActivity.dbHandler.getReceiversForEvent(eventID);
+        for(int i = 0; i < receiversForEvent.size(); i++){
+            HashMap<String , ?> entry = receiversForEvent.get(i);
+            String receiverID = (String) entry.get( DBAdapter.KEY_RECEIVER_ID);
+            initialList.add(receivers.get(Integer.parseInt(receiverID)));
+        }
+        return initialList;
+    }
 
     //RECEIVERS
     public static List<Receiver> getReceiversFromDatabase() {
@@ -132,4 +145,5 @@ public class Storage {
     public static void deleteReceiver(Receiver receiver){
         HomeActivity.dbHandler.deleteReceiver(receiver.getId());
     }
+
 }
