@@ -16,6 +16,7 @@ import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
 import com.autobook.cis454.autobook.Event.Event;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
@@ -71,6 +72,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         intent.putExtra("title", event.getTitle());
         intent.putExtra("receivers", receiverList);
 
+        Date date = event.getDate();
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context.getApplicationContext(), eventid, intent, 0);
 
         alarmMgr.set(AlarmManager.RTC_WAKEUP,
