@@ -56,15 +56,26 @@ public class Storage {
         return events;
     }
     public static void updateEvent(Event event){
-        HomeActivity.dbHandler.updateEvent(event.getID(), "get date as string here", event.getFacebookNotification(),
+        HomeActivity.dbHandler.updateEvent(event.getID(), Converters.convertDateToString(event.getDate()), event.getFacebookNotification(),
                 event.getTwitterNotification(), event.getTextNotification(), event.getType().toString(), event.getTitle());
     }
     public static void insertEvent(Event event){
-        HomeActivity.dbHandler.insertEvent("get date as string here", event.getFacebookNotification(), event.getTwitterNotification(),
+        HomeActivity.dbHandler.insertEvent(Converters.convertDateToString(event.getDate()), event.getFacebookNotification(), event.getTwitterNotification(),
                                event.getTextNotification(), event.getType().toString(), event.getTitle());
     }
     public static void deleteEvent(Event event){
         HomeActivity.dbHandler.deleteEvent(event.getID());
+    }
+    public static List<Event> getEventsForDate(Date date){
+        ArrayList<Event> eventList = (ArrayList<Event>) getEventsFromDatabase();
+        ArrayList<Event> initialList = new ArrayList<>();
+
+        for(Event e: eventList){
+            if(e.getDate().equals(date)){
+                initialList.add(e);
+            }
+        }
+        return initialList;
     }
 
     //RECEIVERS
