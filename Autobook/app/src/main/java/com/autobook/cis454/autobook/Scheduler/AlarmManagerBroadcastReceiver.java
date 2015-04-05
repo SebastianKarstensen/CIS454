@@ -14,6 +14,7 @@ import com.autobook.cis454.autobook.Activities.HomeActivity;
 import com.autobook.cis454.autobook.DatabaseTesting.Database.DBAdapter;
 import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
 import com.autobook.cis454.autobook.Event.Event;
+import com.autobook.cis454.autobook.Helpers.Converters;
 
 import java.util.ArrayList;
 import java.util.Date;
