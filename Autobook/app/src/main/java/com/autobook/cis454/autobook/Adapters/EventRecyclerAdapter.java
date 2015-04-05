@@ -51,7 +51,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             name = (TextView) itemView.findViewById(R.id.txt_eventRow_name);
             date = (TextView) itemView.findViewById(R.id.txt_eventRow_date);
             time = (TextView) itemView.findViewById(R.id.txt_eventRow_time);
-            receivers = (TextView) itemView.findViewById(R.id.txt_eventRow_amountOfReceivers);
+            receivers = (TextView) itemView.findViewById(R.id.txt_eventRow_receivers);
             type = (TextView) itemView.findViewById(R.id.txt_eventRow_type);
         }
 
