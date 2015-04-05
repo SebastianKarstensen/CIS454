@@ -163,14 +163,6 @@ public class EventFragment extends Fragment {
                 Intent i = new Intent(getActivity(), ContactsActivity.class);
                 i.putExtra(INTENT_ARGUMENT_CONTACTS,1);
                 startActivityForResult(i,REQUEST_CONTACTS);
-
-                /*
-                ContactsFragment contactsFragment = ContactsFragment.newInstance(1);
-                contactsFragment.setTargetFragment(EventFragment.this, REQUEST_CONTACTS);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, contactsFragment)
-                        .addToBackStack(null)
-                        .commit();*/
             }
         });
 
@@ -307,10 +299,7 @@ public class EventFragment extends Fragment {
         if(requestCode == REQUEST_CONTACTS) {
             listOfReceivers = (ArrayList<Receiver>) data.getSerializableExtra(ContactsFragment.ARG_EVENT);
             if(listOfReceivers != null && listOfReceivers.size() != 0) {
-                buttonReceivers.setText(listOfReceivers.size() + "receivers.");
-            }
-            else {
-                buttonReceivers.setText("NOT WORKING");
+                buttonReceivers.setText("Receivers: " + listOfReceivers.size());
             }
         }
     }

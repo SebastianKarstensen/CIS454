@@ -58,6 +58,16 @@ public class ContactsFragment extends Fragment {
         buttonAddNewContact = (Button) rootView.findViewById(R.id.btn_contacts_add_new);
         buttonReturnReceivers = (Button) rootView.findViewById(R.id.btn_contacts_choose_receivers);
 
+        buttonAddNewContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, ContactsDetailFragment.newInstance(null))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
         switch (id) {
             case 1:
                 buttonReturnReceivers.setOnClickListener(new View.OnClickListener() {

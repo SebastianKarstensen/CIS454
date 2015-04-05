@@ -26,6 +26,7 @@ public class ContactsDetailFragment extends Fragment {
 
     private static final String ARG_RECEIVER = "ARGUMENT_RECEIVER";
     private Receiver receiver;
+    private boolean isNewEvent;
 
     public static ContactsDetailFragment newInstance(Receiver receiver) {
         ContactsDetailFragment fragment = new ContactsDetailFragment();
@@ -38,7 +39,13 @@ public class ContactsDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        receiver = (Receiver) getArguments().getSerializable(ARG_RECEIVER);
+        if(getArguments().getSerializable(ARG_RECEIVER) != null) {
+            receiver = (Receiver) getArguments().getSerializable(ARG_RECEIVER);
+            isNewEvent = false;
+        }
+        else {
+            isNewEvent = true;
+        }
 
         View rootView = inflater.inflate(R.layout.fragment_contact_details, container, false);
 
@@ -48,10 +55,12 @@ public class ContactsDetailFragment extends Fragment {
         Button buttonText = (Button) rootView.findViewById(R.id.btn_contactDetails_contact);
         Button buttonCancel = (Button) rootView.findViewById(R.id.btn_contactDetails_cancel);
 
-        name.setText(receiver.getName());
-        buttonFacebook.setText(receiver.getFacebookAccount());
-        buttonTwitter.setText(receiver.getTwitterAccount());
-        buttonText.setText(receiver.getPhoneNumber());
+        if(!isNewEvent) {
+            name.setText(receiver.getName());
+            buttonFacebook.setText(receiver.getFacebookAccount());
+            buttonTwitter.setText(receiver.getTwitterAccount());
+            buttonText.setText(receiver.getPhoneNumber());
+        }
 
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override

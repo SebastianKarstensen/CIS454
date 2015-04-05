@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.NewEvent"
+            android:name=".Activities.EventActivity"
             android:label="@string/title_activity_new_event" >
         </activity>
         <activity

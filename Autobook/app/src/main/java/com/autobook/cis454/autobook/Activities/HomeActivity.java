@@ -13,7 +13,6 @@ import android.widget.ImageView;
 
 import com.autobook.cis454.autobook.Helpers.Autobook;
 import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
-import com.autobook.cis454.autobook.DatabaseTesting.Receiver.ReceiverActivity;
 import com.autobook.cis454.autobook.Event.MediaType;
 import com.autobook.cis454.autobook.R;
 import com.autobook.cis454.autobook.Scheduler.SchedulerActivity;
@@ -44,7 +43,7 @@ public class HomeActivity extends ActionBarActivity {
                 ImageView view = (ImageView) v;
 
                 if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), NewEvent.class);
+                    Intent intent = new Intent(v.getContext(), EventActivity.class);
                     ArrayList<MediaType> types = new ArrayList<>();
                     types.add(MediaType.Twitter);
                     intent.putExtra(INTENT_EXTRA_LIST_OF_TYPES, types);
@@ -79,7 +78,7 @@ public class HomeActivity extends ActionBarActivity {
                 ImageView view = (ImageView) v;
 
                 if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), NewEvent.class);
+                    Intent intent = new Intent(v.getContext(), EventActivity.class);
                     ArrayList<MediaType> types = new ArrayList<>();
                     types.add(MediaType.Facebook);
                     intent.putExtra(INTENT_EXTRA_LIST_OF_TYPES, types);
@@ -114,7 +113,7 @@ public class HomeActivity extends ActionBarActivity {
                 ImageView view = (ImageView) v;
 
                 if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), NewEvent.class);
+                    Intent intent = new Intent(v.getContext(), EventActivity.class);
                     ArrayList<MediaType> types = new ArrayList<>();
                     types.add(MediaType.TextMessaging);
                     intent.putExtra(INTENT_EXTRA_LIST_OF_TYPES, types);
