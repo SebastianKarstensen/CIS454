@@ -113,6 +113,16 @@ public class DBAdapter {
         return db.insert(RECEIVER_TABLE, null, initialValues);
     }
 
+    public boolean updateReceiver(long rowId, String name, String facebook, String twitter, String phoneNumber)
+    {
+        ContentValues args = new ContentValues();
+        args.put(KEY_NAME, name);
+        args.put(KEY_FACEBOOK, facebook);
+        args.put(KEY_TWITTER, twitter);
+        args.put(KEY_PHONENUMBER, phoneNumber);
+        return db.update(RECEIVER_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+
     public boolean deleteReceiver(long rowId){
         return db.delete(RECEIVER_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
     }
@@ -176,13 +186,6 @@ public class DBAdapter {
         return mCursor;
     }
 
-    public boolean updateReceiver(long rowId, String twitterName)
-    {
-        ContentValues args = new ContentValues();
-        args.put(KEY_NAME, twitterName);
-        return db.update(RECEIVER_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
-    }
-
     //CRUD EVENT
     public long insertEvent(String date, String facebookMessage, String twitterMessage,
                             String textMessage, String eventType, String title){
@@ -194,6 +197,19 @@ public class DBAdapter {
         initialValues.put(KEY_EVENTTYPE, eventType);
         initialValues.put(KEY_TITLE, title);
         return db.insert(EVENT_TABLE, null, initialValues);
+    }
+
+    public boolean updateEvent(long rowId, String date, String facebookMessage, String twitterMessage,
+                               String textMessage, String eventType, String title)
+    {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_DATE, date);
+        initialValues.put(KEY_FACEBOOKMESSAGE, facebookMessage);
+        initialValues.put(KEY_TWITTERMESSAGE, twitterMessage);
+        initialValues.put(KEY_TEXTMESSAGE, textMessage);
+        initialValues.put(KEY_EVENTTYPE, eventType);
+        initialValues.put(KEY_TITLE, title);
+        return db.update(RECEIVER_TABLE, initialValues, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
     public ArrayList<HashMap<String, ?>> getAllEvents(){

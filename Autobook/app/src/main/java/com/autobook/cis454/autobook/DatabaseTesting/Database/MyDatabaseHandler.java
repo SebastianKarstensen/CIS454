@@ -45,6 +45,15 @@ public class MyDatabaseHandler {
             e.printStackTrace();
         }
     }
+    public void updateReceiver(long rowId, String name, String facebook, String twitter, String phoneNumber){
+        try {
+            db.open();
+            db.updateReceiver(rowId, name, facebook, twitter, phoneNumber);
+            db.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     //EVENT
 //    public int getEventListSize(){ return eventList.size(); }
@@ -63,6 +72,16 @@ public class MyDatabaseHandler {
         try {
             db.open();
             db.insertEvent(date, facebookMessage, twitterMessage, textMessage, eventType, title);
+            db.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void updateEvent(long rowId, String date, String facebookMessage, String twitterMessage,
+                            String textMessage, String eventType, String title){
+        try {
+            db.open();
+            db.updateEvent(rowId, date, facebookMessage, twitterMessage, textMessage, eventType, title);
             db.close();
         } catch (Exception e){
             e.printStackTrace();
