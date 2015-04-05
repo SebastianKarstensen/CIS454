@@ -21,8 +21,13 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="End"
+            android:text="Display number of receivers for event"
             android:id="@+id/end_button"/>
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/inputtext"/>
 
     </LinearLayout>
 
