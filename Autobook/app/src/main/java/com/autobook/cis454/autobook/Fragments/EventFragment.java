@@ -24,9 +24,11 @@ import android.widget.SpinnerAdapter;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.autobook.cis454.autobook.Activities.ContactsActivity;
 import com.autobook.cis454.autobook.Activities.HomeActivity;
 import com.autobook.cis454.autobook.Event.EventType;
 import com.autobook.cis454.autobook.Event.MediaType;
+import com.autobook.cis454.autobook.Helpers.Converters;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
 
@@ -40,6 +42,7 @@ public class EventFragment extends Fragment {
 
     private static final int REQUEST_CONTACTS = 0;
     public static final String BUNDLE_TAB_ARGUMENT = "ARGUMENT_TAB_EVENT";
+    public static final String INTENT_ARGUMENT_CONTACTS = "ARGUMENT_CONTACTS";
 
     FragmentTabHost tabHost;
     FragmentTabHost.TabSpec facebookTab;
@@ -157,12 +160,17 @@ public class EventFragment extends Fragment {
         buttonReceivers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(getActivity(), ContactsActivity.class);
+                i.putExtra(INTENT_ARGUMENT_CONTACTS,1);
+                startActivityForResult(i,REQUEST_CONTACTS);
+
+                /*
                 ContactsFragment contactsFragment = ContactsFragment.newInstance(1);
                 contactsFragment.setTargetFragment(EventFragment.this, REQUEST_CONTACTS);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, contactsFragment)
                         .addToBackStack(null)
-                        .commit();
+                        .commit();*/
             }
         });
 
@@ -275,7 +283,7 @@ public class EventFragment extends Fragment {
                     return;
                 }
 
-                HomeActivity.dbHandler.insertEvent(df.format(eventDate), facebookMessage, twitterMessage, textMessage, type, title);
+                HomeActivity.dbHandler.insertEvent(Converters.convertDateToString(eventDate), facebookMessage, twitterMessage, textMessage, type, title);
                 getActivity().onBackPressed();
             }
         });

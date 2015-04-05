@@ -103,17 +103,15 @@ public class ContactsFragment extends Fragment {
     }
 
     public void returnContacts() {
-        Fragment fragment = getTargetFragment();
-        if(fragment != null) {
-            ArrayList<Receiver> listOfReceivers = new ArrayList<>();
-            for(Receiver receiver : recyclerAdapter.getReceiverList()) {
-                if(receiver.getSelected()) {
-                    listOfReceivers.add(receiver);
-                }
+        ArrayList<Receiver> listOfReceivers = new ArrayList<>();
+        for(Receiver receiver : recyclerAdapter.getReceiverList()) {
+            if(receiver.getSelected()) {
+                listOfReceivers.add(receiver);
             }
-            Intent i = new Intent();
-            i.putExtra(ARG_EVENT,listOfReceivers);
-            fragment.onActivityResult(getTargetRequestCode(), Activity.RESULT_OK,i);
         }
+        Intent i = new Intent();
+        i.putExtra(ARG_EVENT,listOfReceivers);
+        getActivity().setResult(Activity.RESULT_OK,i);
+        getActivity().finish();
     }
 }
