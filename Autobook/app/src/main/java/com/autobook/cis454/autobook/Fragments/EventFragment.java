@@ -77,6 +77,8 @@ public class EventFragment extends Fragment {
         }
 
         final Calendar calendar = Calendar.getInstance();
+        Date date = new Date(System.currentTimeMillis());
+        calendar.setTime(date);
 
         final EditText eventTitle = (EditText) rootView.findViewById(R.id.editText_event_name);
 
@@ -85,8 +87,6 @@ public class EventFragment extends Fragment {
         buttonDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date(System.currentTimeMillis());
-                calendar.setTime(date);
                 final int year = calendar.get(Calendar.YEAR);
                 final int month = calendar.get(Calendar.MONTH);
                 final int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -114,8 +114,6 @@ public class EventFragment extends Fragment {
         buttonTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date(System.currentTimeMillis());
-                calendar.setTime(date);
                 final int year = calendar.get(Calendar.YEAR);
                 final int month = calendar.get(Calendar.MONTH);
                 final int day = calendar.get(Calendar.DAY_OF_MONTH);

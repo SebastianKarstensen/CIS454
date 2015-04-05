@@ -90,7 +90,7 @@ public class Storage {
 
         for(Event e: eventList){
             calendar.setTime(date);
-            int day = calendar.get(Calendar.DAY_OF_MONTH) + 1;
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
             int month = calendar.get(Calendar.MONTH);
             int year = calendar.get(Calendar.YEAR);
 

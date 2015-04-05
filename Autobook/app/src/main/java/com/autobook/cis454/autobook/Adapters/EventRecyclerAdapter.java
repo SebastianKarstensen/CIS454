@@ -51,7 +51,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             name = (TextView) itemView.findViewById(R.id.txt_eventRow_name);
             date = (TextView) itemView.findViewById(R.id.txt_eventRow_date);
             time = (TextView) itemView.findViewById(R.id.txt_eventRow_time);
-            receivers = (TextView) itemView.findViewById(R.id.txt_eventRow_receivers);
+            receivers = (TextView) itemView.findViewById(R.id.txt_eventRow_amountOfReceivers);
             type = (TextView) itemView.findViewById(R.id.txt_eventRow_type);
         }
 
@@ -65,7 +65,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
             date.setText(dateString);
             time.setText(dateTime);
-            //receivers.setText(0);
+            receivers.setText(0);
             //receivers.setText(event.getReceivers().size());
             type.setText(event.getType().toString());
         }

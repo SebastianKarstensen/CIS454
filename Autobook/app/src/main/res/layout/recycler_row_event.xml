@@ -89,7 +89,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="8"
-                            android:id="@+id/txt_eventRow_receivers"
+                            android:id="@+id/txt_eventRow_amountOfReceivers"
                             android:singleLine="true"
                             android:textSize="12sp" />
                     </LinearLayout>

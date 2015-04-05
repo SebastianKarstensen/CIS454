@@ -38,4 +38,8 @@ public class Converters {
     public static String convertDateToString(Date date) {
         return SimpleDateFormat.getDateInstance().format(date);
     }
+
+    public static long timeDifferenceFromNow(Date date) {
+        return date.getTime() - System.currentTimeMillis();
+    }
 }
