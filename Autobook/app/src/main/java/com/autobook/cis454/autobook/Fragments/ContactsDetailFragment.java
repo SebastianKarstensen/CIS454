@@ -87,7 +87,7 @@ public class ContactsDetailFragment extends Fragment {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(name.getText().toString() == "") {
+                if(name.getText().toString().equals("")) {
                     makeToast(getActivity(),"Please input the name of the contact");
                     return;
                 }
