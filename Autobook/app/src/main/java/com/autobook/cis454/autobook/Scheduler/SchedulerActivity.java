@@ -129,14 +129,6 @@ public class SchedulerActivity extends ActionBarActivity {
 
         }
 
-        public void onetimeTimer(View view){
-            Context context = getActivity().getApplicationContext();
-            if(alarm != null){
-                alarm.setOnetimeTimer(context);
-            }else{
-                Toast.makeText(context, "Alarm is null", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
 }
