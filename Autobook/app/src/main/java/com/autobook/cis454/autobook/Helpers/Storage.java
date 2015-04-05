@@ -38,6 +38,9 @@ public class Storage {
             String title = (String) eventMap.get(DBAdapter.KEY_TITLE);
             String dateString = (String) eventMap.get(DBAdapter.KEY_DATE);
             String typeString = (String) eventMap.get(DBAdapter.KEY_EVENTTYPE);
+            String facebookMessage = (String) eventMap.get(DBAdapter.KEY_FACEBOOKMESSAGE);
+            String twitterMessage = (String) eventMap.get(DBAdapter.KEY_TWITTERMESSAGE);
+            String textMessage = (String) eventMap.get(DBAdapter.KEY_TEXTMESSAGE);
 
             //Convert the string from the DB to an EventEnum
             EventType type = Converters.convertStringToEnum(typeString);
@@ -52,15 +55,15 @@ public class Storage {
             }
             calDate.setTime(date);
 
-            Event event = new Event(id,title, calDate.getTime(), type, receivers);
+            Event event = new Event(id,title, calDate.getTime(), type, receivers, facebookMessage, twitterMessage, textMessage);
             events.add(event);
         }
 
         return events;
     }
     public static void updateEvent(Event event){
-        HomeActivity.dbHandler.updateEvent(event.getID(), Converters.convertDateToString(event.getDate()), event.getFacebookNotification(),
-                event.getTwitterNotification(), event.getTextNotification(), event.getType().toString(), event.getTitle());
+        HomeActivity.dbHandler.updateEvent(event.getID(), Converters.convertDateToString(event.getDate()), event.getFacebookMessage(),
+                event.getTwitterMessage(), event.getTextMessage(), event.getType().toString(), event.getTitle());
         ArrayList<HashMap<String, ?>> receiversFromDatabase = HomeActivity.dbHandler.getReceiversForEvent(event.getID());
         for(int i = 0; i < receiversFromDatabase.size(); i++){
             HashMap<String, ?> entry = receiversFromDatabase.get(i);
@@ -73,8 +76,8 @@ public class Storage {
         }
     }
     public static void insertEvent(Event event){
-        HomeActivity.dbHandler.insertEvent(Converters.convertDateToString(event.getDate()), event.getFacebookNotification(), event.getTwitterNotification(),
-                               event.getTextNotification(), event.getType().toString(), event.getTitle());
+        HomeActivity.dbHandler.insertEvent(Converters.convertDateToString(event.getDate()), event.getFacebookMessage(), event.getTwitterMessage(),
+                               event.getTextMessage(), event.getType().toString(), event.getTitle());
         ArrayList<Receiver> receivers = (ArrayList<Receiver>) event.getReceivers();
         for(Receiver r : receivers){
             HomeActivity.dbHandler.insertMessage(event.getID(), r.getId());

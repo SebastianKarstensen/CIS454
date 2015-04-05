@@ -26,11 +26,14 @@ import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Activities.ContactsActivity;
 import com.autobook.cis454.autobook.Activities.HomeActivity;
+import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Event.EventType;
 import com.autobook.cis454.autobook.Event.MediaType;
 import com.autobook.cis454.autobook.Helpers.Converters;
+import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
+import com.autobook.cis454.autobook.Scheduler.AlarmManagerBroadcastReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -219,7 +222,6 @@ public class EventFragment extends Fragment {
                 Context context = getActivity();
 
                 String title = eventTitle.getText().toString();
-                String type = eventType.toString();
                 String facebookMessage = "";
                 String twitterMessage = "";
                 String textMessage = "";
@@ -272,7 +274,9 @@ public class EventFragment extends Fragment {
                     return;
                 }
 
-                HomeActivity.dbHandler.insertEvent(Converters.convertDateToString(eventDate), facebookMessage, twitterMessage, textMessage, type, title);
+                Event saveEvent = new Event(HomeActivity.dbHandler.maxEventId()+1, title, eventDate, eventType, listOfReceivers, facebookMessage, twitterMessage, textMessage);
+                Storage.insertEvent(saveEvent);
+                AlarmManagerBroadcastReceiver.SetEventNotifications(getActivity(),saveEvent);
                 getActivity().onBackPressed();
             }
         });

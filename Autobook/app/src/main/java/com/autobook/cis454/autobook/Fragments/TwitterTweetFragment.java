@@ -14,9 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.autobook.cis454.autobook.Activities.TwitterLogin;
 import com.autobook.cis454.autobook.R;
-import com.autobook.cis454.autobook.TestActivities.TwitterTweet;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

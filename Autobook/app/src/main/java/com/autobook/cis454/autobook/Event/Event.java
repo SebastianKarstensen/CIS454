@@ -1,11 +1,7 @@
 package com.autobook.cis454.autobook.Event;
 
-import com.autobook.cis454.autobook.Notifications.FacebookNotification;
-import com.autobook.cis454.autobook.Notifications.Notification;
 import com.autobook.cis454.autobook.Notifications.NotificationType;
 import com.autobook.cis454.autobook.Notifications.Receiver;
-import com.autobook.cis454.autobook.Notifications.TextMessageNotification;
-import com.autobook.cis454.autobook.Notifications.TwitterNotification;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,17 +16,44 @@ public class Event
     private String title;
     private Date date; //probably use Joda Time library instead (if we're allowed to do so)
     private EventType type;
-    private FacebookNotification faceNotification;
-    private TwitterNotification twitNotification;
-    private TextMessageNotification textNotification;
-    private RecurrenceType recurrenceType;
+    private String facebookMessage = "";
+    private String twitterMessage = "";
+    private String textMessage = "";
 
-    public Event(int id, String title, Date date, EventType type, List<Receiver> receivers) {
+    public String getFacebookMessage() {
+        return facebookMessage;
+    }
+
+    public void setFacebookMessage(String facebookMessage) {
+        this.facebookMessage = facebookMessage;
+    }
+
+    public String getTwitterMessage() {
+        return twitterMessage;
+    }
+
+    public void setTwitterMessage(String twitterMessage) {
+        this.twitterMessage = twitterMessage;
+    }
+
+    public String getTextMessage() {
+        return textMessage;
+    }
+
+    public void setTextMessage(String textMessage) {
+        this.textMessage = textMessage;
+    }
+
+    public Event(int id, String title, Date date, EventType type, List<Receiver> receivers, String facebookMessage, String twitterMessage, String textMessage) {
         this.id = id;
         this.title = title;
         this.date = date;
         this.type = type;
         this.receivers = receivers;
+        this.facebookMessage = facebookMessage;
+        this.twitterMessage = twitterMessage;
+        this.textMessage = textMessage;
+
     }
 
     public String getTitle() {
@@ -43,18 +66,6 @@ public class Event
 
     public int getID() {
         return id;
-    }
-
-    public String getFacebookNotification() {
-        return faceNotification.toString();
-    }
-
-    public String getTwitterNotification() {
-        return twitNotification.toString();
-    }
-
-    public String getTextNotification() {
-        return textNotification.toString();
     }
 
     public EventType getType() {
@@ -73,34 +84,4 @@ public class Event
     list. I've added a "getNotificationType" method to the Notification superclass and this will
     allow for the fringe case of having two or more of the same type of notification for one event.
     */
-
-
-    private List<Notification> notificationList = new ArrayList<Notification>();
-
-    public void createNotification(String msg, NotificationType nType)
-    {
-        switch(nType)
-        {
-            case FACEBOOK:
-                FacebookNotification fMsg = new FacebookNotification(msg);
-                notificationList.add(fMsg);
-                break;
-            case TWITTER:
-                TwitterNotification tweet = new TwitterNotification(msg);
-                notificationList.add(tweet);
-                break;
-            case TEXT_MESSAGE:
-                TextMessageNotification txt = new TextMessageNotification(msg);
-                notificationList.add(txt);
-                break;
-        }
-    }
-
-    public List<Notification> getNotifications()
-    {
-        return notificationList;
-    }
-
-
-
 }

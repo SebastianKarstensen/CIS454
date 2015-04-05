@@ -41,7 +41,7 @@
             android:label="@string/title_activity_new_event" >
         </activity>
         <activity
-            android:name=".Activities.TwitterLogin"
+            android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_twitter_login" >
         </activity>
         <activity android:name=".DatabaseTesting.Receiver.ReceiverActivity" />

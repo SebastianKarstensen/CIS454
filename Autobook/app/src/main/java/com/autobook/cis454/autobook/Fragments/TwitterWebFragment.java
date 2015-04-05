@@ -16,9 +16,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.autobook.cis454.autobook.Activities.TwitterLogin;
 import com.autobook.cis454.autobook.R;
-import com.autobook.cis454.autobook.TestActivities.TwitterTweet;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

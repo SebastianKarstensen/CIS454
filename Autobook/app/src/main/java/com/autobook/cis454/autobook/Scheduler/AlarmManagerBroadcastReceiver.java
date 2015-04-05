@@ -58,7 +58,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
     }
 
-    public void SetEventNotifications(Context context, Event event){
+    public static void SetEventNotifications(Context context, Event event){
         AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         int eventid = event.getID();
 
@@ -66,9 +66,9 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         ArrayList<HashMap<String, ?>> receiverList = HomeActivity.dbHandler.getReceiversForEvent(eventid);
 
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        intent.putExtra("twitter", event.getTwitterNotification());
-        intent.putExtra("facebook", event.getFacebookNotification());
-        intent.putExtra("text", event.getTextNotification());
+        intent.putExtra("twitter", event.getTwitterMessage());
+        intent.putExtra("facebook", event.getFacebookMessage());
+        intent.putExtra("text", event.getTextMessage());
         intent.putExtra("type", event.getType());
         intent.putExtra("title", event.getTitle());
         intent.putExtra("receivers", receiverList);
