@@ -47,7 +47,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         String facebookMessage = currentEvent.getFacebookMessage();
         String textMessage = currentEvent.getTextMessage();
 
-
         for (int i = 0; i < receiverList.size(); i++){
             System.out.println("Receiver Number " + i);
             HashMap<String, ?> currentReceiver = receiverList.get(i);
