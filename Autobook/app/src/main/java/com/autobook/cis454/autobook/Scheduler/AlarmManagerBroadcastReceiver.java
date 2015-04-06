@@ -15,7 +15,10 @@ import com.autobook.cis454.autobook.DatabaseTesting.Database.DBAdapter;
 import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
 import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Helpers.Converters;
+import com.autobook.cis454.autobook.Helpers.SMSHelper;
 import com.autobook.cis454.autobook.Helpers.Storage;
+import com.autobook.cis454.autobook.Helpers.TwitterHelper;
+import com.autobook.cis454.autobook.Notifications.Receiver;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,12 +39,12 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         System.out.println("An alarm was triggered");
         //You can do the processing here update the widget/remote views.
         Bundle b = intent.getExtras();
-        int eventid = (Integer) b.get("eventID");
+        int eventID = (Integer) b.get("eventID");
 
         HomeActivity.dbHandler.updateEverything();
-        ArrayList<HashMap<String, ?>> receiverList = HomeActivity.dbHandler.getReceiversForEvent(eventid);
-        ArrayList<Event> events = (ArrayList) Storage.getEventsFromDatabase();
-        Event currentEvent = events.get(eventid);
+        ArrayList<Receiver> receiverList = (ArrayList<Receiver>) Storage.getReceiversForEvent(eventID);
+        ArrayList<Event> events = (ArrayList<Event>) Storage.getEventsFromDatabase();
+        Event currentEvent = events.get(eventID);
 
         String twitterMessage = currentEvent.getTwitterMessage();
         String facebookMessage = currentEvent.getFacebookMessage();
@@ -49,12 +52,36 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         for (int i = 0; i < receiverList.size(); i++){
             System.out.println("Receiver Number " + i);
-            HashMap<String, ?> currentReceiver = receiverList.get(i);
-            String twitterTag = (String) currentReceiver.get(DBAdapter.KEY_TWITTER);
-            if(twitterTag != null){
+            Receiver currentReceiver = receiverList.get(i);
+            String twitterTag = currentReceiver.getTwitterAccount();
+            String phoneNumber = currentReceiver.getPhoneNumber();
+            String facebookID = currentReceiver.getFacebookAccount();
+
+            //send twitter message if possible
+            if(twitterTag != null && twitterMessage != null && !twitterTag.equals("") && !twitterMessage.equals("")){
                 Toast.makeText(context, "Twitter message:" + twitterMessage + " to twitter " + twitterTag, Toast.LENGTH_LONG).show();
+                try{
+                    TwitterHelper.sendTweet(twitterTag,twitterMessage);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             } else{
                 Toast.makeText(context, "receiver does not have twittertag", Toast.LENGTH_LONG).show();
+            }
+
+            //send SMS if possible
+            if(phoneNumber != null && !phoneNumber.equals("") && textMessage != null && !textMessage.equals("")){
+                Toast.makeText(context, "Text message: " + textMessage + " to number: " + phoneNumber, Toast.LENGTH_LONG).show();
+                SMSHelper.sendSMS(phoneNumber, textMessage);
+            } else {
+                Toast.makeText(context, "receiver does not have phonenumber", Toast.LENGTH_LONG).show();
+            }
+
+            //send Facebook if possible
+            if(facebookMessage != null && !facebookMessage.equals("") && facebookID != null && !facebookID.equals("")){
+                //facebook logic here
+            } else {
+                //generic toast here
             }
         }
         Toast.makeText(context, "Number of receivers: " + receiverList.size(), Toast.LENGTH_LONG).show();
