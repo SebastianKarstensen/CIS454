@@ -61,7 +61,9 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             if(twitterTag != null && twitterMessage != null && !twitterTag.equals("") && !twitterMessage.equals("")){
                 Toast.makeText(context, "Twitter message:" + twitterMessage + " to twitter " + twitterTag, Toast.LENGTH_LONG).show();
                 try{
-                    TwitterHelper.sendTweet(twitterTag,twitterMessage);
+                    TwitterHelper.updateTwitterStatus twittertask = new TwitterHelper.updateTwitterStatus();
+                    twittertask.execute(twitterMessage, twitterTag);
+//                    TwitterHelper.sendTweet(twitterTag,twitterMessage);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
