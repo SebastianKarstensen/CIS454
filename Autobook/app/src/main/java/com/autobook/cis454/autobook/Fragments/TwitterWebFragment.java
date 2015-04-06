@@ -41,8 +41,25 @@ public class TwitterWebFragment extends Fragment {
     static String TWITTER_CONSUMER_KEY = "ljTAGW8VXet3qGw08JQ8yjhVJ";
     static String TWITTER_CONSUMER_SECRET = "ShPObDg7rPohIqXTVhs2BxArrao2kbwMEj4koGZrge9Xx58KQt";
 
-    public static String PREF_KEY_OAUTH_TOKEN = "oauth_token";
-    public static String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
+    static String PREF_KEY_OAUTH_TOKEN = "oauth_token";
+    static String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
+
+    public static String getPREF_KEY_OAUTH_TOKEN() {
+        return PREF_KEY_OAUTH_TOKEN;
+    }
+
+    public static void setPREF_KEY_OAUTH_TOKEN(String PREF_KEY_OAUTH_TOKEN) {
+        TwitterWebFragment.PREF_KEY_OAUTH_TOKEN = PREF_KEY_OAUTH_TOKEN;
+    }
+
+    public static String getPREF_KEY_OAUTH_SECRET() {
+        return PREF_KEY_OAUTH_SECRET;
+    }
+
+    public static void setPREF_KEY_OAUTH_SECRET(String PREF_KEY_OAUTH_SECRET) {
+        TwitterWebFragment.PREF_KEY_OAUTH_SECRET = PREF_KEY_OAUTH_SECRET;
+    }
+
     static String PREF_KEY_TWITTER_LOGIN = "isTwitterLoggedIn";
 
 

@@ -30,7 +30,10 @@ public class ContactsDetailFragment extends Fragment {
     private Receiver receiver;
     private boolean isNewContact;
     public static final int PICK_CONTACT_REQUEST = 5;
-    Button number;
+
+    Button buttonTwitter;
+    Button buttonFacebook;
+    Button buttonNumber;
 
     public static ContactsDetailFragment newInstance(Receiver receiver) {
         ContactsDetailFragment fragment = new ContactsDetailFragment();
@@ -55,10 +58,10 @@ public class ContactsDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_contact_details, container, false);
 
         final EditText name = (EditText) rootView.findViewById(R.id.editText_contactDetails_name);
-        final Button buttonFacebook = (Button) rootView.findViewById(R.id.btn_contactDetails_facebook);
-        final Button buttonTwitter = (Button) rootView.findViewById(R.id.btn_contactDetails_twitter);
-        final Button buttonText = (Button) rootView.findViewById(R.id.btn_contactDetails_contact);
-        number = buttonText;
+
+        buttonFacebook = (Button) rootView.findViewById(R.id.btn_contactDetails_facebook);
+        buttonTwitter = (Button) rootView.findViewById(R.id.btn_contactDetails_twitter);
+        buttonNumber = (Button) rootView.findViewById(R.id.btn_contactDetails_contact);
         Button buttonSave = (Button) rootView.findViewById(R.id.btn_contactDetails_save);
         Button buttonCancel = (Button) rootView.findViewById(R.id.btn_contactDetails_cancel);
 
@@ -71,11 +74,21 @@ public class ContactsDetailFragment extends Fragment {
                 buttonTwitter.setText(receiver.getTwitterAccount());
             }
             if(receiver.getPhoneNumber() != "") {
-                buttonText.setText(receiver.getPhoneNumber());
+                buttonNumber.setText(receiver.getPhoneNumber());
             }
         }
 
-        buttonText.setOnClickListener(new View.OnClickListener() {
+        buttonTwitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, new TwitterFriendsFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        buttonNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
@@ -139,7 +152,7 @@ public class ContactsDetailFragment extends Fragment {
             column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
             String name = cursor.getString(column);
 
-            this.number.setText(number);
+            this.buttonNumber.setText(number);
         }
     }
 }

@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 
 import com.autobook.cis454.autobook.Fragments.TwitterWebFragment;
@@ -29,12 +28,34 @@ public class TwitterHelper
 
     static ConfigurationBuilder builder = new ConfigurationBuilder();
 
-    static String access_token = mSharedPreferences.getString(TwitterWebFragment.PREF_KEY_OAUTH_TOKEN, "");
+    static String access_token = mSharedPreferences.getString(TwitterWebFragment.getPREF_KEY_OAUTH_TOKEN(), "");
     // Access Token Secret
-    static String access_token_secret = mSharedPreferences.getString(TwitterWebFragment.PREF_KEY_OAUTH_SECRET, "");
+    static String access_token_secret = mSharedPreferences.getString(TwitterWebFragment.getPREF_KEY_OAUTH_SECRET(), "");
 
     static AccessToken accessToken = new AccessToken(access_token, access_token_secret);
     static Twitter twitter;
+
+    public static void logoutTwitter() {
+        SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(Autobook.getAppContext()).edit();
+
+        // After getting access token & access token secret,
+        // store them in application preferences
+        e.remove(TwitterWebFragment.getPREF_KEY_OAUTH_TOKEN());
+        e.remove(TwitterWebFragment.getPREF_KEY_OAUTH_SECRET());
+
+        e.commit(); // save changes
+    }
+
+    public static boolean isTwitterLoggedIn() {
+        String key_token = PreferenceManager.getDefaultSharedPreferences(Autobook.getAppContext()).getString(TwitterWebFragment.getPREF_KEY_OAUTH_TOKEN(),"");
+        String key_secret = PreferenceManager.getDefaultSharedPreferences(Autobook.getAppContext()).getString(TwitterWebFragment.getPREF_KEY_OAUTH_SECRET(),"");
+        if(key_token==null || key_token.equals("") || key_secret==null || key_secret.equals("")) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 
     /*
      * AsyncTask used for sending a POST-request to the logged-in Twitter account
@@ -52,10 +73,10 @@ public class TwitterHelper
                 builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
 
                 // Access Token
-                String access_token = sharedPreferences.getString(TwitterWebFragment.PREF_KEY_OAUTH_TOKEN, "");
+                String access_token = sharedPreferences.getString(TwitterWebFragment.getPREF_KEY_OAUTH_TOKEN(), "");
 
                 // Access Token Secret
-                String access_token_secret = sharedPreferences.getString(TwitterWebFragment.PREF_KEY_OAUTH_SECRET, "");
+                String access_token_secret = sharedPreferences.getString(TwitterWebFragment.getPREF_KEY_OAUTH_SECRET(), "");
 
                 AccessToken accessToken = new AccessToken(access_token, access_token_secret);
                 Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
@@ -95,5 +116,38 @@ public class TwitterHelper
             }
             return null;
         }*/
+    }
+
+    /*
+     * AsyncTask used for sending a POST-request to the logged-in Twitter account
+     */
+    public static class GetTwitterFriends extends AsyncTask<String, String, PagableResponseList<User>> {
+
+        @Override
+        protected PagableResponseList<User> doInBackground(String... args) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Autobook.getAppContext());
+
+            try {
+                ConfigurationBuilder builder = new ConfigurationBuilder();
+                builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
+                builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
+
+                // Access Token
+                String access_token = sharedPreferences.getString(TwitterWebFragment.getPREF_KEY_OAUTH_TOKEN(), "");
+
+                // Access Token Secret
+                String access_token_secret = sharedPreferences.getString(TwitterWebFragment.getPREF_KEY_OAUTH_SECRET(), "");
+
+                AccessToken accessToken = new AccessToken(access_token, access_token_secret);
+                Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+
+                return twitter.getFriendsList(twitter.getId(),-1L);
+
+                //Log.d("*** Update Status: ",response.getText());
+            } catch (TwitterException e) {
+                Log.d("*** Twitter Error: ", e.getMessage());
+            }
+            return null;
+        }
     }
 }

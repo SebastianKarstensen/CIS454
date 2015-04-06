@@ -1,7 +1,13 @@
 package com.autobook.cis454.autobook.Helpers;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.widget.ImageView;
+
 import com.autobook.cis454.autobook.Event.EventType;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
