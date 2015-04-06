@@ -115,7 +115,7 @@ public class Storage {
         return initialList;
     }
     public static Event getEvent(int id){
-        HashMap<String, ?> eventMap = HomeActivity.dbHandler.getReceiver(id);
+        HashMap<String, ?> eventMap = HomeActivity.dbHandler.getEvent(id);
         int eventID = Integer.parseInt((String) eventMap.get(DBAdapter.KEY_EVENT_ID));
         String title = (String) eventMap.get(DBAdapter.KEY_TITLE);
         String dateString = (String) eventMap.get(DBAdapter.KEY_DATE);

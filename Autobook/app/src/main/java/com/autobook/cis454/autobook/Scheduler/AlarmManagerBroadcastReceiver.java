@@ -65,7 +65,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
                 Toast.makeText(context, "Tweeting failed", Toast.LENGTH_LONG).show();
             }
 
-            /*
+
             //send SMS if possible
             if(phoneNumber != null && !phoneNumber.equals("") && textMessage != null && !textMessage.equals("")){
                 Toast.makeText(context, "Text message: " + textMessage + " to number: " + phoneNumber, Toast.LENGTH_LONG).show();
@@ -80,7 +80,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             } else {
                 //generic toast here
             }
-            */
         }
         Toast.makeText(context, "Number of receivers: " + receiverList.size(), Toast.LENGTH_LONG).show();
 

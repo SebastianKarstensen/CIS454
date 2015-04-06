@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.autobook.cis454.autobook.Helpers.TwitterHelper;
 import com.autobook.cis454.autobook.R;
 
 import twitter4j.Twitter;
@@ -72,7 +73,7 @@ public class TwitterTweetFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String message = tweet.getText().toString();
-                new updateTwitterStatus().execute(message);
+                new TwitterHelper.UpdateTwitterStatus().execute(message);
             }
         });
 

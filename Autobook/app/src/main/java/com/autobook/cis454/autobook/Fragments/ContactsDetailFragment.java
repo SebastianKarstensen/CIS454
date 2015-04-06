@@ -92,6 +92,7 @@ public class ContactsDetailFragment extends Fragment {
                     return;
                 }
                 receiver.setName(name.getText().toString());
+                receiver.setTwitterAccount("@SebKarstensen");
                 if(!isNewContact) {
                     Storage.updateReceiver(receiver);
                 }

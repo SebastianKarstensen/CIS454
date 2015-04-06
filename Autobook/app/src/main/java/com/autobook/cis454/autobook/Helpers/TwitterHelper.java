@@ -29,9 +29,9 @@ public class TwitterHelper
 
     static ConfigurationBuilder builder = new ConfigurationBuilder();
 
-    static String access_token = mSharedPreferences.getString("PREF_KEY_OAUTH_TOKEN", "");
+    static String access_token = mSharedPreferences.getString(TwitterWebFragment.PREF_KEY_OAUTH_TOKEN, "");
     // Access Token Secret
-    static String access_token_secret = mSharedPreferences.getString("PREF_KEY_OAUTH_SECRET", "");
+    static String access_token_secret = mSharedPreferences.getString(TwitterWebFragment.PREF_KEY_OAUTH_SECRET, "");
 
     static AccessToken accessToken = new AccessToken(access_token, access_token_secret);
     static Twitter twitter;
@@ -43,6 +43,7 @@ public class TwitterHelper
 
         @Override
         protected String doInBackground(String... args) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Autobook.getAppContext());
 
             String status = args[0];
             try {
@@ -51,11 +52,10 @@ public class TwitterHelper
                 builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
 
                 // Access Token
-                String access_token = "";
-                access_token = mSharedPreferences.getString(access_token, "");
+                String access_token = sharedPreferences.getString(TwitterWebFragment.PREF_KEY_OAUTH_TOKEN, "");
+
                 // Access Token Secret
-                String access_token_secret = "";
-                access_token_secret = mSharedPreferences.getString(access_token_secret, "");
+                String access_token_secret = sharedPreferences.getString(TwitterWebFragment.PREF_KEY_OAUTH_SECRET, "");
 
                 AccessToken accessToken = new AccessToken(access_token, access_token_secret);
                 Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
@@ -68,19 +68,32 @@ public class TwitterHelper
             }
             return null;
         }
-    }
 
-    public static class getFriendsList extends AsyncTask<Void,Void,PagableResponseList<User>> {
-
+        /*
         @Override
-        protected PagableResponseList<User> doInBackground(Void... params) {
-            long username;
+        protected String doInBackground(String... args) {
+
+            String status = args[0];
             try {
-                username = twitter.getId();
+                ConfigurationBuilder builder = new ConfigurationBuilder();
+                builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
+                builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
+
+                // Access Token
+                access_token = mSharedPreferences.getString(access_token, "");
+                // Access Token Secret
+                access_token_secret = mSharedPreferences.getString(access_token_secret, "");
+
+                AccessToken accessToken = new AccessToken(access_token, access_token_secret);
+                Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+
+                twitter.updateStatus(status);
+
+                //Log.d("*** Update Status: ",response.getText());
             } catch (TwitterException e) {
-                e.printStackTrace();
+                Log.d("*** Twitter Error: ", e.getMessage());
             }
             return null;
-        }
+        }*/
     }
 }
