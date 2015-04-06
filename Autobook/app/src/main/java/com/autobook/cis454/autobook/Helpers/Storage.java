@@ -120,6 +120,7 @@ public class Storage {
     //RECEIVERS
     public static Receiver getReceiver(int id){
         HashMap<String, ?> receiverMap = HomeActivity.dbHandler.getReceiver(id);
+
         int receiverID = Integer.parseInt((String) receiverMap.get(DBAdapter.KEY_RECEIVER_ID));
         String name = (String) receiverMap.get(DBAdapter.KEY_NAME);
         String facebookId = (String) receiverMap.get(DBAdapter.KEY_FACEBOOK);
