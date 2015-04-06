@@ -39,7 +39,7 @@ public class TwitterHelper
     /*
      * AsyncTask used for sending a POST-request to the logged-in Twitter account
      */
-    public static class updateTwitterStatus extends AsyncTask<String, String, String> {
+    public static class UpdateTwitterStatus extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... args) {

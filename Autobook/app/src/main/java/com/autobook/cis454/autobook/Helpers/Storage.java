@@ -21,8 +21,6 @@ import java.util.List;
  */
 public class Storage {
 
-
-
     //EVENTS
     public static List<Event> getEventsFromDatabase() {
         //Create an empty list of events, then fill it from database

@@ -2,7 +2,6 @@ package com.autobook.cis454.autobook.Scheduler;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.usage.UsageEvents;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +10,6 @@ import android.os.PowerManager;
 import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Activities.HomeActivity;
-import com.autobook.cis454.autobook.DatabaseTesting.Database.DBAdapter;
-import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
 import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Helpers.Converters;
 import com.autobook.cis454.autobook.Helpers.SMSHelper;
@@ -22,7 +19,6 @@ import com.autobook.cis454.autobook.Notifications.Receiver;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
@@ -61,16 +57,16 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             if(twitterTag != null && twitterMessage != null && !twitterTag.equals("") && !twitterMessage.equals("")){
                 Toast.makeText(context, "Twitter message:" + twitterMessage + " to twitter " + twitterTag, Toast.LENGTH_LONG).show();
                 try{
-                    TwitterHelper.updateTwitterStatus twittertask = new TwitterHelper.updateTwitterStatus();
-                    twittertask.execute(twitterMessage, twitterTag);
-//                    TwitterHelper.sendTweet(twitterTag,twitterMessage);
+                    String tweet = twitterTag + " " + twitterMessage;
+                    new TwitterHelper.UpdateTwitterStatus().execute(tweet);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             } else{
-                Toast.makeText(context, "receiver does not have twittertag", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Tweeting failed", Toast.LENGTH_LONG).show();
             }
 
+            /*
             //send SMS if possible
             if(phoneNumber != null && !phoneNumber.equals("") && textMessage != null && !textMessage.equals("")){
                 Toast.makeText(context, "Text message: " + textMessage + " to number: " + phoneNumber, Toast.LENGTH_LONG).show();
@@ -85,6 +81,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             } else {
                 //generic toast here
             }
+            */
         }
         Toast.makeText(context, "Number of receivers: " + receiverList.size(), Toast.LENGTH_LONG).show();
 
