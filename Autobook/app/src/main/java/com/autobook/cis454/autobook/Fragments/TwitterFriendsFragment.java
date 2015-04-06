@@ -2,32 +2,22 @@ package com.autobook.cis454.autobook.Fragments;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
-import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
-import com.autobook.cis454.autobook.Adapters.ReceiverRecyclerAdapter;
 import com.autobook.cis454.autobook.Adapters.TwitterFriendsRecyclerAdapter;
 import com.autobook.cis454.autobook.Helpers.Sorters;
-import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Helpers.TwitterHelper;
-import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
-import com.roomorama.caldroid.CaldroidFragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -37,17 +27,20 @@ import twitter4j.User;
 /**
  * Created by Sebastian on 06-04-2015.
  */
-public class TwitterFriendsFragment extends Fragment {
+public class TwitterFriendsFragment extends DialogFragment {
+
+    public static final String ARG_TWITTER_HANDLE = "ARGUMENT_TWITTER_HANDLE";
 
     private RecyclerView recyclerView;
     private TwitterFriendsRecyclerAdapter recyclerAdapter;
+    private List<User> users;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_twitter_friends, container, false);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        List<User> users = new ArrayList<>();
+        View rootView = getActivity().getLayoutInflater().inflate(R.layout.fragment_twitter_friends, null, false);
+
+        users = new ArrayList<>();
 
         PagableResponseList<User> friends = null;
         try {
@@ -57,6 +50,17 @@ public class TwitterFriendsFragment extends Fragment {
             }
             Collections.sort(users,new Sorters.SortBasedOnTwitterName());
             recyclerAdapter = new TwitterFriendsRecyclerAdapter(users);
+            recyclerAdapter.setOnItemClickListener(new TwitterFriendsRecyclerAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View v, int pos) {
+                    if(getTargetFragment() != null) {
+                        Intent i = new Intent();
+                        i.putExtra(ARG_TWITTER_HANDLE,users.get(pos).getScreenName());
+                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK,i);
+                        dismiss();
+                    }
+                }
+            });
 
             recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_twitter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -67,6 +71,9 @@ public class TwitterFriendsFragment extends Fragment {
             e.printStackTrace();
         }
 
-        return rootView;
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        return alertDialogBuilder
+                .setView(rootView)
+                .create();
     }
 }

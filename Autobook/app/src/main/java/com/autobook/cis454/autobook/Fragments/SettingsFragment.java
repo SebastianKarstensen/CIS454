@@ -1,5 +1,6 @@
 package com.autobook.cis454.autobook.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.autobook.cis454.autobook.Activities.HomeActivity;
 import com.autobook.cis454.autobook.Helpers.TwitterHelper;
 import com.autobook.cis454.autobook.R;
 
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import twitter4j.PagableResponseList;
@@ -61,6 +64,13 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 TwitterHelper.logoutTwitter();
                 updateFragment();
+            }
+        });
+
+        buttonWipeDatabase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeActivity.dbHandler.deleteEverything();
             }
         });
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -14,10 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Helpers.Storage;
+import com.autobook.cis454.autobook.Helpers.TwitterHelper;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
 
@@ -29,11 +30,16 @@ public class ContactsDetailFragment extends Fragment {
     private static final String ARG_RECEIVER = "ARGUMENT_RECEIVER";
     private Receiver receiver;
     private boolean isNewContact;
+    public static final int PICK_TWITTER_REQUEST = 3;
     public static final int PICK_CONTACT_REQUEST = 5;
 
     Button buttonTwitter;
     Button buttonFacebook;
     Button buttonNumber;
+
+    String facebookId;
+    String twitterHandle;
+    String number;
 
     public static ContactsDetailFragment newInstance(Receiver receiver) {
         ContactsDetailFragment fragment = new ContactsDetailFragment();
@@ -67,24 +73,40 @@ public class ContactsDetailFragment extends Fragment {
 
         if(!isNewContact) {
             name.setText(receiver.getName());
-            if(receiver.getFacebookAccount() != "") {
+            if(!receiver.getFacebookAccount().equals("")) {
                 buttonFacebook.setText(receiver.getFacebookAccount());
             }
-            if(receiver.getTwitterAccount() != "") {
-                buttonTwitter.setText(receiver.getTwitterAccount());
+
+            if(!receiver.getTwitterAccount().equals("")) {
+                buttonTwitter.setText("@" + receiver.getTwitterAccount());
             }
-            if(receiver.getPhoneNumber() != "") {
+
+            if(!receiver.getPhoneNumber().equals("")) {
                 buttonNumber.setText(receiver.getPhoneNumber());
             }
         }
 
+        if(!TwitterHelper.isTwitterLoggedIn()) {
+            buttonTwitter.setEnabled(false);
+            buttonTwitter.setTextColor(Color.GRAY);
+            if(receiver.getTwitterAccount().equals("")) {
+                buttonTwitter.setText("Login to import Twitter contacts");
+            }
+        }
+
+        buttonFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //RETRIEVE FACEBOOK INFORMATION HERE
+            }
+        });
+
         buttonTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new TwitterFriendsFragment())
-                        .addToBackStack(null)
-                        .commit();
+                android.support.v4.app.DialogFragment dialog = new TwitterFriendsFragment();
+                dialog.setTargetFragment(ContactsDetailFragment.this, PICK_TWITTER_REQUEST);
+                dialog.show(getFragmentManager(), "Twitter Friends");
             }
         });
 
@@ -104,17 +126,31 @@ public class ContactsDetailFragment extends Fragment {
                     makeToast(getActivity(),"Please input the name of the contact");
                     return;
                 }
+                if(facebookId == null && twitterHandle == null && number == null) {
+                    makeToast(getActivity(),"Please import at least one type of contact information");
+                    return;
+                }
                 receiver.setName(name.getText().toString());
-                receiver.setTwitterAccount("@SebKarstensen");
+
+                receiver.setTwitterAccount("");
+                if(twitterHandle != null) {
+                    receiver.setTwitterAccount(twitterHandle);
+                }
+
+                //If not a new contact, update existing. Otherwise, create new
                 if(!isNewContact) {
                     Storage.updateReceiver(receiver);
                 }
                 else{
                     Storage.insertReceiver(receiver);
                 }
+
+                //Go back when done
                 getActivity().onBackPressed();
             }
         });
+
+        //Go back, if user cancels edit/creation of user
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,11 +184,16 @@ public class ContactsDetailFragment extends Fragment {
             cursor.moveToFirst();
 
             int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-            String number = cursor.getString(column);
+            number = cursor.getString(column);
             column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
             String name = cursor.getString(column);
 
-            this.buttonNumber.setText(number);
+            buttonNumber.setText(number);
+        }
+
+        if(requestCode == PICK_TWITTER_REQUEST) {
+            twitterHandle = data.getStringExtra(TwitterFriendsFragment.ARG_TWITTER_HANDLE);
+            buttonTwitter.setText("@" + twitterHandle);
         }
     }
 }
