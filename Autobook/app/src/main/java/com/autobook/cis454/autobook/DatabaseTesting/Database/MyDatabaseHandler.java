@@ -142,6 +142,21 @@ public class MyDatabaseHandler {
             e.printStackTrace();
         }
     }
+    public HashMap<String,?> getEvent(int eventID){
+        updateEventList();
+        ArrayList<HashMap<String, ?>> eventList = getEventList();
+        System.out.println("@@@ Eventlistsize: " + eventList.size());
+        for(int i = 0; i < eventList.size(); i++){
+            HashMap<String, ?> entry = eventList.get(i);
+            String entryID = (String) entry.get(DBAdapter.KEY_EVENT_ID);
+            int intid = Integer.parseInt(entryID);
+            System.out.println("@@@ ReceiverID from parameter: " + eventID + " and we test it against: " + intid);
+            if(intid == eventID){
+                return entry;
+            }
+        }
+        return null;
+    }
 
     //MESSAGES
     public void updateMessageList() {

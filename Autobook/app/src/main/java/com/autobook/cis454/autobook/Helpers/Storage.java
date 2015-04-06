@@ -114,6 +114,33 @@ public class Storage {
         }
         return initialList;
     }
+    public static Event getEvent(int id){
+        HashMap<String, ?> eventMap = HomeActivity.dbHandler.getReceiver(id);
+        int eventID = Integer.parseInt((String) eventMap.get(DBAdapter.KEY_EVENT_ID));
+        String title = (String) eventMap.get(DBAdapter.KEY_TITLE);
+        String dateString = (String) eventMap.get(DBAdapter.KEY_DATE);
+        String typeString = (String) eventMap.get(DBAdapter.KEY_EVENTTYPE);
+        List<Receiver> receivers = getReceiversForEvent(eventID);
+        String facebookMessage = (String) eventMap.get(DBAdapter.KEY_FACEBOOKMESSAGE);
+        String twitterMessage = (String) eventMap.get(DBAdapter.KEY_TWITTERMESSAGE);
+        String textMessage = (String) eventMap.get(DBAdapter.KEY_TEXTMESSAGE);
+
+        //Convert the string from the DB to an EventEnum
+        EventType type = Converters.convertStringToEnum(typeString);
+
+        //Parse the date string to the Date class
+        Calendar calDate = Calendar.getInstance();
+        Date date = new Date();
+        try {
+            date = SimpleDateFormat.getDateInstance().parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        calDate.setTime(date);
+
+        Event event = new Event(eventID,title, calDate.getTime(), type, receivers, facebookMessage, twitterMessage, textMessage);
+        return event;
+    }
 
     //RECEIVERS
     public static Receiver getReceiver(int id){

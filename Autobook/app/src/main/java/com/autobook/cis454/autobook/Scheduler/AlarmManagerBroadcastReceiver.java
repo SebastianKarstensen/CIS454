@@ -39,8 +39,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         HomeActivity.dbHandler.updateEverything();
         ArrayList<Receiver> receiverList = (ArrayList<Receiver>) Storage.getReceiversForEvent(eventID);
-        ArrayList<Event> events = (ArrayList<Event>) Storage.getEventsFromDatabase();
-        Event currentEvent = events.get(eventID);
+        Event currentEvent = Storage.getEvent(eventID);
 
         String twitterMessage = currentEvent.getTwitterMessage();
         String facebookMessage = currentEvent.getFacebookMessage();
