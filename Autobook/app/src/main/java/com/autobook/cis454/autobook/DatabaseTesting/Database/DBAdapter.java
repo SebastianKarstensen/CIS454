@@ -204,8 +204,32 @@ public class DBAdapter {
         initialValues.put(KEY_TEXTMESSAGE, textMessage);
         initialValues.put(KEY_EVENTTYPE, eventType);
         initialValues.put(KEY_TITLE, title);
+        getAutoIncrementMax();
         return db.insert(EVENT_TABLE, null, initialValues);
     }
+
+    public int getAutoIncrementMax(){
+        String query = "SELECT * FROM SQLITE_SEQUENCE";
+        int autoincrementSize = 0;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()){
+            do{
+//                System.out.println("@@@ tableName: " +cursor.getString(cursor.getColumnIndex("name")));
+//                System.out.println("@@@ autoInc: " + cursor.getString(cursor.getColumnIndex("seq")));
+                if(cursor.getString(cursor.getColumnIndex("name")).equals(EVENT_TABLE)){
+                    String autoInc = cursor.getString(cursor.getColumnIndex("seq"));
+//                    System.out.println("@@@ event AutoInc: " + autoInc);
+                    if(Integer.parseInt(autoInc) > autoincrementSize){
+                        autoincrementSize = Integer.parseInt(autoInc);
+                    }
+                }
+            }while (cursor.moveToNext());
+        }
+        System.out.println("Max id in event table right now is: " + autoincrementSize);
+        cursor.close();
+        return autoincrementSize;
+    }
+
 
     public boolean updateEvent(long rowId, String date, String facebookMessage, String twitterMessage,
                                String textMessage, String eventType, String title)
@@ -270,11 +294,13 @@ public class DBAdapter {
     }
 
     public int getMaxEventID(){
-        String query = "select max(id) as eventid from " + EVENT_TABLE;
-        Cursor c = db.rawQuery(query, null);
-        c.moveToFirst();
-        int eventid = c.getInt(0);
-        return eventid;
+//        String query = "select max(id) as eventid from " + EVENT_TABLE;
+//        Cursor c = db.rawQuery(query, null);
+//        c.moveToFirst();
+//        int eventid = c.getInt(0);
+//        return eventid;
+        int eventID = getAutoIncrementMax();
+        return eventID;
     }
     public boolean deleteEvent(long rowId){
         return db.delete(EVENT_TABLE, KEY_ROWID + "=" + rowId, null) > 0;

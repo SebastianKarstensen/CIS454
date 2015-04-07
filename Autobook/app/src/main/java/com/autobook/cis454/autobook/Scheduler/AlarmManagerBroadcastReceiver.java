@@ -39,6 +39,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         HomeActivity.dbHandler.updateEverything();
         ArrayList<Receiver> receiverList = (ArrayList<Receiver>) Storage.getReceiversForEvent(eventID);
+        System.out.println("@@@ There are this many receivers" + receiverList.size());
         Event currentEvent = Storage.getEvent(eventID);
 
         String twitterMessage = currentEvent.getTwitterMessage();
@@ -64,7 +65,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             } else{
                 Toast.makeText(context, "Tweeting failed", Toast.LENGTH_LONG).show();
             }
-
 
             //send SMS if possible
             if(phoneNumber != null && !phoneNumber.equals("") && textMessage != null && !textMessage.equals("")){

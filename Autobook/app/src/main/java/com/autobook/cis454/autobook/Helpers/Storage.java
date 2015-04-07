@@ -80,9 +80,11 @@ public class Storage {
         String date = Converters.convertDateToString(event.getDate());
         HomeActivity.dbHandler.insertEvent(date, event.getFacebookMessage(), event.getTwitterMessage(),
                                event.getTextMessage(), event.getType().toString(), event.getTitle());
-        ArrayList<Receiver> receivers = (ArrayList<Receiver>) event.getReceivers();
+         ArrayList<Receiver> receivers = (ArrayList<Receiver>) event.getReceivers();
+        System.out.println("number of receivers on event object given to insertEventMethod: " + receivers.size());
         for(Receiver r : receivers){
             HomeActivity.dbHandler.insertMessage(event.getID(), r.getId());
+            System.out.println("Adding receiver: " + r.getId() + " to event: " + event.getID());
         }
     }
     public static void deleteEvent(Event event){
