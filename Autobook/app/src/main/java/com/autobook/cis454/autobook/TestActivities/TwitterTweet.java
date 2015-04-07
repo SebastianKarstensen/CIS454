@@ -94,18 +94,6 @@ public class TwitterTweet extends ActionBarActivity
         tweet_logout = (Button) this.findViewById(R.id.button_logout_twitter);
         tweet_button = (Button) this.findViewById(R.id.button_tweet);
 
-        //cd = new ConnectionDetector(getApplicationContext());
-
-        //region CheckInternetCode
-        // Check if Internet present
-        //if (!cd.isConnectingToInternet()) {
-        //    // Internet Connection is not present
-        //    alert.showAlertDialog(TwitterTweet.this, "Internet Connection Error",
-        //            "Please connect to working Internet connection", false);
-        //    // stop executing code by return
-        //    return;
-        //}
-        //endregion
 
         // Shared Preferences
         mSharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
@@ -161,7 +149,6 @@ public class TwitterTweet extends ActionBarActivity
                 requestToken = twitter.getOAuthRequestToken();
                 oauth_url = requestToken.getAuthorizationURL();
             } catch (TwitterException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return oauth_url;
