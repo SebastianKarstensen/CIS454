@@ -21,6 +21,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TabHost;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -44,10 +45,18 @@ import java.util.List;
 public class EventFragment extends Fragment {
 
     private static final int REQUEST_CONTACTS = 0;
+
     public static final String BUNDLE_TAB_ARGUMENT = "ARGUMENT_TAB_EVENT";
+
     public static final String INTENT_ARGUMENT_CONTACTS = "ARGUMENT_CONTACTS";
+
     private static final String ARG_EVENT = "ARGUMENT_EVENT";
 
+    private static final String TAB_TAG_FACEBOOK = "TAG_FACEBOOK";
+    private static final String TAB_TAG_TWITTER = "TAG_TWITTER";
+    private static final String TAB_TAG_TEXT = "TAG_TEXT";
+
+    FragmentTabHost tabHost;
     FragmentTabHost.TabSpec facebookTab;
     FragmentTabHost.TabSpec twitterTab;
     FragmentTabHost.TabSpec textTab;
@@ -81,6 +90,7 @@ public class EventFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
+
         event = new Event(0,"",new Date(System.currentTimeMillis()),EventType.Other,listOfReceivers,"","","");
         if(getArguments().getSerializable(ARG_EVENT) != null) {
             event = (Event) getArguments().getSerializable(ARG_EVENT);
@@ -204,32 +214,31 @@ public class EventFragment extends Fragment {
             }
         }
 
-
-        final FragmentTabHost tabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);
+        tabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);
         tabHost.setup(getActivity(), getChildFragmentManager(),android.R.id.tabcontent);
 
-        facebookTab = tabHost.newTabSpec("tabFacebook").setIndicator("Facebook");
-        twitterTab = tabHost.newTabSpec("tabTwitter").setIndicator("Twitter");
-        textTab = tabHost.newTabSpec("tabText").setIndicator("Text");
+        facebookTab = tabHost.newTabSpec(TAB_TAG_FACEBOOK).setIndicator("Facebook");
+        twitterTab = tabHost.newTabSpec(TAB_TAG_TWITTER).setIndicator("Twitter");
+        textTab = tabHost.newTabSpec(TAB_TAG_TEXT).setIndicator("Text");
 
         checkFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateTabs(tabHost);
+                updateTabs();
             }
         });
 
         checkTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateTabs(tabHost);
+                updateTabs();
             }
         });
 
         checkText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateTabs(tabHost);
+                updateTabs();
             }
         });
 
@@ -241,17 +250,17 @@ public class EventFragment extends Fragment {
 
                 String title = eventTitle.getText().toString();
 
-                TabEventFragment facebookFragment = (TabEventFragment) getChildFragmentManager().findFragmentByTag("tabFacebook");
+                TabEventFragment facebookFragment = (TabEventFragment) getChildFragmentManager().findFragmentByTag(facebookTab.getTag());
                 if(facebookFragment != null) {
                     event.setFacebookMessage(facebookFragment.getMessage());
                 }
 
-                TabEventFragment twitterFragment = (TabEventFragment) getChildFragmentManager().findFragmentByTag("tabTwitter");
+                TabEventFragment twitterFragment = (TabEventFragment) getChildFragmentManager().findFragmentByTag(twitterTab.getTag());
                 if(twitterFragment != null) {
                     event.setTwitterMessage(twitterFragment.getMessage());
                 }
 
-                TabEventFragment textFragment = (TabEventFragment) getChildFragmentManager().findFragmentByTag("tabText");
+                TabEventFragment textFragment = (TabEventFragment) getChildFragmentManager().findFragmentByTag(textTab.getTag());
                 if(textFragment != null) {
                     event.setTextMessage(textFragment.getMessage());
                 }
@@ -314,7 +323,21 @@ public class EventFragment extends Fragment {
             }
         });
 
-        updateTabs(tabHost);
+        if(!isNewEvent) {
+            eventTitle.setText(event.getTitle());
+
+            String dateString = dfDate.format(event.getDate());
+            if(!isDateSet) isDateSet = true;
+            buttonDate.setText(dateString);
+
+            String dateTime = dfTime.format(event.getDate());
+            if(!isTimeSet) isTimeSet = true;
+            buttonTime.setText(dateTime);
+
+            spinnerType.setSelection(spinnerAdapter.getPosition(event.getType()));
+        }
+
+        updateTabs();
 
         return rootView;
     }
@@ -336,7 +359,7 @@ public class EventFragment extends Fragment {
         toast.show();
     }
 
-    public void updateTabs(FragmentTabHost tabHost) {
+    public void updateTabs() {
         tabHost.clearAllTabs();
         if(checkFacebook.isChecked()) {
             Bundle bundle = new Bundle();
