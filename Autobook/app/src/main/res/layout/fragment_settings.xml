@@ -41,7 +41,7 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Login from Facebook"
+                    android:text="Logout from Facebook"
                     android:id="@+id/btn_settings_logoutFacebook"
                     android:layout_marginTop="30dp"
                     android:singleLine="false"

@@ -78,10 +78,23 @@ public class Event implements Serializable {
 
     private List<Receiver> receivers;
 
-    /*
-    Kenton: My idea of how to implement notifications. Rather than have a bunch of different
-    "createXNotification" methods, we can use a list of Notifications and just keep adding to the
-    list. I've added a "getNotificationType" method to the Notification superclass and this will
-    allow for the fringe case of having two or more of the same type of notification for one event.
-    */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setType(EventType type) {
+        this.type = type;
+    }
+
+    public void setReceivers(List<Receiver> receivers) {
+        this.receivers = receivers;
+    }
 }

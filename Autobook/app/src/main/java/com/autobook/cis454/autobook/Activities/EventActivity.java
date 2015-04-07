@@ -16,7 +16,7 @@ public class EventActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new EventFragment())
+                    .add(R.id.container, EventFragment.newInstance(null))
                     .commit();
         }
     }
