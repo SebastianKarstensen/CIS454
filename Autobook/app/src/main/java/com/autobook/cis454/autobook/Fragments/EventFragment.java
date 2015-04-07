@@ -94,6 +94,17 @@ public class EventFragment extends Fragment {
         event = new Event(0,"",new Date(System.currentTimeMillis()),EventType.Other,listOfReceivers,"","","");
         if(getArguments().getSerializable(ARG_EVENT) != null) {
             event = (Event) getArguments().getSerializable(ARG_EVENT);
+            ArrayList<MediaType> types = new ArrayList<>();
+            if(!event.getFacebookMessage().equals("")) {
+                types.add(MediaType.Facebook);
+            }
+            if(!event.getTwitterMessage().equals("")) {
+                types.add(MediaType.Twitter);
+            }
+            if(!event.getTextMessage().equals("")) {
+                types.add(MediaType.TextMessaging);
+            }
+            mediaTypes = types;
             isNewEvent = false;
         }
         else {
@@ -249,6 +260,7 @@ public class EventFragment extends Fragment {
                 Context context = getActivity();
 
                 String title = eventTitle.getText().toString();
+                event.setTitle(title);
 
                 TabEventFragment facebookFragment = (TabEventFragment) getChildFragmentManager().findFragmentByTag(facebookTab.getTag());
                 if(facebookFragment != null) {
