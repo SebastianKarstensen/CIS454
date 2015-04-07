@@ -16,7 +16,7 @@
 
         <LinearLayout android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.autobook.cis454.autobook.Activities.NewEvent"
+            tools:context="com.autobook.cis454.autobook.Activities.EventActivity"
             android:orientation="vertical"
             android:padding="20dp">
 

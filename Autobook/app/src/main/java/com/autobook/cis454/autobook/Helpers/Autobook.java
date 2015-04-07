@@ -1,10 +1,10 @@
-package com.autobook.cis454.autobook;
+package com.autobook.cis454.autobook.Helpers;
 
 import android.app.Application;
 import android.content.Context;
 
 /**
- * Created by Sebastian on 29-03-2015.
+ * Can retrieve the context of the application from a static method
  */
 public class Autobook extends Application {
 

@@ -24,6 +24,17 @@ public class MyDatabaseHandler {
         updateReceiverList();
     }
 
+    public void deleteEverything(){
+        try{
+            db.open();
+            db.deleteEverything();
+            db.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
     //RECEIVER
 //    public int getReceiverListSize(){ return receiverList.size();  }
     public void updateReceiverList(){
@@ -44,6 +55,39 @@ public class MyDatabaseHandler {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+    public void updateReceiver(long rowId, String name, String facebook, String twitter, String phoneNumber){
+        try {
+            db.open();
+            db.updateReceiver(rowId, name, facebook, twitter, phoneNumber);
+            db.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void deleteReceiver(long rowId){
+        try {
+            db.open();
+            db.deleteReceiver(rowId);
+            db.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public HashMap<String,?> getReceiver(int receiverID){
+        updateReceiverList();
+        ArrayList<HashMap<String, ?>> receiverList = getReceiverList();
+        System.out.println("@@@ Receiverlistsize: " + receiverList.size());
+        for(int i = 0; i < receiverList.size(); i++){
+            HashMap<String, ?> entry = receiverList.get(i);
+            String entryID = (String) entry.get(DBAdapter.KEY_RECEIVER_ID);
+            int intid = Integer.parseInt(entryID);
+            System.out.println("@@@ ReceiverID from parameter: " + receiverID + " and we test it against: " + intid);
+            if(intid == receiverID){
+                return entry;
+            }
+        }
+        return null;
     }
 
     //EVENT
@@ -68,6 +112,16 @@ public class MyDatabaseHandler {
             e.printStackTrace();
         }
     }
+    public void updateEvent(long rowId, String date, String facebookMessage, String twitterMessage,
+                            String textMessage, String eventType, String title){
+        try {
+            db.open();
+            db.updateEvent(rowId, date, facebookMessage, twitterMessage, textMessage, eventType, title);
+            db.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     public int maxEventId(){
         try {
             db.open();
@@ -78,6 +132,30 @@ public class MyDatabaseHandler {
             e.printStackTrace();
         }
         return -1;
+    }
+    public void deleteEvent(long eventId){
+        try {
+            db.open();
+            db.deleteEvent(eventId);
+            db.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public HashMap<String,?> getEvent(int eventID){
+        updateEventList();
+        ArrayList<HashMap<String, ?>> eventList = getEventList();
+        System.out.println("@@@ Eventlistsize: " + eventList.size());
+        for(int i = 0; i < eventList.size(); i++){
+            HashMap<String, ?> entry = eventList.get(i);
+            String entryID = (String) entry.get(DBAdapter.KEY_EVENT_ID);
+            int intid = Integer.parseInt(entryID);
+            System.out.println("@@@ ReceiverID from parameter: " + eventID + " and we test it against: " + intid);
+            if(intid == eventID){
+                return entry;
+            }
+        }
+        return null;
     }
 
     //MESSAGES
@@ -136,7 +214,7 @@ public class MyDatabaseHandler {
         ArrayList<HashMap<String, ?>> list = getReceiversForEvent(eventID);
         for(int i = 0; i < list.size(); i++){
             HashMap<String, ?> entry = list.get(i);
-            int receiver = (Integer) entry.get("receiverid");
+            int receiver = (Integer) entry.get(DBAdapter.KEY_RECEIVER_ID);
             if(receiver == receiverID){
                 return true;
             }

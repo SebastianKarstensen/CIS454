@@ -9,22 +9,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.autobook.cis454.autobook.Autobook;
+import com.autobook.cis454.autobook.Helpers.Autobook;
 import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
-import com.autobook.cis454.autobook.DatabaseTesting.FrontPage.FrontPageActivity;
-import com.autobook.cis454.autobook.DatabaseTesting.Receiver.ReceiverActivity;
 import com.autobook.cis454.autobook.Event.MediaType;
 import com.autobook.cis454.autobook.R;
 import com.autobook.cis454.autobook.Scheduler.SchedulerActivity;
-import com.autobook.cis454.autobook.TestActivities.TwitterTweet;
-import com.roomorama.caldroid.CaldroidFragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class HomeActivity extends ActionBarActivity {
 
@@ -49,8 +43,8 @@ public class HomeActivity extends ActionBarActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 ImageView view = (ImageView) v;
 
-                if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), NewEvent.class);
+                if (gestureDetector.onTouchEvent(event)) {
+                    Intent intent = new Intent(v.getContext(), EventActivity.class);
                     ArrayList<MediaType> types = new ArrayList<>();
                     types.add(MediaType.Twitter);
                     intent.putExtra(INTENT_EXTRA_LIST_OF_TYPES, types);
@@ -60,7 +54,7 @@ public class HomeActivity extends ActionBarActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         //Set ColorFilter with a light blue, slight transparent color
-                        view.getDrawable().setColorFilter(0x8542bbf7,PorterDuff.Mode.SRC_ATOP);
+                        view.getDrawable().setColorFilter(0x8542bbf7, PorterDuff.Mode.SRC_ATOP);
                         view.invalidate();
                         break;
                     }
@@ -85,7 +79,7 @@ public class HomeActivity extends ActionBarActivity {
                 ImageView view = (ImageView) v;
 
                 if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), NewEvent.class);
+                    Intent intent = new Intent(v.getContext(), EventActivity.class);
                     ArrayList<MediaType> types = new ArrayList<>();
                     types.add(MediaType.Facebook);
                     intent.putExtra(INTENT_EXTRA_LIST_OF_TYPES, types);
@@ -120,7 +114,7 @@ public class HomeActivity extends ActionBarActivity {
                 ImageView view = (ImageView) v;
 
                 if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), NewEvent.class);
+                    Intent intent = new Intent(v.getContext(), EventActivity.class);
                     ArrayList<MediaType> types = new ArrayList<>();
                     types.add(MediaType.TextMessaging);
                     intent.putExtra(INTENT_EXTRA_LIST_OF_TYPES, types);
@@ -180,21 +174,21 @@ public class HomeActivity extends ActionBarActivity {
         });
 
         //Contacts, used for original test tweet
-        ImageView testTweet = (ImageView) findViewById(R.id.imageView_btn_contacts);
-        testTweet.setOnTouchListener(new View.OnTouchListener() {
+        ImageView openContacts = (ImageView) findViewById(R.id.imageView_btn_contacts);
+        openContacts.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 ImageView view = (ImageView) v;
 
-                if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), ReceiverActivity.class);
+                if (gestureDetector.onTouchEvent(event)) {
+                    Intent intent = new Intent(v.getContext(), ContactsActivity.class);
                     startActivity(intent);
                 }
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         //Set ColorFilter with a light blue, slight transparent color
-                        view.getDrawable().setColorFilter(0x8542bbf7,PorterDuff.Mode.SRC_ATOP);
+                        view.getDrawable().setColorFilter(0x8542bbf7, PorterDuff.Mode.SRC_ATOP);
                         view.invalidate();
                         break;
                     }
@@ -212,21 +206,21 @@ public class HomeActivity extends ActionBarActivity {
         });
 
         //Settings, used to login to Twitter, Facebook, etc.
-        ImageView loginTwitter = (ImageView) findViewById(R.id.imageView_btn_settings);
-        loginTwitter.setOnTouchListener(new View.OnTouchListener() {
+        ImageView openSettings = (ImageView) findViewById(R.id.imageView_btn_settings);
+        openSettings.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 ImageView view = (ImageView) v;
 
-                if(gestureDetector.onTouchEvent(event)) {
-                    Intent intent = new Intent(v.getContext(), SchedulerActivity.class);
+                if (gestureDetector.onTouchEvent(event)) {
+                    Intent intent = new Intent(v.getContext(), SettingsActivity.class);
                     startActivity(intent);
                 }
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         //Set ColorFilter with a light blue, slight transparent color
-                        view.getDrawable().setColorFilter(0x8542bbf7,PorterDuff.Mode.SRC_ATOP);
+                        view.getDrawable().setColorFilter(0x8542bbf7, PorterDuff.Mode.SRC_ATOP);
                         view.invalidate();
                         break;
                     }

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Activities.HomeActivity;
@@ -57,6 +58,8 @@ public class SchedulerActivity extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_scheduler, container, false);
             Button startButton = (Button) rootView.findViewById(R.id.start_button);
             Button endButton = (Button) rootView.findViewById(R.id.end_button);
+            Button wipebutton = (Button) rootView.findViewById(R.id.wipeDatabaseButton);
+            final EditText input = (EditText) rootView.findViewById(R.id.inputtext);
 
             startButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -65,6 +68,22 @@ public class SchedulerActivity extends ActionBarActivity {
                 }
             });
 
+            endButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String inputstring = input.getText().toString();
+                    int eventID = Integer.parseInt(inputstring);
+                    ArrayList<HashMap<String, ?>> receivers = HomeActivity.dbHandler.getReceiversForEvent(eventID);
+                    Toast.makeText(getActivity(), "receivers: " + receivers.size(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+            wipebutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HomeActivity.dbHandler.deleteEverything();
+                }
+            });
             return rootView;
         }
 
@@ -107,16 +126,9 @@ public class SchedulerActivity extends ActionBarActivity {
             }
             System.out.println("Created this - " + counter + " - many pending broadcasts");
 
+
         }
 
-        public void onetimeTimer(View view){
-            Context context = getActivity().getApplicationContext();
-            if(alarm != null){
-                alarm.setOnetimeTimer(context);
-            }else{
-                Toast.makeText(context, "Alarm is null", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
 }

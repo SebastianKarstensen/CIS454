@@ -10,11 +10,11 @@
         android:layout_height="fill_parent">
 
 
-        <Button
+        <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:id="@+id/btn_calendar_delete"
-            android:background="@mipmap/ic_delete"
+            android:id="@+id/imageView_contact_recyclerRow_profile"
+            android:background="@drawable/image_contact_placeholder"
             android:layout_gravity="center_vertical"
             android:padding="10dp" />
 
@@ -25,16 +25,6 @@
             android:padding="5dp"
             android:layout_weight="1">
 
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:text="ContactName"
-                android:id="@+id/contact_name"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:layout_weight="40" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -71,8 +61,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="name here"
-                            android:id="@+id/nametextview"
+                            android:id="@+id/txt_receiverRow_name"
                             android:singleLine="true"
                             android:textSize="12sp" />
 
@@ -99,8 +88,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="231313231"
-                            android:id="@+id/phonenumbertextiview"
+                            android:id="@+id/txt_receiverRow_phone"
                             android:singleLine="true"
                             android:textSize="12sp" />
 
@@ -127,8 +115,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="YES"
-                            android:id="@+id/facebooktextview"
+                            android:id="@+id/txt_receiverRow_facebook"
                             android:singleLine="true"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -154,8 +141,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="twitter here"
-                            android:id="@+id/twittertextview"
+                            android:id="@+id/txt_receiverRow_twitter"
                             android:singleLine="true"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -163,13 +149,6 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="2dp"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/gradient_split_listrow"></FrameLayout>
 
     <FrameLayout
         android:layout_width="fill_parent"

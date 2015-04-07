@@ -1,4 +1,4 @@
-package com.autobook.cis454.autobook.Calendar;
+package com.autobook.cis454.autobook.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,11 +23,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         this.eventList = eventList;
     }
 
+    public void setEventList(List<Event >newList) {eventList = newList; }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_row_event, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
     @Override
@@ -64,8 +65,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
             date.setText(dateString);
             time.setText(dateTime);
-            //receivers.setText(0);
-            //receivers.setText(event.getReceivers().size());
+            receivers.setText("0");
+            Integer numberOfReceivers = event.getReceivers().size();
+            receivers.setText(numberOfReceivers.toString());
             type.setText(event.getType().toString());
         }
     }

@@ -11,7 +11,7 @@ import com.autobook.cis454.autobook.R;
 
 import java.util.ArrayList;
 
-public class NewEvent extends ActionBarActivity {
+public class EventActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

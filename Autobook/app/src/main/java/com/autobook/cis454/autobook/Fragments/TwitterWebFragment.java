@@ -16,9 +16,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.autobook.cis454.autobook.Activities.TwitterLogin;
 import com.autobook.cis454.autobook.R;
-import com.autobook.cis454.autobook.TestActivities.TwitterTweet;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -45,6 +43,23 @@ public class TwitterWebFragment extends Fragment {
 
     static String PREF_KEY_OAUTH_TOKEN = "oauth_token";
     static String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
+
+    public static String getPREF_KEY_OAUTH_TOKEN() {
+        return PREF_KEY_OAUTH_TOKEN;
+    }
+
+    public static void setPREF_KEY_OAUTH_TOKEN(String PREF_KEY_OAUTH_TOKEN) {
+        TwitterWebFragment.PREF_KEY_OAUTH_TOKEN = PREF_KEY_OAUTH_TOKEN;
+    }
+
+    public static String getPREF_KEY_OAUTH_SECRET() {
+        return PREF_KEY_OAUTH_SECRET;
+    }
+
+    public static void setPREF_KEY_OAUTH_SECRET(String PREF_KEY_OAUTH_SECRET) {
+        TwitterWebFragment.PREF_KEY_OAUTH_SECRET = PREF_KEY_OAUTH_SECRET;
+    }
+
     static String PREF_KEY_TWITTER_LOGIN = "isTwitterLoggedIn";
 
 
@@ -167,10 +182,10 @@ public class TwitterWebFragment extends Fragment {
             if(response){
                 progress.dismiss();
 
+                getActivity().getSupportFragmentManager().popBackStack();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.container, TwitterTweetFragment.newInstance(user))
-                        .addToBackStack(null)
+                        .replace(R.id.container, new SettingsFragment())
                         .commit();
             }
         }

@@ -1,8 +1,10 @@
 package com.autobook.cis454.autobook.Fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -10,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,11 +24,16 @@ import android.widget.SpinnerAdapter;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.autobook.cis454.autobook.Activities.ContactsActivity;
 import com.autobook.cis454.autobook.Activities.HomeActivity;
+import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Event.EventType;
 import com.autobook.cis454.autobook.Event.MediaType;
+import com.autobook.cis454.autobook.Helpers.Converters;
+import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
+import com.autobook.cis454.autobook.Scheduler.AlarmManagerBroadcastReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,7 +43,9 @@ import java.util.List;
 
 public class EventFragment extends Fragment {
 
+    private static final int REQUEST_CONTACTS = 0;
     public static final String BUNDLE_TAB_ARGUMENT = "ARGUMENT_TAB_EVENT";
+    public static final String INTENT_ARGUMENT_CONTACTS = "ARGUMENT_CONTACTS";
 
     FragmentTabHost tabHost;
     FragmentTabHost.TabSpec facebookTab;
@@ -46,13 +56,14 @@ public class EventFragment extends Fragment {
     CheckBox checkTwitter;
     CheckBox checkText;
 
+    Button buttonReceivers;
+
     boolean isDateSet = false;
     boolean isTimeSet = false;
 
     Date eventDate;
     EventType eventType;
 
-    final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
     SimpleDateFormat dfDate = new SimpleDateFormat("MM/dd/yyyy");
     SimpleDateFormat dfTime = new SimpleDateFormat("h:mm a");
 
@@ -69,6 +80,8 @@ public class EventFragment extends Fragment {
         }
 
         final Calendar calendar = Calendar.getInstance();
+        Date date = new Date(System.currentTimeMillis());
+        calendar.setTime(date);
 
         final EditText eventTitle = (EditText) rootView.findViewById(R.id.editText_event_name);
 
@@ -77,8 +90,6 @@ public class EventFragment extends Fragment {
         buttonDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date(System.currentTimeMillis());
-                calendar.setTime(date);
                 final int year = calendar.get(Calendar.YEAR);
                 final int month = calendar.get(Calendar.MONTH);
                 final int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -106,8 +117,6 @@ public class EventFragment extends Fragment {
         buttonTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date(System.currentTimeMillis());
-                calendar.setTime(date);
                 final int year = calendar.get(Calendar.YEAR);
                 final int month = calendar.get(Calendar.MONTH);
                 final int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -147,11 +156,13 @@ public class EventFragment extends Fragment {
         eventType = (EventType) spinnerType.getItemAtPosition(0);
         spinnerType.setAdapter(spinnerAdapter);
 
-        Button buttonReceivers = (Button) rootView.findViewById(R.id.btn_event_receivers);
+        buttonReceivers = (Button) rootView.findViewById(R.id.btn_event_receivers);
         buttonReceivers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(getActivity(), ContactsActivity.class);
+                i.putExtra(INTENT_ARGUMENT_CONTACTS,1);
+                startActivityForResult(i,REQUEST_CONTACTS);
             }
         });
 
@@ -183,8 +194,6 @@ public class EventFragment extends Fragment {
         twitterTab = tabHost.newTabSpec("tabTwitter").setIndicator("Twitter",null);
         textTab = tabHost.newTabSpec("tabText").setIndicator("Text",null);
 
-        updateTabs();
-
         checkFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,7 +222,6 @@ public class EventFragment extends Fragment {
                 Context context = getActivity();
 
                 String title = eventTitle.getText().toString();
-                String type = eventType.toString();
                 String facebookMessage = "";
                 String twitterMessage = "";
                 String textMessage = "";
@@ -266,7 +274,10 @@ public class EventFragment extends Fragment {
                     return;
                 }
 
-                HomeActivity.dbHandler.insertEvent(df.format(eventDate), facebookMessage, twitterMessage, textMessage, type, title);
+                Event saveEvent = new Event(HomeActivity.dbHandler.maxEventId()+1, title, eventDate, eventType, listOfReceivers, facebookMessage, twitterMessage, textMessage);
+                Storage.insertEvent(saveEvent);
+                AlarmManagerBroadcastReceiver.SetEventNotifications(getActivity(),saveEvent);
+                getActivity().onBackPressed();
             }
         });
 
@@ -278,7 +289,20 @@ public class EventFragment extends Fragment {
             }
         });
 
+        updateTabs();
+
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode != Activity.RESULT_OK) return;
+        if(requestCode == REQUEST_CONTACTS) {
+            listOfReceivers = (ArrayList<Receiver>) data.getSerializableExtra(ContactsFragment.ARG_EVENT);
+            if(listOfReceivers != null && listOfReceivers.size() != 0) {
+                buttonReceivers.setText("Receivers: " + listOfReceivers.size());
+            }
+        }
     }
 
     public void makeToast(Context context, String message) {

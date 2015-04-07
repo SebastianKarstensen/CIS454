@@ -44,6 +44,7 @@ public class DBAdapter {
     public static final String KEY_EVENT_ID = "event_id";
     public static final String KEY_RECEIVER_ID = "receiver_id";
 
+    //TAG
     private static final String TAG = "DBAdapter";
 
     //Table Create Statements
@@ -103,6 +104,12 @@ public class DBAdapter {
         DBHelper.close();
     }
 
+    public void deleteEverything(){
+        db.delete(RECEIVER_TABLE, null, null);
+        db.delete(EVENT_TABLE, null, null);
+        db.delete(MESSAGES_TABLE, null, null);
+    }
+
     //CRUD RECEIVER
     public long insertReceiver(String name, String facebook, String twitter, String phoneNumber){
         ContentValues initialValues = new ContentValues();
@@ -111,6 +118,16 @@ public class DBAdapter {
         initialValues.put(KEY_TWITTER, twitter);
         initialValues.put(KEY_PHONENUMBER, phoneNumber);
         return db.insert(RECEIVER_TABLE, null, initialValues);
+    }
+
+    public boolean updateReceiver(long rowId, String name, String facebook, String twitter, String phoneNumber)
+    {
+        ContentValues args = new ContentValues();
+        args.put(KEY_NAME, name);
+        args.put(KEY_FACEBOOK, facebook);
+        args.put(KEY_TWITTER, twitter);
+        args.put(KEY_PHONENUMBER, phoneNumber);
+        return db.update(RECEIVER_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
     public boolean deleteReceiver(long rowId){
@@ -176,13 +193,6 @@ public class DBAdapter {
         return mCursor;
     }
 
-    public boolean updateReceiver(long rowId, String twitterName)
-    {
-        ContentValues args = new ContentValues();
-        args.put(KEY_NAME, twitterName);
-        return db.update(RECEIVER_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
-    }
-
     //CRUD EVENT
     public long insertEvent(String date, String facebookMessage, String twitterMessage,
                             String textMessage, String eventType, String title){
@@ -194,6 +204,19 @@ public class DBAdapter {
         initialValues.put(KEY_EVENTTYPE, eventType);
         initialValues.put(KEY_TITLE, title);
         return db.insert(EVENT_TABLE, null, initialValues);
+    }
+
+    public boolean updateEvent(long rowId, String date, String facebookMessage, String twitterMessage,
+                               String textMessage, String eventType, String title)
+    {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_DATE, date);
+        initialValues.put(KEY_FACEBOOKMESSAGE, facebookMessage);
+        initialValues.put(KEY_TWITTERMESSAGE, twitterMessage);
+        initialValues.put(KEY_TEXTMESSAGE, textMessage);
+        initialValues.put(KEY_EVENTTYPE, eventType);
+        initialValues.put(KEY_TITLE, title);
+        return db.update(EVENT_TABLE, initialValues, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
     public ArrayList<HashMap<String, ?>> getAllEvents(){
@@ -253,8 +276,11 @@ public class DBAdapter {
 
         return eventid;
     }
+    public boolean deleteEvent(long rowId){
+        return db.delete(EVENT_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
+    }
 
-   //CRUD
+   //CRUD MESSAGE
    public long insertMessage(int eventId, int receiverId){
        ContentValues initialValues = new ContentValues();
        initialValues.put(KEY_EVENT_ID, eventId);
