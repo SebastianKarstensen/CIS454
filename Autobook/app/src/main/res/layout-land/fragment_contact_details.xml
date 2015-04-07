@@ -87,7 +87,7 @@
 
                         <Button
                             android:layout_width="0dp"
-                            android:layout_height="50dp"
+                            android:layout_height="100dp"
                             android:text="Import Facebook"
                             android:id="@+id/btn_contactDetails_facebook"
                             android:singleLine="false"
@@ -114,7 +114,7 @@
 
                         <Button
                             android:layout_width="0dp"
-                            android:layout_height="50dp"
+                            android:layout_height="100dp"
                             android:text="Import Twitter"
                             android:id="@+id/btn_contactDetails_twitter"
                             android:singleLine="false"
@@ -141,7 +141,7 @@
 
                         <Button
                             android:layout_width="0dp"
-                            android:layout_height="50dp"
+                            android:layout_height="100dp"
                             android:text="Import Contact"
                             android:id="@+id/btn_contactDetails_contact"
                             android:singleLine="false"

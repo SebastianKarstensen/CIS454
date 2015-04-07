@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.autobook.cis454.autobook.Event.Event;
+import com.autobook.cis454.autobook.Fragments.TwitterWebFragment;
 import com.autobook.cis454.autobook.R;
 
 import java.text.SimpleDateFormat;
@@ -18,12 +19,14 @@ import java.util.List;
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder> {
 
     private List<Event> eventList;
+    private OnItemClickListener listOnClickListener;
 
     public EventRecyclerAdapter(List<Event> eventList) {
         this.eventList = eventList;
     }
 
-    public void setEventList(List<Event >newList) {eventList = newList; }
+    public void setEventList(List<Event> newList) {eventList = newList; }
+    public List<Event> getEventList() { return eventList; }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,6 +56,15 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             time = (TextView) itemView.findViewById(R.id.txt_eventRow_time);
             receivers = (TextView) itemView.findViewById(R.id.txt_eventRow_receivers);
             type = (TextView) itemView.findViewById(R.id.txt_eventRow_type);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listOnClickListener != null) {
+                        listOnClickListener.onItemClick(v,getPosition());
+                    }
+                }
+            });
         }
 
         public void bindData(Event event) {
@@ -70,5 +82,13 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             receivers.setText(numberOfReceivers.toString());
             type.setText(event.getType().toString());
         }
+    }
+
+    public interface OnItemClickListener {
+        public void onItemClick(View v, int pos);
+    }
+
+    public void setOnItemClickListener(final OnItemClickListener listener) {
+        listOnClickListener = listener;
     }
 }

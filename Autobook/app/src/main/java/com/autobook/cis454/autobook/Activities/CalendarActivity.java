@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.autobook.cis454.autobook.Fragments.AgendaFragment;
 import com.autobook.cis454.autobook.Fragments.CalendarFragment;
 import com.autobook.cis454.autobook.R;
 
@@ -17,7 +18,7 @@ public class CalendarActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new CalendarFragment())
+                    .add(R.id.container, new AgendaFragment())
                     .commit();
         }
     }

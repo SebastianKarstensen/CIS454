@@ -159,21 +159,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="2dp"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/gradient_split_listrow"></FrameLayout>
-
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:id="@+id/btn_calendar_delete"
-            android:background="@mipmap/ic_delete"
-            android:layout_gravity="center_vertical"
-            android:padding="10dp" />
-
     </LinearLayout>
 
     <FrameLayout

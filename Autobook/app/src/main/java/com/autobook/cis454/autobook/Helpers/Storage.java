@@ -1,5 +1,7 @@
 package com.autobook.cis454.autobook.Helpers;
 
+import android.widget.Toast;
+
 import com.autobook.cis454.autobook.Activities.HomeActivity;
 import com.autobook.cis454.autobook.DatabaseTesting.Database.DBAdapter;
 import com.autobook.cis454.autobook.Event.Event;
@@ -48,7 +50,7 @@ public class Storage {
             Calendar calDate = Calendar.getInstance();
             Date date = new Date();
             try {
-                date = SimpleDateFormat.getDateInstance().parse(dateString);
+                date = Converters.convertStringToDate(dateString);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -75,7 +77,8 @@ public class Storage {
         }
     }
     public static void insertEvent(Event event){
-        HomeActivity.dbHandler.insertEvent(Converters.convertDateToString(event.getDate()), event.getFacebookMessage(), event.getTwitterMessage(),
+        String date = Converters.convertDateToString(event.getDate());
+        HomeActivity.dbHandler.insertEvent(date, event.getFacebookMessage(), event.getTwitterMessage(),
                                event.getTextMessage(), event.getType().toString(), event.getTitle());
         ArrayList<Receiver> receivers = (ArrayList<Receiver>) event.getReceivers();
         for(Receiver r : receivers){
@@ -132,7 +135,7 @@ public class Storage {
         Calendar calDate = Calendar.getInstance();
         Date date = new Date();
         try {
-            date = SimpleDateFormat.getDateInstance().parse(dateString);
+            date = Converters.convertStringToDate(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }

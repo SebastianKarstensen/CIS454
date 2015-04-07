@@ -74,15 +74,19 @@ public class ContactsDetailFragment extends Fragment {
         if(!isNewContact) {
             name.setText(receiver.getName());
             if(!receiver.getFacebookAccount().equals("")) {
-                buttonFacebook.setText(receiver.getFacebookAccount());
+                facebookId = receiver.getFacebookAccount();
+                buttonFacebook.setText("ID:" + facebookId);
+
             }
 
             if(!receiver.getTwitterAccount().equals("")) {
-                buttonTwitter.setText("@" + receiver.getTwitterAccount());
+                twitterHandle = receiver.getTwitterAccount();
+                buttonTwitter.setText("@" + twitterHandle);
             }
 
             if(!receiver.getPhoneNumber().equals("")) {
-                buttonNumber.setText(receiver.getPhoneNumber());
+                number = receiver.getPhoneNumber();
+                buttonNumber.setText(number);
             }
         }
 

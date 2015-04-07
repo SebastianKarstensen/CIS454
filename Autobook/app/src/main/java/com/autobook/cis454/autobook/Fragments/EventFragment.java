@@ -46,6 +46,7 @@ public class EventFragment extends Fragment {
     private static final int REQUEST_CONTACTS = 0;
     public static final String BUNDLE_TAB_ARGUMENT = "ARGUMENT_TAB_EVENT";
     public static final String INTENT_ARGUMENT_CONTACTS = "ARGUMENT_CONTACTS";
+    private static final String ARG_EVENT = "ARGUMENT_EVENT";
 
     FragmentTabHost tabHost;
     FragmentTabHost.TabSpec facebookTab;
@@ -70,9 +71,28 @@ public class EventFragment extends Fragment {
     List<MediaType> mediaTypes;
     List<Receiver> listOfReceivers = new ArrayList<>();
 
+    private Event event;
+    private boolean isNewEvent;
+
+    public static Fragment newInstance(Event event) {
+        EventFragment fragment = new EventFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ARG_EVENT, event);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
+        if(getArguments().getSerializable(ARG_EVENT) != null) {
+            event = (Event) getArguments().getSerializable(ARG_EVENT);
+            isNewEvent = false;
+        }
+        else {
+            isNewEvent = true;
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_event, container, false);
 
         if(getActivity().getIntent().getExtras() != null) {
@@ -274,7 +294,8 @@ public class EventFragment extends Fragment {
                     return;
                 }
 
-                Event saveEvent = new Event(HomeActivity.dbHandler.maxEventId()+1, title, eventDate, eventType, listOfReceivers, facebookMessage, twitterMessage, textMessage);
+                int id = HomeActivity.dbHandler.maxEventId()+1;
+                Event saveEvent = new Event(id, title, eventDate, eventType, listOfReceivers, facebookMessage, twitterMessage, textMessage);
                 Storage.insertEvent(saveEvent);
                 AlarmManagerBroadcastReceiver.SetEventNotifications(getActivity(),saveEvent);
                 getActivity().onBackPressed();

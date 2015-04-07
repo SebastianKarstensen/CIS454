@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.autobook.cis454.autobook.Event.EventType;
 
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -42,7 +43,11 @@ public class Converters {
     }
 
     public static String convertDateToString(Date date) {
-        return SimpleDateFormat.getDateInstance().format(date);
+        return SimpleDateFormat.getDateTimeInstance().format(date);
+    }
+
+    public static Date convertStringToDate(String dateString) throws ParseException {
+        return SimpleDateFormat.getDateTimeInstance().parse(dateString);
     }
 
     public static long timeDifferenceFromNow(Date date) {

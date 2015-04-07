@@ -3,6 +3,7 @@ package com.autobook.cis454.autobook.Event;
 import com.autobook.cis454.autobook.Notifications.NotificationType;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,8 +11,7 @@ import java.util.List;
 /**
  * Created by Sebastian on 10-02-2015.
  */
-public class Event
-{
+public class Event implements Serializable {
     private int id;
     private String title;
     private Date date; //probably use Joda Time library instead (if we're allowed to do so)
