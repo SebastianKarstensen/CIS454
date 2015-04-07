@@ -6,10 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.autobook.cis454.autobook.Fragments.EventFragment;
-import com.autobook.cis454.autobook.Fragments.NewEventFragment;
 import com.autobook.cis454.autobook.R;
-
-import java.util.ArrayList;
 
 public class EventActivity extends ActionBarActivity {
 
