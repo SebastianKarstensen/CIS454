@@ -44,6 +44,7 @@ public class DBAdapter {
     public static final String KEY_EVENT_ID = "event_id";
     public static final String KEY_RECEIVER_ID = "receiver_id";
 
+    //TAG
     private static final String TAG = "DBAdapter";
 
     //Table Create Statements
