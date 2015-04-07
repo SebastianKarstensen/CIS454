@@ -290,6 +290,9 @@ public class EventFragment extends Fragment {
                 }
 
                 if(isNewEvent) {
+                    if(HomeActivity.dbHandler.maxEventId() <= 0){
+                        System.out.println("the database is empty");
+                    }
                     int id = HomeActivity.dbHandler.maxEventId()+1;
                     event.setId(id);
                     Storage.insertEvent(event);

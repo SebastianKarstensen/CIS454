@@ -16,7 +16,7 @@ public class DBAdapter {
 
     //database name and version, change version to rebuild database
     public static final String DATABASE_NAME = "AutoBookDatabase";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     //table names
     public static final String RECEIVER_TABLE = "receiverTable";
@@ -105,9 +105,10 @@ public class DBAdapter {
     }
 
     public void deleteEverything(){
-        db.delete(RECEIVER_TABLE, null, null);
-        db.delete(EVENT_TABLE, null, null);
-        db.delete(MESSAGES_TABLE, null, null);
+        db.execSQL("DROP TABLE IF EXISTS " + RECEIVER_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + EVENT_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + MESSAGES_TABLE);
+        DBHelper.onCreate(db);
     }
 
     //CRUD RECEIVER
@@ -273,7 +274,6 @@ public class DBAdapter {
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
         int eventid = c.getInt(0);
-
         return eventid;
     }
     public boolean deleteEvent(long rowId){

@@ -82,7 +82,7 @@ public class MyDatabaseHandler {
             HashMap<String, ?> entry = receiverList.get(i);
             String entryID = (String) entry.get(DBAdapter.KEY_RECEIVER_ID);
             int intid = Integer.parseInt(entryID);
-            System.out.println("@@@ ReceiverID from parameter: " + receiverID + " and we test it against: " + intid);
+            System.out.println("@@@ We are looking for ReceiverID: " + receiverID + " and right now we have: " + intid);
             if(intid == receiverID){
                 return entry;
             }
@@ -150,7 +150,8 @@ public class MyDatabaseHandler {
             HashMap<String, ?> entry = eventList.get(i);
             String entryID = (String) entry.get(DBAdapter.KEY_EVENT_ID);
             int intid = Integer.parseInt(entryID);
-            System.out.println("@@@ ReceiverID from parameter: " + eventID + " and we test it against: " + intid);
+            System.out.println("@@@ We are looking for EventID: " + eventID + " and right now we have: " + intid);
+            System.out.println("@@@ MaxID should be:"  + maxEventId());
             if(intid == eventID){
                 return entry;
             }

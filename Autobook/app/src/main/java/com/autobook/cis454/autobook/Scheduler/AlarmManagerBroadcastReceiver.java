@@ -82,7 +82,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             }
         }
         Toast.makeText(context, "Number of receivers: " + receiverList.size(), Toast.LENGTH_LONG).show();
-
+        Storage.deleteEvent(currentEvent);
         //Release the lock
         wl.release();
 
