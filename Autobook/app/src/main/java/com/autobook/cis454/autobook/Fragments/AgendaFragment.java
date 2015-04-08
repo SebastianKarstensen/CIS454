@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
 import com.autobook.cis454.autobook.Adapters.ReceiverRecyclerAdapter;
+import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
@@ -62,8 +63,18 @@ public class AgendaFragment extends Fragment {
         recyclerAdapter.setOnItemClickListener(new EventRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
+                Event toClone = recyclerAdapter.getEventList().get(pos);
+                Event eventCopy = new Event(toClone.getID(),
+                        toClone.getTitle(),
+                        toClone.getDate(),
+                        toClone.getType(),
+                        toClone.getReceivers(),
+                        toClone.getFacebookMessage(),
+                        toClone.getTwitterMessage(),
+                        toClone.getTextMessage());
+
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container,EventFragment.newInstance(recyclerAdapter.getEventList().get(pos)))
+                        .replace(R.id.container,EventFragment.newInstance(eventCopy))
                         .addToBackStack(null)
                         .commit();
             }

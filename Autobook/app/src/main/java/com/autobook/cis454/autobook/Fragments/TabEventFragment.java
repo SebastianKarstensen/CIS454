@@ -19,6 +19,8 @@ public class TabEventFragment extends Fragment {
         return message.getText().toString();
     }
 
+    public void setMessage(String message) { this.message.setText(message); }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public class TabEventFragment extends Fragment {
         }
 
         message.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
+        message.setText(getArguments().getString(EventFragment.BUNDLE_MESSAGE_ARGUMENT));
+
         tip.setText("TIP: " + tipMessage);
         maxCharacters.setText("Max Characters: " + maxLength);
 

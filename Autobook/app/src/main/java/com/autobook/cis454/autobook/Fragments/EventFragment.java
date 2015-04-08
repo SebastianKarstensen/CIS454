@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -47,6 +48,7 @@ public class EventFragment extends Fragment {
     private static final int REQUEST_CONTACTS = 0;
 
     public static final String BUNDLE_TAB_ARGUMENT = "ARGUMENT_TAB_EVENT";
+    public static final String BUNDLE_MESSAGE_ARGUMENT = "ARGUMENT_TAB_MESSAGE";
 
     public static final String INTENT_ARGUMENT_CONTACTS = "ARGUMENT_CONTACTS";
 
@@ -191,7 +193,7 @@ public class EventFragment extends Fragment {
 
             }
         });
-        event.setType((EventType) spinnerType.getItemAtPosition(0));
+        if(isNewEvent) event.setType((EventType) spinnerType.getItemAtPosition(0));
         spinnerType.setAdapter(spinnerAdapter);
 
         buttonReceivers = (Button) rootView.findViewById(R.id.btn_event_receivers);
@@ -323,7 +325,11 @@ public class EventFragment extends Fragment {
                 }
 
                 AlarmManagerBroadcastReceiver.SetEventNotifications(getActivity(),event);
-                getActivity().onBackPressed();
+
+                getActivity().getSupportFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, new AgendaFragment())
+                        .commit();
             }
         });
 
@@ -331,10 +337,11 @@ public class EventFragment extends Fragment {
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+                getActivity().onBackPressed();
             }
         });
 
+        //Fill in information if editing existing event
         if(!isNewEvent) {
             eventTitle.setText(event.getTitle());
 
@@ -347,6 +354,10 @@ public class EventFragment extends Fragment {
             buttonTime.setText(dateTime);
 
             spinnerType.setSelection(spinnerAdapter.getPosition(event.getType()));
+
+            if(listOfReceivers != null) {
+                buttonReceivers.setText("Receivers: " + listOfReceivers.size());
+            }
         }
 
         updateTabs();
@@ -376,16 +387,19 @@ public class EventFragment extends Fragment {
         if(checkFacebook.isChecked()) {
             Bundle bundle = new Bundle();
             bundle.putInt(BUNDLE_TAB_ARGUMENT,0);
+            bundle.putString(BUNDLE_MESSAGE_ARGUMENT,event.getFacebookMessage());
             tabHost.addTab(facebookTab,TabEventFragment.class,bundle);
         }
         if(checkTwitter.isChecked()) {
             Bundle bundle = new Bundle();
             bundle.putInt(BUNDLE_TAB_ARGUMENT,1);
+            bundle.putString(BUNDLE_MESSAGE_ARGUMENT,event.getTwitterMessage());
             tabHost.addTab(twitterTab, TabEventFragment.class,bundle);
         }
         if(checkText.isChecked()) {
             Bundle bundle = new Bundle();
             bundle.putInt(BUNDLE_TAB_ARGUMENT,2);
+            bundle.putString(BUNDLE_MESSAGE_ARGUMENT,event.getTextMessage());
             tabHost.addTab(textTab, TabEventFragment.class,bundle);
         }
     }
