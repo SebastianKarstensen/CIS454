@@ -74,7 +74,7 @@ public class ReceiverRecyclerAdapter extends RecyclerView.Adapter<ReceiverRecycl
             name.setText(receiver.getName());
             number.setText(receiver.getPhoneNumber());
             facebook.setText(receiver.getFacebookAccount());
-            twitter.setText(receiver.getTwitterAccount());
+            twitter.setText("@" + receiver.getTwitterAccount());
             if(receiver.getSelected()) {
                 itemView.setBackgroundColor(Color.GREEN);
             }

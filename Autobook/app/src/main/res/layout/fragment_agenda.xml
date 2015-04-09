@@ -7,16 +7,33 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Agenda"
+        android:text="Events"
         android:id="@+id/textView_agenda"
         android:layout_gravity="center_horizontal"
         android:textSize="35sp"
         android:gravity="center_horizontal"
         android:layout_margin="20dp" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="100"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Switch to Calendar View"
+            android:id="@+id/btn_agenda_switch_calendar"
+            android:singleLine="false"
+            android:layout_weight="70" />
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_widget"
         android:layout_height="fill_parent"
-        android:layout_width="fill_parent" />
+        android:layout_width="fill_parent"
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>

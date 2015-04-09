@@ -18,7 +18,7 @@ public class CalendarActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new AgendaFragment())
+                    .add(R.id.container, new CalendarFragment())
                     .commit();
         }
     }

@@ -9,9 +9,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
 import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
+import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.R;
 import com.roomorama.caldroid.CaldroidFragment;
@@ -36,6 +39,16 @@ public class CalendarFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
 
+        Button buttonSwitchView = (Button) rootView.findViewById(R.id.btn_calendar_switch_agenda);
+        buttonSwitchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, new AgendaFragment())
+                        .commit();
+            }
+        });
+
         CaldroidFragment caldroidFragment = new CaldroidFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
@@ -49,6 +62,25 @@ public class CalendarFragment extends Fragment {
         makeMyScrollSmart();
 
         recyclerAdapter = new EventRecyclerAdapter(Storage.getEventsFromDatabase());
+        recyclerAdapter.setOnItemClickListener(new EventRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
+                Event toClone = recyclerAdapter.getEventList().get(pos);
+                Event eventCopy = new Event(toClone.getID(),
+                        toClone.getTitle(),
+                        toClone.getDate(),
+                        toClone.getType(),
+                        toClone.getReceivers(),
+                        toClone.getFacebookMessage(),
+                        toClone.getTwitterMessage(),
+                        toClone.getTextMessage());
+
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, EventFragment.newInstance(eventCopy))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         caldroidFragment.setCaldroidListener(new CaldroidListener() {
             @Override
@@ -61,7 +93,6 @@ public class CalendarFragment extends Fragment {
         getFragmentManager().beginTransaction()
                 .replace(R.id.container_calendar, caldroidFragment)
                 .commit();
-
 
         recyclerView.setAdapter(recyclerAdapter);
 

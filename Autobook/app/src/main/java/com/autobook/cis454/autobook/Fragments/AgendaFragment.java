@@ -30,36 +30,24 @@ public class AgendaFragment extends Fragment {
     private RecyclerView recyclerView;
     private EventRecyclerAdapter recyclerAdapter;
 
-    private Button buttonAddNewContact;
-    private Button buttonReturnReceivers;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         recyclerAdapter = new EventRecyclerAdapter(Storage.getEventsFromDatabase());
 
-        View rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_agenda, container, false);
 
-        TextView header = (TextView) rootView.findViewById(R.id.textView_contacts);
-        header.setText("Events");
-
-        buttonAddNewContact = (Button) rootView.findViewById(R.id.btn_contacts_add_new);
-        buttonReturnReceivers = (Button) rootView.findViewById(R.id.btn_contacts_choose_receivers);
-
-        buttonAddNewContact.setVisibility(View.GONE);
-        buttonAddNewContact.setOnClickListener(new View.OnClickListener() {
+        Button buttonSwitchView = (Button) rootView.findViewById(R.id.btn_agenda_switch_calendar);
+        buttonSwitchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, ContactsDetailFragment.newInstance(null))
-                        .addToBackStack(null)
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, new CalendarFragment())
                         .commit();
             }
         });
 
-        buttonReturnReceivers.setVisibility(View.GONE);
-
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_contacts);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_widget);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerAdapter.setOnItemClickListener(new EventRecyclerAdapter.OnItemClickListener() {
             @Override
@@ -75,7 +63,7 @@ public class AgendaFragment extends Fragment {
                         toClone.getTextMessage());
 
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container,EventFragment.newInstance(eventCopy))
+                        .replace(R.id.container, EventFragment.newInstance(eventCopy))
                         .addToBackStack(null)
                         .commit();
             }
