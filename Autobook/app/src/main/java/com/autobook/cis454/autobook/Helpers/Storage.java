@@ -156,7 +156,8 @@ public class Storage {
         String facebookId = (String) receiverMap.get(DBAdapter.KEY_FACEBOOK);
         String twitterHandle = (String) receiverMap.get(DBAdapter.KEY_TWITTER);
         String phoneNumber = (String) receiverMap.get(DBAdapter.KEY_PHONENUMBER);
-        Receiver receiver = new Receiver(phoneNumber,twitterHandle,facebookId,name,receiverID);
+        String url = (String) receiverMap.get(DBAdapter.KEY_URL);
+        Receiver receiver = new Receiver(phoneNumber,twitterHandle,facebookId,name,receiverID, url);
         return receiver;
     }
 
@@ -171,7 +172,8 @@ public class Storage {
             String facebookId = (String) receiverMap.get(DBAdapter.KEY_FACEBOOK);
             String twitterHandle = (String) receiverMap.get(DBAdapter.KEY_TWITTER);
             String phoneNumber = (String) receiverMap.get(DBAdapter.KEY_PHONENUMBER);
-            Receiver receiver = new Receiver(phoneNumber,twitterHandle,facebookId,name,id);
+            String url = (String) receiverMap.get(DBAdapter.KEY_URL);
+            Receiver receiver = new Receiver(phoneNumber,twitterHandle,facebookId,name,id, url);
             receivers.add(receiver);
         }
 
@@ -179,10 +181,10 @@ public class Storage {
     }
 
     public static void updateReceiver(Receiver receiver){
-        HomeActivity.dbHandler.updateReceiver(receiver.getId(), receiver.getName(), receiver.getFacebookAccount(), receiver.getTwitterAccount(), receiver.getPhoneNumber());
+        HomeActivity.dbHandler.updateReceiver(receiver.getId(), receiver.getName(), receiver.getFacebookAccount(), receiver.getTwitterAccount(), receiver.getPhoneNumber(), receiver.getUrl());
     }
     public static void insertReceiver(Receiver receiver){
-        HomeActivity.dbHandler.insertReceiver(receiver.getName(), receiver.getFacebookAccount(), receiver.getTwitterAccount(), receiver.getPhoneNumber());
+        HomeActivity.dbHandler.insertReceiver(receiver.getName(), receiver.getFacebookAccount(), receiver.getTwitterAccount(), receiver.getPhoneNumber(), receiver.getUrl());
     }
     public static void deleteReceiver(Receiver receiver){
         HomeActivity.dbHandler.deleteReceiver(receiver.getId());

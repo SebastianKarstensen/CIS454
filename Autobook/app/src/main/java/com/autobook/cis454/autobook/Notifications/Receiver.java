@@ -11,14 +11,18 @@ public class Receiver implements Serializable {
     private String facebookAccount;
     private String twitterAccount;
     private String phoneNumber;
+
+
+    private String url;
     private boolean selected = false;
 
-    public Receiver(String phoneNumber, String twitterAccount, String facebookAccount, String name, int id) {
+    public Receiver(String phoneNumber, String twitterAccount, String facebookAccount, String name, int id, String theUrl) {
         this.phoneNumber = phoneNumber;
         this.twitterAccount = twitterAccount;
         this.facebookAccount = facebookAccount;
         this.name = name;
         this.id = id;
+        this.url = theUrl;
     }
 
     public int getId() {
@@ -43,6 +47,15 @@ public class Receiver implements Serializable {
 
     public void setFacebookAccount(String facebookAccount) {
         this.facebookAccount = facebookAccount;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+
+        return url;
     }
 
     public String getTwitterAccount() {
