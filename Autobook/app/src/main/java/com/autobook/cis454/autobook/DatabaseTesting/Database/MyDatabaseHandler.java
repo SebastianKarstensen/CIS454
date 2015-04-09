@@ -47,19 +47,19 @@ public class MyDatabaseHandler {
         }
     }
     public ArrayList<HashMap<String, ?>> getReceiverList(){ return receiverList;  }
-    public void insertReceiver(String name, String facebook, String twitter, String phone){
+    public void insertReceiver(String name, String facebook, String twitter, String phone, String url){
         try {
             db.open();
-                db.insertReceiver(name, facebook, twitter, phone);
+                db.insertReceiver(name, facebook, twitter, phone, url);
             db.close();
         } catch (Exception e){
             e.printStackTrace();
         }
     }
-    public void updateReceiver(long rowId, String name, String facebook, String twitter, String phoneNumber){
+    public void updateReceiver(long rowId, String name, String facebook, String twitter, String phoneNumber, String url){
         try {
             db.open();
-            db.updateReceiver(rowId, name, facebook, twitter, phoneNumber);
+            db.updateReceiver(rowId, name, facebook, twitter, phoneNumber, url);
             db.close();
         } catch (Exception e){
             e.printStackTrace();

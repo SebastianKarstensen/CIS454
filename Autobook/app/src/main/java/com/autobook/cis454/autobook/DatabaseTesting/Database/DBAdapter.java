@@ -16,7 +16,7 @@ public class DBAdapter {
 
     //database name and version, change version to rebuild database
     public static final String DATABASE_NAME = "AutoBookDatabase";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     //table names
     public static final String RECEIVER_TABLE = "receiverTable";
@@ -31,6 +31,7 @@ public class DBAdapter {
     public static final String KEY_FACEBOOK = "facebook";
     public static final String KEY_TWITTER = "twitter";
     public static final String KEY_PHONENUMBER = "phone_number";
+    public static final String KEY_URL="url";
 
     //eventTable column names
     public static final String KEY_TITLE = "event_title";
@@ -51,7 +52,7 @@ public class DBAdapter {
     private static final String CREATE_EVENTTABLE = "create table if not exists eventTable(id integer primary key autoincrement, "
             + "date VARCHAR, facebook_message VARCHAR, twitter_message VARCHAR, text_message VARCHAR, event_type VARCHAR, event_title VARCHAR);";
     private static final String CREATE_RECEIVER_TABLE = "create table if not exists receiverTable (id integer primary key autoincrement, "
-            + "name VARCHAR, facebook VARCHAR, twitter VARCHAR, phone_number VARCHAR);";
+            + "name VARCHAR, facebook VARCHAR, twitter VARCHAR, phone_number VARCHAR, url VARCHAR);";
     private static final String CREATE_MESSAGES_TABLE = "create table if not exists messageTable (event_id integer, receiver_id integer);";
 
     private final Context context;
@@ -112,22 +113,24 @@ public class DBAdapter {
     }
 
     //CRUD RECEIVER
-    public long insertReceiver(String name, String facebook, String twitter, String phoneNumber){
+    public long insertReceiver(String name, String facebook, String twitter, String phoneNumber, String url){
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_NAME, name);
         initialValues.put(KEY_FACEBOOK, facebook);
         initialValues.put(KEY_TWITTER, twitter);
         initialValues.put(KEY_PHONENUMBER, phoneNumber);
+        initialValues.put(KEY_URL, url);
         return db.insert(RECEIVER_TABLE, null, initialValues);
     }
 
-    public boolean updateReceiver(long rowId, String name, String facebook, String twitter, String phoneNumber)
+    public boolean updateReceiver(long rowId, String name, String facebook, String twitter, String phoneNumber, String url)
     {
         ContentValues args = new ContentValues();
         args.put(KEY_NAME, name);
         args.put(KEY_FACEBOOK, facebook);
         args.put(KEY_TWITTER, twitter);
         args.put(KEY_PHONENUMBER, phoneNumber);
+        args.put(KEY_URL, url);
         return db.update(RECEIVER_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
@@ -136,7 +139,7 @@ public class DBAdapter {
     }
 
     public ArrayList<HashMap<String, ?>> getAllReceivers(){
-        Cursor c = db.query(RECEIVER_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_FACEBOOK, KEY_TWITTER, KEY_PHONENUMBER}, null, null, null, null, null);
+        Cursor c = db.query(RECEIVER_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_FACEBOOK, KEY_TWITTER, KEY_PHONENUMBER, KEY_URL}, null, null, null, null, null);
         ArrayList<HashMap<String, ?>> receiverList = new ArrayList<HashMap<String, ?>>();
         if (c.moveToFirst()) {
             do {
@@ -145,6 +148,7 @@ public class DBAdapter {
                     String facebook = c.getString(2);
                     String twitter = c.getString(3);
                     String phone = c.getString(4);
+                    String url = c.getString(5);
                     if(id == null){
                         id = "";
                     }
@@ -160,6 +164,9 @@ public class DBAdapter {
                     if(phone == null){
                         phone = "";
                     }
+                    if(url == null){
+                        url = "";
+                    }
 
                     HashMap receiver = new HashMap();
                     receiver.put(KEY_RECEIVER_ID, id);
@@ -167,6 +174,7 @@ public class DBAdapter {
                     receiver.put(KEY_FACEBOOK, facebook);
                     receiver.put(KEY_TWITTER, twitter);
                     receiver.put(KEY_PHONENUMBER, phone);
+                    receiver.put(KEY_URL, url);
                     receiverList.add(receiver);
             } while (c. moveToNext());
         }
