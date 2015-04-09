@@ -76,7 +76,6 @@ public class EventFragment extends Fragment {
     SimpleDateFormat dfTime = new SimpleDateFormat("h:mm a");
 
     List<MediaType> mediaTypes;
-    List<Receiver> listOfReceivers = new ArrayList<>();
 
     private Event event;
     private boolean isNewEvent;
@@ -93,6 +92,7 @@ public class EventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
 
+        List<Receiver> listOfReceivers = new ArrayList<>();
         event = new Event(0,"",new Date(System.currentTimeMillis()),EventType.Other,listOfReceivers,"","","");
         if(getArguments().getSerializable(ARG_EVENT) != null) {
             event = (Event) getArguments().getSerializable(ARG_EVENT);
@@ -291,7 +291,7 @@ public class EventFragment extends Fragment {
                     makeToast(context, "Please choose a Time for the Event");
                     return;
                 }
-                else if(listOfReceivers.size() == 0 || listOfReceivers == null) {
+                else if(event.getReceivers().size() == 0 || event.getReceivers() == null) {
                     makeToast(context,"Please choose at least one Receiver for the Event");
                     return;
                 }
@@ -313,9 +313,6 @@ public class EventFragment extends Fragment {
                 }
 
                 if(isNewEvent) {
-                    if(HomeActivity.dbHandler.maxEventId() <= 0){
-                        System.out.println("the database is empty");
-                    }
                     int id = HomeActivity.dbHandler.maxEventId()+1;
                     event.setId(id);
                     Storage.insertEvent(event);
@@ -326,10 +323,15 @@ public class EventFragment extends Fragment {
 
                 AlarmManagerBroadcastReceiver.SetEventNotifications(getActivity(),event);
 
-                getActivity().getSupportFragmentManager().popBackStack();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new AgendaFragment())
-                        .commit();
+                if(isNewEvent) {
+                    getActivity().finish();
+                }
+                else {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.container, new AgendaFragment())
+                            .commit();
+                }
             }
         });
 
@@ -355,8 +357,8 @@ public class EventFragment extends Fragment {
 
             spinnerType.setSelection(spinnerAdapter.getPosition(event.getType()));
 
-            if(listOfReceivers != null) {
-                buttonReceivers.setText("Receivers: " + listOfReceivers.size());
+            if(event.getReceivers() != null) {
+                buttonReceivers.setText("Receivers: " + event.getReceivers().size());
             }
         }
 
@@ -369,8 +371,10 @@ public class EventFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode != Activity.RESULT_OK) return;
         if(requestCode == REQUEST_CONTACTS) {
-            listOfReceivers = (ArrayList<Receiver>) data.getSerializableExtra(ContactsFragment.ARG_EVENT);
+            event.setReceivers((ArrayList<Receiver>) data.getSerializableExtra(ContactsFragment.ARG_EVENT));
+            List<Receiver> listOfReceivers = event.getReceivers();
             if(listOfReceivers != null && listOfReceivers.size() != 0) {
+                event.setReceivers(listOfReceivers);
                 buttonReceivers.setText("Receivers: " + listOfReceivers.size());
             }
         }

@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class AgendaFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private EventRecyclerAdapter recyclerAdapter = new EventRecyclerAdapter(Storage.getEventsFromDatabase());
+    private EventRecyclerAdapter recyclerAdapter;
 
     private Button buttonAddNewContact;
     private Button buttonReturnReceivers;
@@ -36,6 +36,7 @@ public class AgendaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        recyclerAdapter = new EventRecyclerAdapter(Storage.getEventsFromDatabase());
 
         View rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
 

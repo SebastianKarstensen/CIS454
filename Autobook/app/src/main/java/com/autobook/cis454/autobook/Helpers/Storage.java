@@ -68,7 +68,7 @@ public class Storage {
         ArrayList<HashMap<String, ?>> receiversFromDatabase = HomeActivity.dbHandler.getReceiversForEvent(event.getID());
         for(int i = 0; i < receiversFromDatabase.size(); i++){
             HashMap<String, ?> entry = receiversFromDatabase.get(i);
-            int receiverID = Integer.parseInt((String) entry.get(DBAdapter.KEY_RECEIVER_ID));
+            int receiverID = Integer.parseInt((String) entry.get(DBAdapter.KEY_RECEIVER_ID).toString());
             HomeActivity.dbHandler.deleteMessage(event.getID(), receiverID);
         }
         ArrayList<Receiver> receivers = (ArrayList<Receiver>) event.getReceivers();
@@ -151,7 +151,7 @@ public class Storage {
     public static Receiver getReceiver(int id){
         HashMap<String, ?> receiverMap = HomeActivity.dbHandler.getReceiver(id);
 
-        int receiverID = Integer.parseInt((String) receiverMap.get(DBAdapter.KEY_RECEIVER_ID));
+        int receiverID = Integer.parseInt((String) receiverMap.get(DBAdapter.KEY_RECEIVER_ID).toString());
         String name = (String) receiverMap.get(DBAdapter.KEY_NAME);
         String facebookId = (String) receiverMap.get(DBAdapter.KEY_FACEBOOK);
         String twitterHandle = (String) receiverMap.get(DBAdapter.KEY_TWITTER);
@@ -166,7 +166,7 @@ public class Storage {
         ArrayList<HashMap<String,?>> receiversList = HomeActivity.dbHandler.getReceiverList();
 
         for(HashMap<String,?> receiverMap : receiversList) {
-            int id = Integer.parseInt((String) receiverMap.get(DBAdapter.KEY_RECEIVER_ID));
+            int id = Integer.parseInt((String) receiverMap.get(DBAdapter.KEY_RECEIVER_ID).toString());
             String name = (String) receiverMap.get(DBAdapter.KEY_NAME);
             String facebookId = (String) receiverMap.get(DBAdapter.KEY_FACEBOOK);
             String twitterHandle = (String) receiverMap.get(DBAdapter.KEY_TWITTER);
