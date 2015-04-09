@@ -57,7 +57,7 @@ public class ContactsDetailFragment extends Fragment {
             isNewContact = false;
         }
         else {
-            receiver = new Receiver("","","","",0);
+            receiver = new Receiver("","","","",0,"");
             isNewContact = true;
         }
 
