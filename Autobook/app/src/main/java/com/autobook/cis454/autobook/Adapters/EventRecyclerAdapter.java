@@ -66,12 +66,13 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 }
             });
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
+                public boolean onLongClick(View v) {
                     if(listOnClickListener != null) {
                         listOnClickListener.onItemLongClick(v,getPosition());
                     }
+                    return true;
                 }
             });
         }
