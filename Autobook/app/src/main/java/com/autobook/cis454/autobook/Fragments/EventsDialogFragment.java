@@ -14,11 +14,13 @@ import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Activities.CalendarActivity;
 import com.autobook.cis454.autobook.Activities.EventActivity;
+import com.autobook.cis454.autobook.Activities.HomeActivity;
 import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
 import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Helpers.Autobook;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.R;
+import com.autobook.cis454.autobook.Scheduler.AlarmManagerBroadcastReceiver;
 
 import java.util.Date;
 
@@ -77,13 +79,16 @@ public class EventsDialogFragment extends DialogFragment {
             }
 
             @Override
-            public void onItemLongClick(View v, int pos) {
+            public void onItemLongClick(View v, final int pos) {
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Delete entry")
                         .setMessage("Are you sure you want to delete this entry?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                //Do stuff here when the user clicks okay
+                                Event thisEvent = recyclerAdapter.getEventList().get(pos);
+                                Storage.deleteEvent(thisEvent);
+                                AlarmManagerBroadcastReceiver alarm = new AlarmManagerBroadcastReceiver();
+                                alarm.cancelAlarm(getActivity().getApplicationContext(), thisEvent);
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

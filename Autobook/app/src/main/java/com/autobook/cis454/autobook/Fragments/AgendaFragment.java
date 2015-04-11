@@ -23,6 +23,7 @@ import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
+import com.autobook.cis454.autobook.Scheduler.AlarmManagerBroadcastReceiver;
 
 import java.util.ArrayList;
 
@@ -74,13 +75,16 @@ public class AgendaFragment extends Fragment {
             }
 
             @Override
-            public void onItemLongClick(View v, int pos) {
+            public void onItemLongClick(View v, final int pos) {
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Delete entry")
                         .setMessage("Are you sure you want to delete this entry?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                               //Do something here when the user clicks okay
+                                Event thisEvent = recyclerAdapter.getEventList().get(pos);
+                                Storage.deleteEvent(thisEvent);
+                                AlarmManagerBroadcastReceiver alarm = new AlarmManagerBroadcastReceiver();
+                                alarm.cancelAlarm(getActivity().getApplicationContext(), thisEvent);
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
