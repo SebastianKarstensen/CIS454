@@ -11,6 +11,9 @@
     <color name="topbottom_gradient_light">#ff272f74</color>
     <color name="center_gradient_light">#ff335787</color>
 
+    <color name="topbottom_gradient_selected">#ff5a1e21</color>
+    <color name="center_gradient_selected">#ff87423c</color>
+
     <color name="card_view_background">#ff0800b9</color>
     <color name="card_view_selected">#ff3cb90d</color>
 

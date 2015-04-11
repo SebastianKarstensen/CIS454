@@ -93,7 +93,7 @@ public class ContactsFragment extends Fragment {
                     case 1:
                         receiver.setSelected(!receiver.getSelected());
                         if(receiver.getSelected()) {
-                            v.setBackgroundColor(Color.GREEN);
+                            v.setBackgroundResource(R.drawable.background_gradient_list_row_selected);
                         }
                         else {
                             v.setBackgroundResource(R.drawable.background_gradient_list_row);
