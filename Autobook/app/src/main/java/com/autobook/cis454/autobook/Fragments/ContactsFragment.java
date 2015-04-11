@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
 import com.autobook.cis454.autobook.Adapters.ReceiverRecyclerAdapter;
@@ -104,6 +105,11 @@ public class ContactsFragment extends Fragment {
                                 .addToBackStack(null)
                                 .commit();
                 }
+            }
+
+            @Override
+            public void onItemLongClick(View v, int pos) {
+                Toast.makeText(getActivity(), "DELETE", Toast.LENGTH_SHORT).show();
             }
         });
 
