@@ -35,6 +35,8 @@ import java.util.HashMap;
  */
 public class CalendarFragment extends Fragment {
 
+    private static CaldroidFragment caldroidFragment;
+
     public CalendarFragment() {
     }
 
@@ -52,7 +54,7 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        caldroidFragment = new CaldroidFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
@@ -89,5 +91,18 @@ public class CalendarFragment extends Fragment {
                 .commit();
 
         return rootView;
+    }
+
+    public static void refreshEventCell(Date date) {
+        if(Storage.getEventsForDate(date).size() == 0) {
+            caldroidFragment.setBackgroundResourceForDate(R.color.caldroid_white,date);
+            caldroidFragment.setTextColorForDate(android.R.color.black,date);
+            caldroidFragment.refreshView();
+        }
+        else {
+            caldroidFragment.setBackgroundResourceForDate(R.drawable.selected_cell_bg,date);
+            caldroidFragment.setTextColorForDate(R.color.off_white,date);
+            caldroidFragment.refreshView();
+        }
     }
 }

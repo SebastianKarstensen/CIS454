@@ -86,10 +86,13 @@ public class EventsDialogFragment extends DialogFragment {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Event thisEvent = recyclerAdapter.getEventList().get(pos);
+                                Date date = thisEvent.getDate();
                                 Storage.deleteEvent(thisEvent);
                                 AlarmManagerBroadcastReceiver alarm = new AlarmManagerBroadcastReceiver();
                                 alarm.cancelAlarm(getActivity().getApplicationContext(), thisEvent);
+                                recyclerAdapter.getEventList().remove(pos);
                                 recyclerAdapter.notifyItemRemoved(pos);
+                                CalendarFragment.refreshEventCell(date);
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
