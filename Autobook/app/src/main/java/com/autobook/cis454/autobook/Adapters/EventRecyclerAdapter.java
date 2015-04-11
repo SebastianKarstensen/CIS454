@@ -65,6 +65,15 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                     }
                 }
             });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listOnClickListener != null) {
+                        listOnClickListener.onItemLongClick(v,getPosition());
+                    }
+                }
+            });
         }
 
         public void bindData(Event event) {
@@ -86,6 +95,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
     public interface OnItemClickListener {
         public void onItemClick(View v, int pos);
+        public void onItemLongClick(View v, int pos);
     }
 
     public void setOnItemClickListener(final OnItemClickListener listener) {

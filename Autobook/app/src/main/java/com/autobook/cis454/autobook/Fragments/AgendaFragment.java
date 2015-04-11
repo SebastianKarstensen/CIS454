@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Activities.EventActivity;
 import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
@@ -56,6 +57,11 @@ public class AgendaFragment extends Fragment {
                 Intent intent = new Intent(getActivity(),EventActivity.class);
                 intent.putExtra(EventsDialogFragment.INTENT_EXTRA_EVENT, eventCopy);
                 startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View v, int pos) {
+                Toast.makeText(getActivity(), "DELETE", Toast.LENGTH_SHORT).show();
             }
         });
         recyclerView.setAdapter(recyclerAdapter);

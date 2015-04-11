@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Activities.CalendarActivity;
 import com.autobook.cis454.autobook.Activities.EventActivity;
@@ -72,6 +73,11 @@ public class EventsDialogFragment extends DialogFragment {
                 Intent intent = new Intent(getActivity(),EventActivity.class);
                 intent.putExtra(INTENT_EXTRA_EVENT, eventCopy);
                 startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View v, int pos) {
+                Toast.makeText(getActivity(),"DELETE",Toast.LENGTH_SHORT).show();
             }
         });
 
