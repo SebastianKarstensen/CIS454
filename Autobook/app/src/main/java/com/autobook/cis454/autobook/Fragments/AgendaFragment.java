@@ -20,12 +20,14 @@ import com.autobook.cis454.autobook.Activities.EventActivity;
 import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
 import com.autobook.cis454.autobook.Adapters.ReceiverRecyclerAdapter;
 import com.autobook.cis454.autobook.Event.Event;
+import com.autobook.cis454.autobook.Helpers.Sorters;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
 import com.autobook.cis454.autobook.Scheduler.AlarmManagerBroadcastReceiver;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Sebastian on 07-04-2015.
@@ -39,6 +41,7 @@ public class AgendaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         recyclerAdapter = new EventRecyclerAdapter(Storage.getEventsFromDatabase());
+        Collections.sort(recyclerAdapter.getEventList(), new Sorters.SortBasedOnDate());
 
         View rootView = inflater.inflate(R.layout.fragment_agenda, container, false);
 

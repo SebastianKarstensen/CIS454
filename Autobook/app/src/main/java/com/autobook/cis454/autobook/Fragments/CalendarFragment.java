@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Activities.AgendaActivity;
 import com.autobook.cis454.autobook.Activities.CalendarActivity;
@@ -62,8 +63,15 @@ public class CalendarFragment extends Fragment {
         caldroidFragment.setCaldroidListener(new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
-                EventsDialogFragment dialog = EventsDialogFragment.newInstance(date);
-                dialog.show(getFragmentManager(), Converters.convertDateToString(date));
+                if(Storage.getEventsForDate(date).size() == 0) {
+                    Toast.makeText(getActivity(), "No Events for the Selected Date", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                else {
+                    EventsDialogFragment dialog = EventsDialogFragment.newInstance(date);
+                    dialog.show(getFragmentManager(), Converters.convertDateToString(date));
+                }
             }
         });
 

@@ -20,7 +20,7 @@
             android:layout_gravity="center_horizontal"
             android:textSize="35sp"
             android:gravity="center_horizontal"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="15dp" />
 
         <Button
             android:layout_width="wrap_content"
