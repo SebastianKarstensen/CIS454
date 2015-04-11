@@ -22,7 +22,7 @@ import java.util.Date;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
-    private static ArrayList<PendingIntent> intentArray = new ArrayList<>();
+//    private static ArrayList<PendingIntent> intentArray = new ArrayList<>();
 
     final public static String ONE_TIME = "onetime";
     @Override
@@ -88,23 +88,33 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
     }
 
-    public static void SetEventNotifications(Context context, Event event){
+    public static void setEventNotifications(Context context, Event event){
         AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        int eventid = event.getID();
+        int eventId = event.getID();
 
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        intent.putExtra("eventID", eventid);
+        intent.putExtra("eventID", eventId);
 
         Date date = event.getDate();
         long l = Converters.timeDifferenceFromNow(date);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context.getApplicationContext(), eventid, intent, 0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context.getApplicationContext(), eventId, intent, 0);
 
         alarmMgr.set(AlarmManager.RTC_WAKEUP,
                     System.currentTimeMillis() + l,
                     alarmIntent);
-        intentArray.add(alarmIntent);
+//        intentArray.add(alarmIntent);
     }
 
+    public void cancelAlarm(Context context, Event event)
+    {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        int eventId = event.getID();
+
+        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
+
+        PendingIntent sender = PendingIntent.getBroadcast(context.getApplicationContext(), eventId, intent, 0);
+        alarmManager.cancel(sender);
+    }
 
     public void SetAlarm(Context context)
     {
@@ -116,13 +126,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 5 , pi);
     }
 
-    public void CancelAlarm(Context context)
-    {
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(sender);
-    }
     public void setOnetimeTimer(Context context){
         AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
