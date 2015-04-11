@@ -2,6 +2,7 @@ package com.autobook.cis454.autobook.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -77,7 +78,21 @@ public class EventsDialogFragment extends DialogFragment {
 
             @Override
             public void onItemLongClick(View v, int pos) {
-                Toast.makeText(getActivity(),"DELETE",Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Delete entry")
+                        .setMessage("Are you sure you want to delete this entry?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Do stuff here when the user clicks okay
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
 
