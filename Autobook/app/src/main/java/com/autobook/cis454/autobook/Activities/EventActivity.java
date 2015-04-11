@@ -1,11 +1,14 @@
 package com.autobook.cis454.autobook.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Fragments.EventFragment;
+import com.autobook.cis454.autobook.Fragments.EventsDialogFragment;
 import com.autobook.cis454.autobook.R;
 
 public class EventActivity extends ActionBarActivity {
@@ -13,10 +16,13 @@ public class EventActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Event event = (Event) getIntent().getSerializableExtra(EventsDialogFragment.INTENT_EXTRA_EVENT);
+
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, EventFragment.newInstance(null))
+                    .add(R.id.container, EventFragment.newInstance(event))
                     .commit();
         }
     }

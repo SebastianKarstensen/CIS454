@@ -60,6 +60,11 @@
             android:label="@string/title_activity_contacts" >
         </activity>
 
+        <activity
+            android:name=".Activities.AgendaActivity"
+            android:label="@string/title_activity_agenda" >
+        </activity>
+
     </application>
 
 </manifest>

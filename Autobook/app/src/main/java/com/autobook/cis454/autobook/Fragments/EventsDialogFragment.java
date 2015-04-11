@@ -1,45 +1,61 @@
 package com.autobook.cis454.autobook.Fragments;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
+import com.autobook.cis454.autobook.Activities.CalendarActivity;
 import com.autobook.cis454.autobook.Activities.EventActivity;
 import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
-import com.autobook.cis454.autobook.Adapters.ReceiverRecyclerAdapter;
 import com.autobook.cis454.autobook.Event.Event;
+import com.autobook.cis454.autobook.Helpers.Autobook;
 import com.autobook.cis454.autobook.Helpers.Storage;
-import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
 
-import java.util.ArrayList;
+import java.util.Date;
 
 /**
- * Created by Sebastian on 07-04-2015.
+ * Created by Sebastian on 11-04-2015.
  */
-public class AgendaFragment extends Fragment {
+public class EventsDialogFragment extends DialogFragment {
+
+    public static final String INTENT_EXTRA_EVENT = "EXTRA_EVENT";
 
     private RecyclerView recyclerView;
     private EventRecyclerAdapter recyclerAdapter;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        recyclerAdapter = new EventRecyclerAdapter(Storage.getEventsFromDatabase());
+    private Date chosenDate;
+    public static final String ARG_DATE = "ARGUMENT_DATE";
 
-        View rootView = inflater.inflate(R.layout.fragment_agenda, container, false);
+    public EventsDialogFragment() {
+
+    }
+
+    public static EventsDialogFragment newInstance(Date date) {
+        EventsDialogFragment fragment = new EventsDialogFragment();
+        Bundle arguments = new Bundle();
+        arguments.putSerializable(ARG_DATE,date);
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        chosenDate = (Date) getArguments().getSerializable(ARG_DATE);
+
+        View rootView = getActivity().getLayoutInflater().inflate(R.layout.fragment_event_dialog, null, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_widget);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        recyclerAdapter = new EventRecyclerAdapter(Storage.getEventsForDate(chosenDate));
+
         recyclerAdapter.setOnItemClickListener(new EventRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
@@ -54,12 +70,16 @@ public class AgendaFragment extends Fragment {
                         toClone.getTextMessage());
 
                 Intent intent = new Intent(getActivity(),EventActivity.class);
-                intent.putExtra(EventsDialogFragment.INTENT_EXTRA_EVENT, eventCopy);
+                intent.putExtra(INTENT_EXTRA_EVENT, eventCopy);
                 startActivity(intent);
             }
         });
+
         recyclerView.setAdapter(recyclerAdapter);
 
-        return rootView;
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        return alertDialogBuilder
+                .setView(rootView)
+                .create();
     }
 }

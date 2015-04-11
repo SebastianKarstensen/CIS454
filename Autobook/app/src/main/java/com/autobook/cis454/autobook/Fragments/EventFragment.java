@@ -110,7 +110,7 @@ public class EventFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_event, container, false);
 
-        if(getActivity().getIntent().getExtras() != null) {
+        if(getActivity().getIntent().getSerializableExtra(HomeActivity.INTENT_EXTRA_LIST_OF_TYPES) != null) {
             mediaTypes = (ArrayList<MediaType>) getActivity().getIntent().getSerializableExtra(HomeActivity.INTENT_EXTRA_LIST_OF_TYPES);
         }
 

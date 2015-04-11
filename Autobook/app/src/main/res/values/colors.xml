@@ -22,6 +22,9 @@
     <!--Not actually white, but overwrites the date cells background with a semi-transparent gray-->
     <color name="caldroid_white">#33f5f5f5</color>
 
+    <color name="selected_dates_background">#a84f0508</color>
+    <color name="pressed_dates_background">#a80b0c4f</color>
+
     <color name="calendar_view_monthYear_title">@color/off_white</color>
 
 </resources>
