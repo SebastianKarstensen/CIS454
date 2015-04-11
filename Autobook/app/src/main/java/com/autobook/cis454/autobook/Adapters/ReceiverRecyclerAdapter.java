@@ -69,7 +69,7 @@ public class ReceiverRecyclerAdapter extends RecyclerView.Adapter<ReceiverRecycl
                 }
             });
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnLongClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listOnClickListener != null) {
