@@ -85,7 +85,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         Storage.deleteEvent(currentEvent);
         //Release the lock
         wl.release();
-
     }
 
     public static void setEventNotifications(Context context, Event event){
