@@ -55,7 +55,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
             //send twitter message if possible
             if(twitterTag != null && twitterMessage != null && !twitterTag.equals("") && !twitterMessage.equals("")){
-                Toast.makeText(context, "Twitter message:" + twitterMessage + " to twitter " + twitterTag, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Twitter message:" + twitterMessage + " sent to twitter " + twitterTag, Toast.LENGTH_LONG).show();
                 try{
                     String tweet = "@" + twitterTag + " " + twitterMessage;
                     new TwitterHelper.UpdateTwitterStatus().execute(tweet);
@@ -68,10 +68,10 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
             //send SMS if possible
             if(phoneNumber != null && !phoneNumber.equals("") && textMessage != null && !textMessage.equals("")){
-                Toast.makeText(context, "Text message: " + textMessage + " to number: " + phoneNumber, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Text message: " + textMessage + " sent to number: " + phoneNumber, Toast.LENGTH_LONG).show();
                 SMSHelper.sendSMS(phoneNumber, textMessage);
             } else {
-                Toast.makeText(context, "receiver does not have phonenumber", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Receiver does not have phone number", Toast.LENGTH_LONG).show();
             }
 
             //send Facebook if possible

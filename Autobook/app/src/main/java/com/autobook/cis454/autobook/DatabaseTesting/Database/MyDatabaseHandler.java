@@ -77,12 +77,12 @@ public class MyDatabaseHandler {
     public HashMap<String,?> getReceiver(int receiverID){
         updateReceiverList();
         ArrayList<HashMap<String, ?>> receiverList = getReceiverList();
-        System.out.println("@@@ Receiverlistsize: " + receiverList.size());
+//        System.out.println("@@@ Receiverlistsize: " + receiverList.size());
         for(int i = 0; i < receiverList.size(); i++){
             HashMap<String, ?> entry = receiverList.get(i);
             String entryID = (String) entry.get(DBAdapter.KEY_RECEIVER_ID);
             int intid = Integer.parseInt(entryID);
-            System.out.println("@@@ We are looking for ReceiverID: " + receiverID + " and right now we have: " + intid);
+//            System.out.println("@@@ We are looking for ReceiverID: " + receiverID + " and right now we have: " + intid);
             if(intid == receiverID){
                 return entry;
             }
@@ -145,13 +145,13 @@ public class MyDatabaseHandler {
     public HashMap<String,?> getEvent(int eventID){
         updateEventList();
         ArrayList<HashMap<String, ?>> eventList = getEventList();
-        System.out.println("@@@ Eventlistsize: " + eventList.size());
+//        System.out.println("@@@ Eventlistsize: " + eventList.size());
         for(int i = 0; i < eventList.size(); i++){
             HashMap<String, ?> entry = eventList.get(i);
             String entryID = (String) entry.get(DBAdapter.KEY_EVENT_ID);
             int intid = Integer.parseInt(entryID);
-            System.out.println("@@@ We are looking for EventID: " + eventID + " and right now we have: " + intid);
-            System.out.println("@@@ MaxID should be:"  + maxEventId());
+//            System.out.println("@@@ We are looking for EventID: " + eventID + " and right now we have: " + intid);
+//            System.out.println("@@@ MaxID should be:"  + maxEventId());
             if(intid == eventID){
                 return entry;
             }

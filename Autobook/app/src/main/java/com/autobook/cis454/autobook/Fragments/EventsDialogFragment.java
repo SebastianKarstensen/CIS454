@@ -89,6 +89,7 @@ public class EventsDialogFragment extends DialogFragment {
                                 Storage.deleteEvent(thisEvent);
                                 AlarmManagerBroadcastReceiver alarm = new AlarmManagerBroadcastReceiver();
                                 alarm.cancelAlarm(getActivity().getApplicationContext(), thisEvent);
+                                recyclerAdapter.notifyItemRemoved(pos);
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
