@@ -114,32 +114,63 @@ public class EventFragment extends Fragment {
             mediaTypes = (ArrayList<MediaType>) getActivity().getIntent().getSerializableExtra(HomeActivity.INTENT_EXTRA_LIST_OF_TYPES);
         }
 
+        //Fill in information if editing existing event
+        if(!isNewEvent) {
+            if(!isDateSet) isDateSet = true;
+            if(!isTimeSet) isTimeSet = true;
+        }
+
         final Calendar calendar = Calendar.getInstance();
         Date date = new Date(System.currentTimeMillis());
         calendar.setTime(date);
 
         final EditText eventTitle = (EditText) rootView.findViewById(R.id.editText_event_name);
 
-        //Date-button, opens a dialog with a date picker
         final Button buttonDate = (Button) rootView.findViewById(R.id.btn_event_date);
+        final Button buttonTime = (Button) rootView.findViewById(R.id.btn_event_time);
+
+        //Date-button, opens a dialog with a date picker
         buttonDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int year = calendar.get(Calendar.YEAR);
                 final int month = calendar.get(Calendar.MONTH);
                 final int day = calendar.get(Calendar.DAY_OF_MONTH);
-                final int hour = calendar.get(Calendar.HOUR);
+                final int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 final int minute = calendar.get(Calendar.MINUTE);
 
                 DatePickerDialog dateDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         calendar.set(year, monthOfYear, dayOfMonth, hour, minute);
+
+                        Calendar thisMoment = Calendar.getInstance();
+                        thisMoment.setTime(new Date(System.currentTimeMillis()));
+                        int thisYear = thisMoment.get(Calendar.YEAR);
+                        int thisMonth = thisMoment.get(Calendar.MONTH);
+                        int thisDay = thisMoment.get(Calendar.DAY_OF_MONTH);
+
+                        if(calendar.get(Calendar.YEAR) < thisYear) {
+                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else if (calendar.get(Calendar.MONTH) < thisMonth) {
+                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else if (calendar.get(Calendar.DAY_OF_MONTH) < thisDay) {
+                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         event.setDate(calendar.getTime());
 
                         String dateString = dfDate.format(event.getDate());
 
-                        if(!isDateSet) isDateSet = true;
+                        if(!isDateSet) {
+                            isDateSet = true;
+                            buttonTime.setEnabled(true);
+                        }
                         buttonDate.setText(dateString);
                     }
                 },year,month,day);
@@ -148,20 +179,49 @@ public class EventFragment extends Fragment {
         });
 
         //Time-button, opens a dialog with a date picker
-        final Button buttonTime = (Button) rootView.findViewById(R.id.btn_event_time);
         buttonTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final int year = calendar.get(Calendar.YEAR);
                 final int month = calendar.get(Calendar.MONTH);
                 final int day = calendar.get(Calendar.DAY_OF_MONTH);
-                final int hour = calendar.get(Calendar.HOUR);
+                final int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 final int minute = calendar.get(Calendar.MINUTE);
 
                 TimePickerDialog timeDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         calendar.set(year,month,day,hourOfDay,minute);
+
+                        Calendar thisMoment = Calendar.getInstance();
+                        thisMoment.setTime(new Date(System.currentTimeMillis()));
+                        int thisYear = thisMoment.get(Calendar.YEAR);
+                        int thisMonth = thisMoment.get(Calendar.MONTH);
+                        int thisDay = thisMoment.get(Calendar.DAY_OF_MONTH);
+                        int thisHour = thisMoment.get(Calendar.HOUR_OF_DAY);
+                        int thisMinute = thisMoment.get(Calendar.MINUTE);
+
+                        if(calendar.get(Calendar.YEAR) < thisYear) {
+                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else if (calendar.get(Calendar.MONTH) < thisMonth) {
+                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else if (calendar.get(Calendar.DAY_OF_MONTH) < thisDay) {
+                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else if (calendar.get(Calendar.HOUR_OF_DAY) < thisHour) {
+                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else if (calendar.get(Calendar.MINUTE) < thisMinute) {
+                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         event.setDate(calendar.getTime());
 
                         String dateTime = dfTime.format(event.getDate());
@@ -173,6 +233,9 @@ public class EventFragment extends Fragment {
                 timeDialog.show();
             }
         });
+        if(isDateSet == false) {
+            buttonTime.setEnabled(false);
+        }
 
         Spinner spinnerType = (Spinner) rootView.findViewById(R.id.spinner_event_type);
         ArrayAdapter spinnerAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item,EventType.values());
@@ -336,11 +399,9 @@ public class EventFragment extends Fragment {
             eventTitle.setText(event.getTitle());
 
             String dateString = dfDate.format(event.getDate());
-            if(!isDateSet) isDateSet = true;
             buttonDate.setText(dateString);
 
             String dateTime = dfTime.format(event.getDate());
-            if(!isTimeSet) isTimeSet = true;
             buttonTime.setText(dateTime);
 
             spinnerType.setSelection(spinnerAdapter.getPosition(event.getType()));
