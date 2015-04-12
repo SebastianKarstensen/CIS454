@@ -1,12 +1,17 @@
 package com.autobook.cis454.autobook.Scheduler;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.os.Vibrator;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Activities.HomeActivity;
@@ -16,6 +21,7 @@ import com.autobook.cis454.autobook.Helpers.SMSHelper;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Helpers.TwitterHelper;
 import com.autobook.cis454.autobook.Notifications.Receiver;
+import com.autobook.cis454.autobook.R;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +39,9 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         wl.acquire();
 
         System.out.println("An alarm was triggered");
+        Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
+        v.vibrate(500);
         //You can do the processing here update the widget/remote views.
         Bundle b = intent.getExtras();
         int eventID = (Integer) b.get("eventID");
@@ -42,12 +51,54 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         System.out.println("@@@ There are this many receivers" + receiverList.size());
         Event currentEvent = Storage.getEvent(eventID);
 
+        //Check if the user has logged onto twitter
+        boolean twitterAccessible = TwitterHelper.isTwitterLoggedIn();
+        //If the user is not logged in then create a notification
+        if(!twitterAccessible){
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(context)
+                            .setSmallIcon(R.drawable.autobook_logo_v01)
+                            .setContentTitle("Failed to execute the event; not logged onto twitter")
+                            .setContentText("Event title: " + currentEvent.getTitle());
+            // Sets an ID for the notification
+            int mNotificationId = eventID;
+            // Gets an instance of the NotificationManager service
+            NotificationManager mNotifyMgr =
+                    (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+            // Builds the notification and issues it.
+            mNotifyMgr.notify(mNotificationId, mBuilder.build());
+        }
+        //Check if the user has logged onto facebook
+        boolean facebookAccessible = true;
+        if(!facebookAccessible){
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(context)
+                            .setSmallIcon(R.drawable.autobook_logo_v01)
+                            .setContentTitle("Failed to execute the event; not logged onto facebook")
+                            .setContentText("Event title: " + currentEvent.getTitle());
+            // Sets an ID for the notification
+            int mNotificationId = eventID*50;
+            // Gets an instance of the NotificationManager service
+            NotificationManager mNotifyMgr =
+                    (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+            // Builds the notification and issues it.
+            mNotifyMgr.notify(mNotificationId, mBuilder.build());
+        }
+
+        if(isNetworkAvailable(context)){
+            //if there is a internet connection do nothing
+        } else {
+            //if there is no internet connection then twitter and facebook can not be accessed
+            twitterAccessible = false;
+            facebookAccessible = false;
+        }
+
         String twitterMessage = currentEvent.getTwitterMessage();
         String facebookMessage = currentEvent.getFacebookMessage();
         String textMessage = currentEvent.getTextMessage();
 
         //IF there is no receivers and there is a twitter message
-        if(receiverList.size() == 0 && !twitterMessage.equals("")){
+        if(receiverList.size() == 0 && !twitterMessage.equals("") && twitterAccessible){
             //Tweet whatever is in the twitter message
             new TwitterHelper.UpdateTwitterStatus().execute(twitterMessage);
         }
@@ -65,7 +116,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             String facebookID = currentReceiver.getFacebookAccount();
 
             //send twitter message if possible
-            if(twitterTag != null && twitterMessage != null && !twitterTag.equals("") && !twitterMessage.equals("")){
+            if(twitterTag != null && twitterMessage != null && !twitterTag.equals("") && !twitterMessage.equals("") && twitterAccessible){
                 Toast.makeText(context, "Twitter message:" + twitterMessage + " sent to twitter " + twitterTag, Toast.LENGTH_LONG).show();
                 try{
                     String tweet = "@" + twitterTag + " " + twitterMessage;
@@ -86,6 +137,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             }
         }
 //        Toast.makeText(context, "Number of receivers: " + receiverList.size() + " for event: ", Toast.LENGTH_LONG).show();
+        //Delete the event after everything is done
         Storage.deleteEvent(currentEvent);
         //Release the lock
         wl.release();
@@ -117,6 +169,13 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         PendingIntent sender = PendingIntent.getBroadcast(context.getApplicationContext(), eventId, intent, 0);
         alarmManager.cancel(sender);
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public void SetAlarm(Context context)

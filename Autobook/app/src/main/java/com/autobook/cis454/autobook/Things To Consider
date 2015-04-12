@@ -1,8 +1,0 @@
-This is just a file for us to keep track of our thoughts of things we should consider when programming
-
-1. We should probably cache the list of Friends for FB and Twitter and set an update schedule for the (e.g. every minute or so)
-
-2. There's a limit on the amount of times you can post using Twitter (about 15 times every 15 minutes).
-
-3. Checking for an internet connection is a valid concern. However, as the code currently stands, if it doesn't detect an internet connection, it will just completely stop running and will never
-    restart the process. Need to change that so it checks every X amount of time. I've commented it out for now as it interferes with testing. -KG

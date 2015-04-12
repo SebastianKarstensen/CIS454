@@ -1,6 +1,8 @@
 package com.autobook.cis454.autobook.TestActivities;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.content.pm.PackageInstaller;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -9,25 +11,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.support.v4.app.Fragment;
 
+import com.autobook.cis454.autobook.TestActivities.FacebookLoginFragment;
 import com.autobook.cis454.autobook.R;
-import com.restfb.DefaultFacebookClient;
-import com.restfb.DefaultWebRequestor;
-import com.restfb.FacebookClient;
-import com.restfb.FacebookClient.AccessToken;
-import com.restfb.Version;
-import com.restfb.WebRequestor;
-import com.restfb.types.Account;
-import com.restfb.scope.ScopeBuilder;
-import com.restfb.scope.ExtendedPermissions;
-
-
-import java.io.IOException;
-import java.util.Date;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 
 
 public class FacebookMessage extends ActionBarActivity
@@ -36,39 +36,24 @@ public class FacebookMessage extends ActionBarActivity
     String APP_SECRET = "d841c6720ecbbadaf74562bd27a66179";
     String REDIRECT_URI = "app://callback";
     String PREF_KEY_FACEBOOK_ACCESS_TOKEN = "fb_access_token";
-    String loginURL = "https://www.facebook.com/dialog/oauth?client_id={" + APP_ID + "}&redirect_uri={" + REDIRECT_URI + "}";
-    String code = null;
-    FacebookClient client = new DefaultFacebookClient(Version.VERSION_2_2);
-    Account acc = new Account();
-    ScopeBuilder scope = new ScopeBuilder();
     private static SharedPreferences mSharedPreferences;
-
-
-
-//    Date expires = token.getExpires();
-
-    private AccessToken getFacebookUserToken(String code, String redirectUrl) throws IOException {
-        WebRequestor wr = new DefaultWebRequestor();
-        WebRequestor.Response accessTokenResponse = wr.executeGet(
-                "https://graph.facebook.com/oauth/access_token?client_id=" + APP_ID + "&redirect_uri=" + REDIRECT_URI
-                        + "&client_secret=" + APP_SECRET + "&code=" + code);
-
-        return AccessToken.fromQueryString(accessTokenResponse.getBody());
-    }
-
-    void logoutFromFacebook()
-    {
-        Editor e = mSharedPreferences.edit();
-        e.remove(PREF_KEY_FACEBOOK_ACCESS_TOKEN);
-        e.commit();
-    }
+    CallbackManager callbackManager;
+    LoginButton loginButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_facebook_message);
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new FacebookLoginFragment())
+                    .commit();
+
+        callbackManager = CallbackManager.Factory.create();
+
     }
 
 
@@ -97,35 +82,14 @@ public class FacebookMessage extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private class TokenGet extends AsyncTask<String, String, String>
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-
-        Dialog auth_dialog;
-
-        @Override
-        protected String doInBackground(String... args) {
-            scope.addPermission(ExtendedPermissions.PUBLISH_ACTIONS);
-            code = client.getLoginDialogUrl(APP_ID, REDIRECT_URI, scope);
-            return code;
-        }
-        @Override
-        protected void onPostExecute(String oauth_url) {
-            try
-            {
-                AccessToken token = getFacebookUserToken(code, REDIRECT_URI);
-                String accessToken = token.getAccessToken();
-                Date expires = token.getExpires();
-                mSharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
-                Editor e = mSharedPreferences.edit();
-                e.putString (PREF_KEY_FACEBOOK_ACCESS_TOKEN, accessToken);
-                e.commit();
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
+        super.onActivityResult(requestCode, resultCode,data);
+        callbackManager.onActivityResult(requestCode,resultCode,data);
     }
+
+
 }
 
 
