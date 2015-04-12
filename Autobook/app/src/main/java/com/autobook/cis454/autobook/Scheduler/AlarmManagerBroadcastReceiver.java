@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.os.Vibrator;
 import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Activities.HomeActivity;
@@ -33,6 +34,9 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         wl.acquire();
 
         System.out.println("An alarm was triggered");
+        Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
+        v.vibrate(500);
         //You can do the processing here update the widget/remote views.
         Bundle b = intent.getExtras();
         int eventID = (Integer) b.get("eventID");
@@ -86,6 +90,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             }
         }
 //        Toast.makeText(context, "Number of receivers: " + receiverList.size() + " for event: ", Toast.LENGTH_LONG).show();
+        //Delete the event after everything is done
         Storage.deleteEvent(currentEvent);
         //Release the lock
         wl.release();
