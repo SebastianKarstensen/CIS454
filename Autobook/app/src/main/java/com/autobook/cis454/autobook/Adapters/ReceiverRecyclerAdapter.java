@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.autobook.cis454.autobook.Notifications.Receiver;
@@ -50,15 +51,16 @@ public class ReceiverRecyclerAdapter extends RecyclerView.Adapter<ReceiverRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView name, number, facebook, twitter;
+        private TextView name, number, twitter;
+        private ImageView profilePic;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             name = (TextView) itemView.findViewById(R.id.txt_receiverRow_name);
             number = (TextView) itemView.findViewById(R.id.txt_receiverRow_phone);
-            facebook = (TextView) itemView.findViewById(R.id.txt_receiverRow_facebook);
             twitter = (TextView) itemView.findViewById(R.id.txt_receiverRow_twitter);
+            profilePic = (ImageView) itemView.findViewById(R.id.imageView_contact_recyclerRow_profile);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -81,15 +83,18 @@ public class ReceiverRecyclerAdapter extends RecyclerView.Adapter<ReceiverRecycl
         }
 
         public void bindData(Receiver receiver) {
+            String profileUrl = receiver.getUrl();
+            if(profileUrl != null && !profileUrl.equals("")) {
+                new TwitterFriendsRecyclerAdapter.DownloadImageTask(profilePic).execute(profileUrl);
+            }
             name.setText(receiver.getName());
             number.setText(receiver.getPhoneNumber());
-            facebook.setText(receiver.getFacebookAccount());
             twitter.setText("@" + receiver.getTwitterAccount());
             if(receiver.getSelected()) {
-                itemView.setBackgroundColor(Color.GREEN);
+                itemView.setBackgroundResource(R.drawable.background_gradient_list_row_selected);
             }
             else {
-                itemView.setBackgroundResource(R.drawable.background_gradient_list_row);
+                itemView.setBackgroundResource(R.drawable.background_list_row);
             }
         }
     }

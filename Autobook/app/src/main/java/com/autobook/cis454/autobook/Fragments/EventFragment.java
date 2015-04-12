@@ -286,10 +286,6 @@ public class EventFragment extends Fragment {
                     makeToast(context, "Please choose a Time for the Event");
                     return;
                 }
-                else if(event.getReceivers().size() == 0 || event.getReceivers() == null) {
-                    makeToast(context,"Please choose at least one Receiver for the Event");
-                    return;
-                }
                 else if(!checkFacebook.isChecked() && !checkTwitter.isChecked() && !checkText.isChecked()) {
                     makeToast(context, "Please choose at least one option for message delivery");
                     return;

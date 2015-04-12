@@ -88,7 +88,7 @@ public class TwitterFriendsRecyclerAdapter extends RecyclerView.Adapter<TwitterF
         listOnClickListener = listener;
     }
 
-    public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    public static class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
         public DownloadImageTask(ImageView bmImage) {
@@ -110,6 +110,7 @@ public class TwitterFriendsRecyclerAdapter extends RecyclerView.Adapter<TwitterF
         protected void onPostExecute(Bitmap result) {
             Drawable icon = new BitmapDrawable(Autobook.getAppContext().getResources(),result);
             bmImage.setBackground(icon);
+            bmImage.setImageResource(R.drawable.image_contact_placeholder_empty);
         }
     }
 }

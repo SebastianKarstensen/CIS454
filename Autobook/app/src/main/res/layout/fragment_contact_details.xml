@@ -22,17 +22,21 @@
                 android:textSize="35sp"
                 android:gravity="center_horizontal" />
 
-            <ImageView
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/imageView_contactDetails_profile"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/image_contact_placeholder"
-                android:adjustViewBounds="true"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="100dp"
-                android:layout_marginLeft="100dp" />
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <ImageView
+                    android:scaleType="centerInside"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:adjustViewBounds="true"
+                    android:id="@+id/imageView_contactDetails_profile"
+                    android:src="@drawable/image_contact_placeholder" />
+
+                </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -57,42 +61,6 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Name"
                 android:id="@+id/textView_contactDetails_name"
-                android:layout_gravity="center_horizontal" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="100"
-                android:gravity="center_horizontal">
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Import Facebook"
-                    android:id="@+id/btn_contactDetails_facebook"
-                    android:layout_marginTop="20dp"
-                    android:singleLine="false"
-                    android:layout_weight="70" />
-
-                <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:text="Import Facebook Account"
-                    android:id="@+id/btn_contactDetails_removeFacebook"
-                    android:layout_marginTop="20dp"
-                    android:singleLine="false"
-                    android:visibility="gone"
-                    android:src="@android:drawable/ic_delete" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Facebook"
-                android:id="@+id/textView_contactDetails_facebook"
                 android:layout_gravity="center_horizontal" />
 
             <LinearLayout

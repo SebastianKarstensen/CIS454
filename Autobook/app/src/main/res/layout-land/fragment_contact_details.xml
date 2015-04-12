@@ -27,15 +27,21 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
 
-                <ImageView
+                <FrameLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView_contactDetails_profile"
-                    android:src="@drawable/image_contact_placeholder"
-                    android:adjustViewBounds="true"
-                    android:layout_weight="1"
-                    android:layout_margin="10dp"
-                    android:padding="5dp" />
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/imageView_contactDetails_profile"
+                        android:src="@drawable/image_contact_placeholder"
+                        android:adjustViewBounds="true"
+                        android:layout_margin="10dp" />
+
+                </FrameLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -54,7 +60,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Name"
+                            android:text="Name:"
                             android:id="@+id/textView_contactDetails_name"
                             android:layout_weight="2"
                             android:layout_gravity="center_vertical" />
@@ -80,34 +86,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Facebook"
-                            android:id="@+id/textView_contactDetails_facebook"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="2" />
-
-                        <Button
-                            android:layout_width="0dp"
-                            android:layout_height="100dp"
-                            android:text="Import Facebook"
-                            android:id="@+id/btn_contactDetails_facebook"
-                            android:singleLine="false"
-                            android:layout_weight="3"
-                            android:layout_gravity="center_vertical" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Twitter"
+                            android:text="Twitter:"
                             android:id="@+id/textView_contactDetails_twitter"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="2" />
@@ -134,7 +113,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Phone"
+                            android:text="Phone:"
                             android:id="@+id/textView_contactDetails_contact"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="2" />

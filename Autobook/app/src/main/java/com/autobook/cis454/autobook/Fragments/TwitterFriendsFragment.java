@@ -30,6 +30,7 @@ import twitter4j.User;
 public class TwitterFriendsFragment extends DialogFragment {
 
     public static final String ARG_TWITTER_HANDLE = "ARGUMENT_TWITTER_HANDLE";
+    public static final String ARG_TWITTER_PROFILE_PIC = "ARGUMENT_TWITTER_PROFILE_PIC";
 
     private RecyclerView recyclerView;
     private TwitterFriendsRecyclerAdapter recyclerAdapter;
@@ -56,6 +57,7 @@ public class TwitterFriendsFragment extends DialogFragment {
                     if(getTargetFragment() != null) {
                         Intent i = new Intent();
                         i.putExtra(ARG_TWITTER_HANDLE,users.get(pos).getScreenName());
+                        i.putExtra(ARG_TWITTER_PROFILE_PIC,users.get(pos).getBiggerProfileImageURL());
                         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK,i);
                         dismiss();
                     }

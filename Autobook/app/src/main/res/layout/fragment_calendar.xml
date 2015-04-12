@@ -20,7 +20,16 @@
             android:layout_gravity="center_horizontal"
             android:textSize="35sp"
             android:gravity="center_horizontal"
-            android:layout_marginBottom="15dp" />
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/container_calendar"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"></FrameLayout>
 
         <Button
             android:layout_width="wrap_content"
@@ -30,14 +39,6 @@
             android:singleLine="false"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/container_calendar"
-            android:layout_marginBottom="30dp"
-            android:layout_weight="1"></FrameLayout>
 
     </LinearLayout>
 </ScrollView>

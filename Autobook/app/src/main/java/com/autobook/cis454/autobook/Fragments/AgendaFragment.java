@@ -66,18 +66,6 @@ public class AgendaFragment extends Fragment {
             }
 
             @Override
-            public void onItemLongClick(View v, int pos) {
-                Toast.makeText(getActivity(), "DELETE", Toast.LENGTH_SHORT).show();
-            }
-        });
-        recyclerView.setAdapter(recyclerAdapter);
-        recyclerAdapter.setOnItemClickListener(new EventRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View v, int pos) {
-
-            }
-
-            @Override
             public void onItemLongClick(View v, final int pos) {
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Delete entry")
@@ -100,6 +88,7 @@ public class AgendaFragment extends Fragment {
                         .show();
             }
         });
+        recyclerView.setAdapter(recyclerAdapter);
 
         return rootView;
     }

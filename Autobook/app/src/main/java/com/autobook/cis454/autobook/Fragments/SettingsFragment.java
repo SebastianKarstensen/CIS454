@@ -1,5 +1,7 @@
 package com.autobook.cis454.autobook.Fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -70,7 +72,21 @@ public class SettingsFragment extends Fragment {
         buttonWipeDatabase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HomeActivity.dbHandler.deleteEverything();
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Reset Database")
+                        .setMessage("Are you sure you want to reset the database?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                HomeActivity.dbHandler.deleteEverything();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
 

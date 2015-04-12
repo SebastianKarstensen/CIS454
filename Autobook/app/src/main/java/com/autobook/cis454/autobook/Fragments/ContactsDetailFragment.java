@@ -15,8 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.autobook.cis454.autobook.Adapters.TwitterFriendsRecyclerAdapter;
+import com.autobook.cis454.autobook.Helpers.Converters;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Helpers.TwitterHelper;
 import com.autobook.cis454.autobook.Notifications.Receiver;
@@ -34,12 +37,13 @@ public class ContactsDetailFragment extends Fragment {
     public static final int PICK_CONTACT_REQUEST = 5;
 
     Button buttonTwitter;
-    Button buttonFacebook;
     Button buttonNumber;
+    ImageView profilePic;
 
     String facebookId;
     String twitterHandle;
     String number;
+    String profileUrl;
 
     public static ContactsDetailFragment newInstance(Receiver receiver) {
         ContactsDetailFragment fragment = new ContactsDetailFragment();
@@ -63,21 +67,19 @@ public class ContactsDetailFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_contact_details, container, false);
 
+        profilePic = (ImageView) rootView.findViewById(R.id.imageView_contactDetails_profile);
+
         final EditText name = (EditText) rootView.findViewById(R.id.editText_contactDetails_name);
 
-        buttonFacebook = (Button) rootView.findViewById(R.id.btn_contactDetails_facebook);
         buttonTwitter = (Button) rootView.findViewById(R.id.btn_contactDetails_twitter);
         buttonNumber = (Button) rootView.findViewById(R.id.btn_contactDetails_contact);
+
+
         Button buttonSave = (Button) rootView.findViewById(R.id.btn_contactDetails_save);
         Button buttonCancel = (Button) rootView.findViewById(R.id.btn_contactDetails_cancel);
 
         if(!isNewContact) {
             name.setText(receiver.getName());
-            if(!receiver.getFacebookAccount().equals("")) {
-                facebookId = receiver.getFacebookAccount();
-                buttonFacebook.setText("ID:" + facebookId);
-
-            }
 
             if(!receiver.getTwitterAccount().equals("")) {
                 twitterHandle = receiver.getTwitterAccount();
@@ -88,6 +90,11 @@ public class ContactsDetailFragment extends Fragment {
                 number = receiver.getPhoneNumber();
                 buttonNumber.setText(number);
             }
+
+            if(!receiver.getUrl().equals("")) {
+                profileUrl = receiver.getUrl();
+                new TwitterFriendsRecyclerAdapter.DownloadImageTask(profilePic).execute(profileUrl);
+            }
         }
 
         if(!TwitterHelper.isTwitterLoggedIn()) {
@@ -97,13 +104,6 @@ public class ContactsDetailFragment extends Fragment {
                 buttonTwitter.setText("Login to import Twitter contacts");
             }
         }
-
-        buttonFacebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //RETRIEVE FACEBOOK INFORMATION HERE
-            }
-        });
 
         buttonTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +134,11 @@ public class ContactsDetailFragment extends Fragment {
                     makeToast(getActivity(),"Please import at least one type of contact information");
                     return;
                 }
+
+                if(profileUrl != null && !profileUrl.equals("")) {
+                    receiver.setUrl(profileUrl);
+                }
+
                 receiver.setName(name.getText().toString());
 
                 receiver.setTwitterAccount("");
@@ -199,6 +204,8 @@ public class ContactsDetailFragment extends Fragment {
 
         if(requestCode == PICK_TWITTER_REQUEST) {
             twitterHandle = data.getStringExtra(TwitterFriendsFragment.ARG_TWITTER_HANDLE);
+            profileUrl = data.getStringExtra(TwitterFriendsFragment.ARG_TWITTER_PROFILE_PIC);
+            new TwitterFriendsRecyclerAdapter.DownloadImageTask(profilePic).execute(profileUrl);
             buttonTwitter.setText("@" + twitterHandle);
         }
     }

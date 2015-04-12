@@ -1,6 +1,8 @@
 package com.autobook.cis454.autobook.Fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -108,8 +110,24 @@ public class ContactsFragment extends Fragment {
             }
 
             @Override
-            public void onItemLongClick(View v, int pos) {
-                Toast.makeText(getActivity(), "DELETE", Toast.LENGTH_SHORT).show();
+            public void onItemLongClick(View v, final int pos) {
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Delete entry")
+                        .setMessage("Are you sure you want to delete this contact?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Receiver thisReceiver = recyclerAdapter.getReceiverList().get(pos);
+                                Storage.deleteReceiver(thisReceiver);
+                                recyclerAdapter.notifyItemRemoved(pos);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
 
