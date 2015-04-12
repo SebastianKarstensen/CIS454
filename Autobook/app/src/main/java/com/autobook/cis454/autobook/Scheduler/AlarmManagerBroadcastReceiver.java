@@ -43,7 +43,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         // Vibrate for 500 milliseconds
         v.vibrate(500);
         Toast.makeText(context, "Autobook: Scheduled Event Completed", Toast.LENGTH_LONG).show();
-        //You can do the processing here update the widget/remote views.
+        //From here on we proccess the event and send messages accordingly
         Bundle b = intent.getExtras();
         int eventID = (Integer) b.get("eventID");
 
