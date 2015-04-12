@@ -141,6 +141,8 @@ public class ContactsDetailFragment extends Fragment {
                     receiver.setTwitterAccount(twitterHandle);
                 }
 
+                receiver.setPhoneNumber(number);
+
                 //If not a new contact, update existing. Otherwise, create new
                 if(!isNewContact) {
                     Storage.updateReceiver(receiver);

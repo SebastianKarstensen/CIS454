@@ -68,6 +68,16 @@ public class ReceiverRecyclerAdapter extends RecyclerView.Adapter<ReceiverRecycl
                     }
                 }
             });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if(listOnClickListener != null) {
+                        listOnClickListener.onItemLongClick(v,getPosition());
+                    }
+                    return true;
+                }
+            });
         }
 
         public void bindData(Receiver receiver) {
@@ -86,6 +96,7 @@ public class ReceiverRecyclerAdapter extends RecyclerView.Adapter<ReceiverRecycl
 
     public interface OnItemClickListener {
         public void onItemClick(View v, int pos);
+        public void onItemLongClick(View v, int pos);
     }
 
     public void setOnItemClickListener(final OnItemClickListener listener) {

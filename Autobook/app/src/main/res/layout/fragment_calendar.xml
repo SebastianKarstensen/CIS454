@@ -1,63 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <ScrollView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/scrollView_calendar"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/scrollView_calendar"
-        android:fillViewport="true">
+        android:padding="20dp">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:padding="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calendar"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal"
+            android:textSize="35sp"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="15dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Calendar"
-                android:id="@+id/textView"
-                android:layout_gravity="center_horizontal"
-                android:textSize="35sp"
-                android:gravity="center_horizontal"
-                android:layout_marginBottom="20dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="View All Events"
+            android:id="@+id/btn_calendar_switch_agenda"
+            android:singleLine="false"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"/>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Switch to Agenda View"
-                android:id="@+id/btn_calendar_switch_agenda"
-                android:singleLine="false"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/container_calendar"
+            android:layout_marginBottom="30dp"
+            android:layout_weight="1"></FrameLayout>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/container_calendar"
-                android:layout_marginBottom="30dp"
-                android:layout_weight="1"
-                android:minHeight="0dp"></FrameLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:background="@color/off_white">
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_margin="2dp"
-                    android:background="@color/topbottom_gradient"
-                    android:id="@+id/recycler_widget"
-                    android:layout_height="fill_parent"
-                    android:layout_width="fill_parent" />
-
-                </FrameLayout>
-
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

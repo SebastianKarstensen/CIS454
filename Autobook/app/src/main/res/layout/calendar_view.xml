@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="-10dp"
         android:numColumns="7"
-        android:stretchMode="columnWidth" >
+        android:stretchMode="columnWidth">
     </GridView>
 
     <com.antonyt.infiniteviewpager.InfiniteViewPager
@@ -53,20 +53,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:gravity="center_horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:minHeight="30dp"
-            android:id="@+id/imageView_btn_calendarView_addEvent"
-            android:src="@android:drawable/ic_input_add"
-            android:layout_weight="1"/>
+        android:layout_height="30dp">
 
     </LinearLayout>
 

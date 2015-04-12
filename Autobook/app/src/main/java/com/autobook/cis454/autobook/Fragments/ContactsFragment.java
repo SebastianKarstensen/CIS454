@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
 import com.autobook.cis454.autobook.Adapters.ReceiverRecyclerAdapter;
@@ -92,7 +93,7 @@ public class ContactsFragment extends Fragment {
                     case 1:
                         receiver.setSelected(!receiver.getSelected());
                         if(receiver.getSelected()) {
-                            v.setBackgroundColor(Color.GREEN);
+                            v.setBackgroundResource(R.drawable.background_gradient_list_row_selected);
                         }
                         else {
                             v.setBackgroundResource(R.drawable.background_gradient_list_row);
@@ -104,6 +105,11 @@ public class ContactsFragment extends Fragment {
                                 .addToBackStack(null)
                                 .commit();
                 }
+            }
+
+            @Override
+            public void onItemLongClick(View v, int pos) {
+                Toast.makeText(getActivity(), "DELETE", Toast.LENGTH_SHORT).show();
             }
         });
 

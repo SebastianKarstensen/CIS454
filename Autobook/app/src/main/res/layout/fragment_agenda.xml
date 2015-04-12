@@ -14,26 +14,20 @@
         android:gravity="center_horizontal"
         android:layout_margin="20dp" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="100"
-        android:gravity="center_horizontal" >
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Switch to Calendar View"
-            android:id="@+id/btn_agenda_switch_calendar"
-            android:singleLine="false"
-            android:layout_weight="70" />
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_widget"
+    <FrameLayout
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:layout_marginTop="20dp" />
+        android:background="@color/off_white"
+        android:layout_margin="20dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_widget"
+            android:background="@color/topbottom_gradient"
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:layout_margin="2dp" />
+
+    </FrameLayout>
 
 </LinearLayout>

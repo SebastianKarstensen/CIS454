@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.os.Vibrator;
 import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Activities.HomeActivity;
@@ -22,7 +23,7 @@ import java.util.Date;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
-    private static ArrayList<PendingIntent> intentArray = new ArrayList<>();
+//    private static ArrayList<PendingIntent> intentArray = new ArrayList<>();
 
     final public static String ONE_TIME = "onetime";
     @Override
@@ -33,6 +34,9 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         wl.acquire();
 
         System.out.println("An alarm was triggered");
+        Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
+        v.vibrate(500);
         //You can do the processing here update the widget/remote views.
         Bundle b = intent.getExtras();
         int eventID = (Integer) b.get("eventID");
@@ -46,6 +50,17 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         String facebookMessage = currentEvent.getFacebookMessage();
         String textMessage = currentEvent.getTextMessage();
 
+        //IF there is no receivers and there is a twitter message
+        if(receiverList.size() == 0 && !twitterMessage.equals("")){
+            //Tweet whatever is in the twitter message
+            new TwitterHelper.UpdateTwitterStatus().execute(twitterMessage);
+        }
+
+        if(receiverList.size() == 0 && !facebookMessage.equals("")){
+            //Wallpost the facebook message
+            //Facebook post here
+        }
+
         for (int i = 0; i < receiverList.size(); i++){
             System.out.println("Receiver Number " + i);
             Receiver currentReceiver = receiverList.get(i);
@@ -55,7 +70,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
             //send twitter message if possible
             if(twitterTag != null && twitterMessage != null && !twitterTag.equals("") && !twitterMessage.equals("")){
-                Toast.makeText(context, "Twitter message:" + twitterMessage + " to twitter " + twitterTag, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Twitter message:" + twitterMessage + " sent to twitter " + twitterTag, Toast.LENGTH_LONG).show();
                 try{
                     String tweet = "@" + twitterTag + " " + twitterMessage;
                     new TwitterHelper.UpdateTwitterStatus().execute(tweet);
@@ -68,43 +83,46 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
             //send SMS if possible
             if(phoneNumber != null && !phoneNumber.equals("") && textMessage != null && !textMessage.equals("")){
-                Toast.makeText(context, "Text message: " + textMessage + " to number: " + phoneNumber, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Text message: " + textMessage + " sent to number: " + phoneNumber, Toast.LENGTH_LONG).show();
                 SMSHelper.sendSMS(phoneNumber, textMessage);
             } else {
-                Toast.makeText(context, "receiver does not have phonenumber", Toast.LENGTH_LONG).show();
-            }
-
-            //send Facebook if possible
-            if(facebookMessage != null && !facebookMessage.equals("") && facebookID != null && !facebookID.equals("")){
-                //facebook logic here
-            } else {
-                //generic toast here
+                Toast.makeText(context, "Receiver does not have phone number", Toast.LENGTH_LONG).show();
             }
         }
-        Toast.makeText(context, "Number of receivers: " + receiverList.size(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(context, "Number of receivers: " + receiverList.size() + " for event: ", Toast.LENGTH_LONG).show();
+        //Delete the event after everything is done
         Storage.deleteEvent(currentEvent);
         //Release the lock
         wl.release();
-
     }
 
-    public static void SetEventNotifications(Context context, Event event){
+    public static void setEventNotifications(Context context, Event event){
         AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        int eventid = event.getID();
+        int eventId = event.getID();
 
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        intent.putExtra("eventID", eventid);
+        intent.putExtra("eventID", eventId);
 
         Date date = event.getDate();
         long l = Converters.timeDifferenceFromNow(date);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context.getApplicationContext(), eventid, intent, 0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context.getApplicationContext(), eventId, intent, 0);
 
         alarmMgr.set(AlarmManager.RTC_WAKEUP,
                     System.currentTimeMillis() + l,
                     alarmIntent);
-        intentArray.add(alarmIntent);
+//        intentArray.add(alarmIntent);
     }
 
+    public void cancelAlarm(Context context, Event event)
+    {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        int eventId = event.getID();
+
+        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
+
+        PendingIntent sender = PendingIntent.getBroadcast(context.getApplicationContext(), eventId, intent, 0);
+        alarmManager.cancel(sender);
+    }
 
     public void SetAlarm(Context context)
     {
@@ -116,13 +134,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 5 , pi);
     }
 
-    public void CancelAlarm(Context context)
-    {
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(sender);
-    }
     public void setOnetimeTimer(Context context){
         AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);

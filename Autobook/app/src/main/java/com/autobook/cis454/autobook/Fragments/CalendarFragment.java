@@ -1,5 +1,6 @@
 package com.autobook.cis454.autobook.Fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
+import com.autobook.cis454.autobook.Activities.AgendaActivity;
+import com.autobook.cis454.autobook.Activities.CalendarActivity;
 import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
 import com.autobook.cis454.autobook.Event.Event;
+import com.autobook.cis454.autobook.Helpers.Converters;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.R;
 import com.roomorama.caldroid.CaldroidFragment;
@@ -22,14 +28,14 @@ import com.roomorama.caldroid.CaldroidListener;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class CalendarFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private EventRecyclerAdapter recyclerAdapter;
+    private static CaldroidFragment caldroidFragment;
 
     public CalendarFragment() {
     }
@@ -43,13 +49,12 @@ public class CalendarFragment extends Fragment {
         buttonSwitchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new AgendaFragment())
-                        .commit();
+                Intent intent = new Intent(getActivity(), AgendaActivity.class);
+                startActivity(intent);
             }
         });
 
-        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        caldroidFragment = new CaldroidFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
@@ -57,70 +62,47 @@ public class CalendarFragment extends Fragment {
         args.putInt(CaldroidFragment.START_DAY_OF_WEEK, CaldroidFragment.MONDAY);
         caldroidFragment.setArguments(args);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_widget);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        makeMyScrollSmart();
-
-        recyclerAdapter = new EventRecyclerAdapter(Storage.getEventsFromDatabase());
-        recyclerAdapter.setOnItemClickListener(new EventRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View v, int pos) {
-                Event toClone = recyclerAdapter.getEventList().get(pos);
-                Event eventCopy = new Event(toClone.getID(),
-                        toClone.getTitle(),
-                        toClone.getDate(),
-                        toClone.getType(),
-                        toClone.getReceivers(),
-                        toClone.getFacebookMessage(),
-                        toClone.getTwitterMessage(),
-                        toClone.getTextMessage());
-
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.container, EventFragment.newInstance(eventCopy))
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
-
         caldroidFragment.setCaldroidListener(new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
-                recyclerAdapter.setEventList(Storage.getEventsForDate(date));
-                recyclerAdapter.notifyDataSetChanged();
+                if(Storage.getEventsForDate(date).size() == 0) {
+                    Toast.makeText(getActivity(), "No Events for the Selected Date", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                else {
+                    EventsDialogFragment dialog = EventsDialogFragment.newInstance(date);
+                    dialog.show(getFragmentManager(), Converters.convertDateToString(date));
+                }
             }
         });
+
+        HashMap<Date,Integer> eventDatesBackground = new HashMap<>();
+        HashMap<Date,Integer> eventsDatesText = new HashMap<>();
+        for(Event event : Storage.getEventsFromDatabase()) {
+            eventDatesBackground.put(event.getDate(),R.drawable.selected_cell_bg);
+            eventsDatesText.put(event.getDate(),R.color.off_white);
+        }
+        caldroidFragment.setBackgroundResourceForDates(eventDatesBackground);
+        caldroidFragment.setTextColorForDates(eventsDatesText);
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.container_calendar, caldroidFragment)
                 .commit();
 
-        recyclerView.setAdapter(recyclerAdapter);
-
         return rootView;
     }
 
-    private void makeMyScrollSmart() {
-        recyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View __v, MotionEvent __event) {
-                if (__event.getAction() == MotionEvent.ACTION_DOWN) {
-                    //  Disallow the touch request for parent scroll on touch of child view
-                    requestDisallowParentInterceptTouchEvent(__v, true);
-                } else if (__event.getAction() == MotionEvent.ACTION_UP || __event.getAction() == MotionEvent.ACTION_CANCEL) {
-                    // Re-allows parent events
-                    requestDisallowParentInterceptTouchEvent(__v, false);
-                }
-                return false;
-            }
-        });
-    }
-
-    private void requestDisallowParentInterceptTouchEvent(View __v, Boolean __disallowIntercept) {
-        while (__v.getParent() != null && __v.getParent() instanceof View) {
-            if (__v.getParent() instanceof ScrollView) {
-                __v.getParent().requestDisallowInterceptTouchEvent(__disallowIntercept);
-            }
-            __v = (View) __v.getParent();
+    public static void refreshEventCell(Date date) {
+        if(Storage.getEventsForDate(date).size() == 0) {
+            caldroidFragment.setBackgroundResourceForDate(R.color.caldroid_white,date);
+            caldroidFragment.setTextColorForDate(android.R.color.black,date);
+            caldroidFragment.refreshView();
+        }
+        else {
+            caldroidFragment.setBackgroundResourceForDate(R.drawable.selected_cell_bg,date);
+            caldroidFragment.setTextColorForDate(R.color.off_white,date);
+            caldroidFragment.refreshView();
         }
     }
 }

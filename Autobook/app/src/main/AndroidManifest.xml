@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name='android.permission.WAKE_LOCK'/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".Helpers.Autobook"
@@ -64,6 +65,11 @@
         <activity
             android:name=".Activities.ContactsActivity"
             android:label="@string/title_activity_contacts" >
+        </activity>
+
+        <activity
+            android:name=".Activities.AgendaActivity"
+            android:label="@string/title_activity_agenda" >
         </activity>
 
     </application>

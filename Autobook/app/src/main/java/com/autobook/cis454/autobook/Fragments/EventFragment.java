@@ -7,13 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,8 +19,6 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TabHost;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -31,7 +27,6 @@ import com.autobook.cis454.autobook.Activities.HomeActivity;
 import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Event.EventType;
 import com.autobook.cis454.autobook.Event.MediaType;
-import com.autobook.cis454.autobook.Helpers.Converters;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
@@ -115,7 +110,7 @@ public class EventFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_event, container, false);
 
-        if(getActivity().getIntent().getExtras() != null) {
+        if(getActivity().getIntent().getSerializableExtra(HomeActivity.INTENT_EXTRA_LIST_OF_TYPES) != null) {
             mediaTypes = (ArrayList<MediaType>) getActivity().getIntent().getSerializableExtra(HomeActivity.INTENT_EXTRA_LIST_OF_TYPES);
         }
 
@@ -321,7 +316,7 @@ public class EventFragment extends Fragment {
                     Storage.updateEvent(event);
                 }
 
-                AlarmManagerBroadcastReceiver.SetEventNotifications(getActivity(),event);
+                AlarmManagerBroadcastReceiver.setEventNotifications(getActivity(), event);
 
                 if(isNewEvent) {
                     getActivity().finish();
