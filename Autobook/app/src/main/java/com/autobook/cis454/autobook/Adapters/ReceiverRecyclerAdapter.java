@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.autobook.cis454.autobook.Helpers.Autobook;
+import com.autobook.cis454.autobook.Helpers.TwitterHelper;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
+import com.autobook.cis454.autobook.Scheduler.AlarmManagerBroadcastReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -84,7 +87,7 @@ public class ReceiverRecyclerAdapter extends RecyclerView.Adapter<ReceiverRecycl
 
         public void bindData(Receiver receiver) {
             String profileUrl = receiver.getUrl();
-            if(profileUrl != null && !profileUrl.equals("")) {
+            if(profileUrl != null && !profileUrl.equals("") && AlarmManagerBroadcastReceiver.isNetworkAvailable(Autobook.getAppContext()) && TwitterHelper.isTwitterLoggedIn()) {
                 new TwitterFriendsRecyclerAdapter.DownloadImageTask(profilePic).execute(profileUrl);
             }
             name.setText(receiver.getName());

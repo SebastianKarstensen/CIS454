@@ -318,10 +318,7 @@ public class EventFragment extends Fragment {
                     getActivity().finish();
                 }
                 else {
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container, new AgendaFragment())
-                            .commit();
+                    getActivity().onBackPressed();
                 }
             }
         });

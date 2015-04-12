@@ -19,11 +19,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Adapters.TwitterFriendsRecyclerAdapter;
+import com.autobook.cis454.autobook.Helpers.Autobook;
 import com.autobook.cis454.autobook.Helpers.Converters;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Helpers.TwitterHelper;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
+import com.autobook.cis454.autobook.Scheduler.AlarmManagerBroadcastReceiver;
 
 /**
  * Created by Sebastian on 31-03-2015.
@@ -91,7 +93,7 @@ public class ContactsDetailFragment extends Fragment {
                 buttonNumber.setText(number);
             }
 
-            if(!receiver.getUrl().equals("")) {
+            if(!receiver.getUrl().equals("") && AlarmManagerBroadcastReceiver.isNetworkAvailable(Autobook.getAppContext()) && TwitterHelper.isTwitterLoggedIn()) {
                 profileUrl = receiver.getUrl();
                 new TwitterFriendsRecyclerAdapter.DownloadImageTask(profilePic).execute(profileUrl);
             }
@@ -108,9 +110,11 @@ public class ContactsDetailFragment extends Fragment {
         buttonTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                android.support.v4.app.DialogFragment dialog = new TwitterFriendsFragment();
-                dialog.setTargetFragment(ContactsDetailFragment.this, PICK_TWITTER_REQUEST);
-                dialog.show(getFragmentManager(), "Twitter Friends");
+                if(AlarmManagerBroadcastReceiver.isNetworkAvailable(Autobook.getAppContext()) && TwitterHelper.isTwitterLoggedIn()) {
+                    android.support.v4.app.DialogFragment dialog = new TwitterFriendsFragment();
+                    dialog.setTargetFragment(ContactsDetailFragment.this, PICK_TWITTER_REQUEST);
+                    dialog.show(getFragmentManager(), "Twitter Friends");
+                }
             }
         });
 
@@ -197,7 +201,7 @@ public class ContactsDetailFragment extends Fragment {
             int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
             number = cursor.getString(column);
             column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-            String name = cursor.getString(column);
+            //String name = cursor.getString(column);
 
             buttonNumber.setText(number);
         }
@@ -205,7 +209,9 @@ public class ContactsDetailFragment extends Fragment {
         if(requestCode == PICK_TWITTER_REQUEST) {
             twitterHandle = data.getStringExtra(TwitterFriendsFragment.ARG_TWITTER_HANDLE);
             profileUrl = data.getStringExtra(TwitterFriendsFragment.ARG_TWITTER_PROFILE_PIC);
-            new TwitterFriendsRecyclerAdapter.DownloadImageTask(profilePic).execute(profileUrl);
+            if(AlarmManagerBroadcastReceiver.isNetworkAvailable(Autobook.getAppContext()) && TwitterHelper.isTwitterLoggedIn()) {
+                new TwitterFriendsRecyclerAdapter.DownloadImageTask(profilePic).execute(profileUrl);
+            }
             buttonTwitter.setText("@" + twitterHandle);
         }
     }
