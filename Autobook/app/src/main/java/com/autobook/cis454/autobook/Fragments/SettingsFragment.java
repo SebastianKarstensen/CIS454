@@ -149,37 +149,17 @@ public class SettingsFragment extends Fragment {
         buttonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    PagableResponseList<User> friends = new TwitterHelper.GetTwitterFriends().execute().get();
-                    for(User user : friends) {
-                        String message = user.getScreenName();
-                        user.getOriginalProfileImageURL();
-                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                        .replace(R.id.container, new VideoFragment())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
         buttonCredits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(getActivity())
-                                .setSmallIcon(R.drawable.autobook_logo_v01)
-                                .setContentTitle("Failed to execute the event")
-                                .setContentText("Event title: ");
-
-                // Sets an ID for the notification
-                int mNotificationId = 001;
-                // Gets an instance of the NotificationManager service
-                NotificationManager mNotifyMgr =
-                        (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
-                // Builds the notification and issues it.
-                mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
             }
         });
