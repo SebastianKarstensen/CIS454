@@ -85,7 +85,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         }
 
         //send facebook message if there is one
-        if(!facebookMessage.equals("")){
+        if(facebookAccessible && !facebookMessage.equals("")){
             //Wallpost the facebook message
             //Facebook post here
         }
