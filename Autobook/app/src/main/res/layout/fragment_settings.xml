@@ -29,10 +29,9 @@
                 android:weightSum="100"
                 android:gravity="center_horizontal">
 
-                <Button
+                <com.facebook.login.widget.LoginButton
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Login to Facebook"
                     android:id="@+id/btn_settings_loginFacebook"
                     android:layout_marginTop="30dp"
                     android:singleLine="false"

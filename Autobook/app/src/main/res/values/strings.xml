@@ -12,6 +12,7 @@
     <string name="title_activity_twitter_login">TwitterLogin</string>
     <string name="title_activity_calendar">CalendarActivity</string>
     <string name="title_activity_contacts">ContactsActivity</string>
+    <string name="title_activity_agenda">AgendaActivity</string>
     <string name="facebook_app_id">544364312373553</string>
 
 <!-- TODO: Remove or change this placeholder text -->

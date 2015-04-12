@@ -7,12 +7,14 @@ import android.view.MenuItem;
 
 import com.autobook.cis454.autobook.Fragments.SettingsFragment;
 import com.autobook.cis454.autobook.R;
+import com.facebook.FacebookSdk;
 
 public class SettingsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_twitter_login);
 
         if (savedInstanceState == null) {

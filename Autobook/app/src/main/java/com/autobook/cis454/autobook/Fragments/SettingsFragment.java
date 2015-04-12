@@ -19,6 +19,14 @@ import com.autobook.cis454.autobook.Helpers.TwitterHelper;
 import com.autobook.cis454.autobook.R;
 import com.autobook.cis454.autobook.Scheduler.AlarmManagerBroadcastReceiver;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.FacebookSdk;
+
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
@@ -27,7 +35,9 @@ import twitter4j.User;
 
 public class SettingsFragment extends Fragment {
 
-    Button buttonLoginFacebook;
+    LoginButton buttonLoginFacebook;
+    CallbackManager callbackManager;
+    AccessToken accessToken;
     Button buttonLogoutFacebook;
     Button buttonLoginTwitter;
     Button buttonLogoutTwitter;
@@ -39,13 +49,19 @@ public class SettingsFragment extends Fragment {
     public SettingsFragment() {
     }
 
+    public void onCreate(Bundle savedInstance)
+    {
+        super.onCreate(savedInstance);
+        callbackManager = CallbackManager.Factory.create();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        buttonLoginFacebook = (Button) rootView.findViewById(R.id.btn_settings_loginFacebook);
+        buttonLoginFacebook = (LoginButton) rootView.findViewById(R.id.btn_settings_loginFacebook);
         buttonLogoutFacebook = (Button) rootView.findViewById(R.id.btn_settings_logoutFacebook);
         buttonLoginTwitter = (Button) rootView.findViewById(R.id.btn_settings_loginTwitter);
         buttonLogoutTwitter = (Button) rootView.findViewById(R.id.btn_settings_logoutTwitter);
@@ -53,6 +69,37 @@ public class SettingsFragment extends Fragment {
         buttonWipeDatabase = (Button) rootView.findViewById(R.id.btn_settings_wipeDatabase);
         buttonHelp = (Button) rootView.findViewById(R.id.btn_settings_help);
         buttonCredits = (Button) rootView.findViewById(R.id.btn_settings_credits);
+
+        buttonLoginFacebook.setReadPermissions("user_friends");
+        // If using in a fragment
+        buttonLoginFacebook.setFragment(this);
+        // Other app specific specialization
+        //loginButton.setPublishPermissions();
+        // Callback registration
+        buttonLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
+        {
+            @Override
+            public void onSuccess(LoginResult loginResult)
+            {
+                // App code
+                accessToken = loginResult.getAccessToken();
+                Toast.makeText(getActivity(), "Login Success!", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancel()
+            {
+                // App code
+                Toast.makeText(getActivity(), "Login canceled", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(FacebookException exception)
+            {
+                // App code
+                Toast.makeText(getActivity(), exception.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
 
         buttonLoginTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,5 +178,11 @@ public class SettingsFragment extends Fragment {
             buttonLoginTwitter.setVisibility(View.VISIBLE);
             buttonLogoutTwitter.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }
