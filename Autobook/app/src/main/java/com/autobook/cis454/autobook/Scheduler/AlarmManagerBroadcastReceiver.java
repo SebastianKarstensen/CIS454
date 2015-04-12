@@ -6,6 +6,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -160,8 +163,16 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
     }
 
     public static void createNotification(String notificationtitle, String eventtitle, Context context, int eventID){
+        Drawable dr = context.getResources().getDrawable(R.drawable.autobook_logo_v01);
+        Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+        // Scale it to 50 x 50
+//        Drawable d = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 32, 32, true));
+        Bitmap b = Bitmap.createScaledBitmap(bitmap, 32, 32, true);
+        // Set your new, scaled drawable "d"
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
+                        .setLargeIcon(b)
                         .setSmallIcon(R.drawable.autobook_logo_v01)
                         .setContentTitle(notificationtitle)
                         .setContentText(eventtitle);
