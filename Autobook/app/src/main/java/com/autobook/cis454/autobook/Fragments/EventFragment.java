@@ -422,7 +422,7 @@ public class EventFragment extends Fragment {
         if(requestCode == REQUEST_CONTACTS) {
             event.setReceivers((ArrayList<Receiver>) data.getSerializableExtra(ContactsFragment.ARG_EVENT));
             List<Receiver> listOfReceivers = event.getReceivers();
-            if(listOfReceivers != null && listOfReceivers.size() != 0) {
+            if(listOfReceivers != null) {
                 event.setReceivers(listOfReceivers);
                 buttonReceivers.setText("Receivers: " + listOfReceivers.size());
             }
