@@ -52,51 +52,31 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         System.out.println("@@@ There are this many receivers" + receiverList.size());
         Event currentEvent = Storage.getEvent(eventID);
 
-        //Check if the user has logged onto twitter
-        boolean twitterAccessible = TwitterHelper.isTwitterLoggedIn();
-        //If the user is not logged in then create a notification
-        if(!twitterAccessible){
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(context)
-                            .setSmallIcon(R.drawable.autobook_logo_v01)
-                            .setContentTitle("Failed to execute the event; not logged onto twitter")
-                            .setContentText("Event title: " + currentEvent.getTitle());
-            // Sets an ID for the notification
-            int mNotificationId = eventID;
-            // Gets an instance of the NotificationManager service
-            NotificationManager mNotifyMgr =
-                    (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-            // Builds the notification and issues it.
-            mNotifyMgr.notify(mNotificationId, mBuilder.build());
-        }
-        //Check if the user has logged onto facebook
-        boolean facebookAccessible = true;
-        if(!facebookAccessible){
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(context)
-                            .setSmallIcon(R.drawable.autobook_logo_v01)
-                            .setContentTitle("Failed to execute the event; not logged onto facebook")
-                            .setContentText("Event title: " + currentEvent.getTitle());
-            // Sets an ID for the notification
-            int mNotificationId = eventID*50;
-            // Gets an instance of the NotificationManager service
-            NotificationManager mNotifyMgr =
-                    (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-            // Builds the notification and issues it.
-            mNotifyMgr.notify(mNotificationId, mBuilder.build());
-        }
-
-        if(isNetworkAvailable(context)){
-            //if there is a internet connection do nothing
-        } else {
-            //if there is no internet connection then twitter and facebook can not be accessed
-            twitterAccessible = false;
-            facebookAccessible = false;
-        }
-
         String twitterMessage = currentEvent.getTwitterMessage();
         String facebookMessage = currentEvent.getFacebookMessage();
         String textMessage = currentEvent.getTextMessage();
+        boolean twitterAccessible = TwitterHelper.isTwitterLoggedIn();
+        boolean facebookAccessible = true;
+
+        if(isNetworkAvailable(context)){
+            //if there is a internet connection then check for twitter and facebook tokens
+            //Check if the user has logged onto twitter
+            //If the user is not logged in then create a notification
+            if(!twitterAccessible && !twitterMessage.equals("")){
+                createNotification("Failed to execute the event; not logged onto twitter",
+                        "Event title: " + currentEvent.getTitle(), context, currentEvent.getID());
+            }
+            //Check if the user has logged onto facebook
+            if(!facebookAccessible && !facebookMessage.equals("")){
+                createNotification("Failed to execute the event; not logged onto facebook",
+                        "Event title: " + currentEvent.getTitle(), context, currentEvent.getID());
+            }
+        } else {
+            createNotification("No internet connection present, only text messages will be sent",
+                    "Event title: " + currentEvent.getTitle(), context, currentEvent.getID());
+            twitterAccessible = false;
+            facebookAccessible = false;
+        }
 
         //IF there is no receivers and there is a twitter message
         if(receiverList.size() == 0 && !twitterMessage.equals("") && twitterAccessible){
@@ -104,7 +84,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             new TwitterHelper.UpdateTwitterStatus().execute(twitterMessage);
         }
 
-        if(receiverList.size() == 0 && !facebookMessage.equals("")){
+        //send facebook message if there is one
+        if(!facebookMessage.equals("")){
             //Wallpost the facebook message
             //Facebook post here
         }
@@ -177,6 +158,22 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static void createNotification(String notificationtitle, String eventtitle, Context context, int eventID){
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.autobook_logo_v01)
+                        .setContentTitle(notificationtitle)
+                        .setContentText(eventtitle);
+        // Sets an ID for the notification
+        int mNotificationId = eventID;
+        // Gets an instance of the NotificationManager service
+        NotificationManager mNotifyMgr =
+                (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        // Builds the notification and issues it.
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
+
     }
 
     public void SetAlarm(Context context)
