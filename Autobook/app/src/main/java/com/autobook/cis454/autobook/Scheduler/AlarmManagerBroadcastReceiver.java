@@ -42,6 +42,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 500 milliseconds
         v.vibrate(500);
+        Toast.makeText(context, "Autobook: Scheduled Event Completed", Toast.LENGTH_LONG).show();
         //You can do the processing here update the widget/remote views.
         Bundle b = intent.getExtras();
         int eventID = (Integer) b.get("eventID");
@@ -117,7 +118,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
             //send twitter message if possible
             if(twitterTag != null && twitterMessage != null && !twitterTag.equals("") && !twitterMessage.equals("") && twitterAccessible){
-                Toast.makeText(context, "Twitter message:" + twitterMessage + " sent to twitter " + twitterTag, Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, "Twitter message:" + twitterMessage + " sent to twitter " + twitterTag, Toast.LENGTH_LONG).show();
                 try{
                     String tweet = "@" + twitterTag + " " + twitterMessage;
                     new TwitterHelper.UpdateTwitterStatus().execute(tweet);
@@ -125,15 +126,15 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
                     e.printStackTrace();
                 }
             } else{
-                Toast.makeText(context, "Tweeting failed", Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, "Tweeting failed", Toast.LENGTH_LONG).show();
             }
 
             //send SMS if possible
             if(phoneNumber != null && !phoneNumber.equals("") && textMessage != null && !textMessage.equals("")){
-                Toast.makeText(context, "Text message: " + textMessage + " sent to number: " + phoneNumber, Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, "Text message: " + textMessage + " sent to number: " + phoneNumber, Toast.LENGTH_LONG).show();
                 SMSHelper.sendSMS(phoneNumber, textMessage);
             } else {
-                Toast.makeText(context, "Receiver does not have phone number", Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, "Receiver does not have phone number", Toast.LENGTH_LONG).show();
             }
         }
 //        Toast.makeText(context, "Number of receivers: " + receiverList.size() + " for event: ", Toast.LENGTH_LONG).show();
