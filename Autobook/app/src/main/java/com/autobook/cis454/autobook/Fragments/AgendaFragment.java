@@ -77,6 +77,7 @@ public class AgendaFragment extends Fragment {
                                 AlarmManagerBroadcastReceiver alarm = new AlarmManagerBroadcastReceiver();
                                 alarm.cancelAlarm(getActivity().getApplicationContext(), thisEvent);
                                 recyclerAdapter.notifyItemRemoved(pos);
+                                recyclerAdapter.setEventList(Storage.getEventsFromDatabase());
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -91,5 +92,12 @@ public class AgendaFragment extends Fragment {
         recyclerView.setAdapter(recyclerAdapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        recyclerAdapter.setEventList(Storage.getEventsFromDatabase());
+        recyclerAdapter.notifyDataSetChanged();
     }
 }

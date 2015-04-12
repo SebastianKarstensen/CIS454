@@ -121,7 +121,7 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Help/FAQ"
+                    android:text="Tutorial"
                     android:id="@+id/btn_settings_help"
                     android:layout_marginTop="30dp"
                     android:singleLine="false"

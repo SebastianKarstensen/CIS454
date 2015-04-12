@@ -119,6 +119,7 @@ public class ContactsFragment extends Fragment {
                                 Receiver thisReceiver = recyclerAdapter.getReceiverList().get(pos);
                                 Storage.deleteReceiver(thisReceiver);
                                 recyclerAdapter.notifyItemRemoved(pos);
+                                recyclerAdapter.setReceiverList(Storage.getReceiversFromDatabase());
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
