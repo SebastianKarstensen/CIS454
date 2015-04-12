@@ -43,7 +43,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         System.out.println("An alarm was triggered");
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        // Vibrate for 500 milliseconds
+        // Vibrate for 1000 milliseconds -> 1 second
         v.vibrate(1000);
         //From here on we proccess the event and send messages accordingly
         Bundle b = intent.getExtras();
@@ -59,23 +59,22 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         String textMessage = currentEvent.getTextMessage();
         boolean twitterAccessible = TwitterHelper.isTwitterLoggedIn();
         boolean facebookAccessible = true;
-
+        //if there is a internet connection then check for twitter and facebook tokens
         if(isNetworkAvailable(context)){
-            //if there is a internet connection then check for twitter and facebook tokens
             //Check if the user has logged onto twitter
             //If the user is not logged in then create a notification
             if(!twitterAccessible && !twitterMessage.equals("")){
                 createNotification("Event: " + currentEvent.getTitle(),
-                        "Failed to execute the event; not logged onto twitter", context, currentEvent.getID());
+                        "Event failed; not logged onto twitter", context, currentEvent.getID());
             }
             //Check if the user has logged onto facebook
             if(!facebookAccessible && !facebookMessage.equals("")){
                 createNotification("Event: " + currentEvent.getTitle(),
-                        "Failed to execute the event; not logged onto facebook", context, currentEvent.getID());
+                        "Event failed; not logged onto facebook", context, currentEvent.getID());
             }
-        } else {
+        } else { //If there is no internet connection then create an notification and make twitter and facebook unaccessible
             createNotification("Event: " + currentEvent.getTitle(),
-                    "No internet connection present, only text messages will be sent", context, currentEvent.getID());
+                    "No internet connection, text messages will be sent", context, currentEvent.getID());
             twitterAccessible = false;
             facebookAccessible = false;
         }
@@ -163,17 +162,11 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
     }
 
     public static void createNotification(String notificationtitle, String eventtitle, Context context, int eventID){
-        Drawable dr = context.getResources().getDrawable(R.drawable.autobook_logo_v01);
-        Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
-        // Scale it to 50 x 50
-//        Drawable d = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 32, 32, true));
-        Bitmap b = Bitmap.createScaledBitmap(bitmap, 32, 32, true);
-        // Set your new, scaled drawable "d"
+
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setLargeIcon(b)
-                        .setSmallIcon(R.drawable.autobook_logo_v01)
+                        .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(notificationtitle)
                         .setContentText(eventtitle);
         // Sets an ID for the notification
