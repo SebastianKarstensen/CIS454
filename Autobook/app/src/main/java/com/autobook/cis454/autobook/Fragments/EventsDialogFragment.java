@@ -112,4 +112,11 @@ public class EventsDialogFragment extends DialogFragment {
                 .setView(rootView)
                 .create();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        recyclerAdapter.setEventList(Storage.getEventsForDate(chosenDate));
+        recyclerAdapter.notifyDataSetChanged();
+    }
 }
