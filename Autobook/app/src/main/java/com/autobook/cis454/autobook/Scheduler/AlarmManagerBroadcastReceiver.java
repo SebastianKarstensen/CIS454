@@ -46,6 +46,17 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         String facebookMessage = currentEvent.getFacebookMessage();
         String textMessage = currentEvent.getTextMessage();
 
+        //IF there is no receivers and there is a twitter message
+        if(receiverList.size() == 0 && !twitterMessage.equals("")){
+            //Tweet whatever is in the twitter message
+            new TwitterHelper.UpdateTwitterStatus().execute(twitterMessage);
+        }
+
+        if(receiverList.size() == 0 && !facebookMessage.equals("")){
+            //Wallpost the facebook message
+            //Facebook post here
+        }
+
         for (int i = 0; i < receiverList.size(); i++){
             System.out.println("Receiver Number " + i);
             Receiver currentReceiver = receiverList.get(i);
@@ -73,15 +84,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             } else {
                 Toast.makeText(context, "Receiver does not have phone number", Toast.LENGTH_LONG).show();
             }
-
-            //send Facebook if possible
-            if(facebookMessage != null && !facebookMessage.equals("") && facebookID != null && !facebookID.equals("")){
-                //facebook logic here
-            } else {
-                //generic toast here
-            }
         }
-        Toast.makeText(context, "Number of receivers: " + receiverList.size(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(context, "Number of receivers: " + receiverList.size() + " for event: ", Toast.LENGTH_LONG).show();
         Storage.deleteEvent(currentEvent);
         //Release the lock
         wl.release();
