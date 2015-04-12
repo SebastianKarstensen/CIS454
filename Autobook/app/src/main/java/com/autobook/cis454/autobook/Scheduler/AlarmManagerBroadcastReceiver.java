@@ -41,8 +41,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         System.out.println("An alarm was triggered");
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 500 milliseconds
-        v.vibrate(500);
-        Toast.makeText(context, "Autobook: Scheduled Event Completed", Toast.LENGTH_LONG).show();
+        v.vibrate(1000);
         //From here on we proccess the event and send messages accordingly
         Bundle b = intent.getExtras();
         int eventID = (Integer) b.get("eventID");
@@ -63,17 +62,17 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             //Check if the user has logged onto twitter
             //If the user is not logged in then create a notification
             if(!twitterAccessible && !twitterMessage.equals("")){
-                createNotification("Failed to execute the event; not logged onto twitter",
-                        "Event title: " + currentEvent.getTitle(), context, currentEvent.getID());
+                createNotification("Event: " + currentEvent.getTitle(),
+                        "Failed to execute the event; not logged onto twitter", context, currentEvent.getID());
             }
             //Check if the user has logged onto facebook
             if(!facebookAccessible && !facebookMessage.equals("")){
-                createNotification("Failed to execute the event; not logged onto facebook",
-                        "Event title: " + currentEvent.getTitle(), context, currentEvent.getID());
+                createNotification("Event: " + currentEvent.getTitle(),
+                        "Failed to execute the event; not logged onto facebook", context, currentEvent.getID());
             }
         } else {
-            createNotification("No internet connection present, only text messages will be sent",
-                    "Event title: " + currentEvent.getTitle(), context, currentEvent.getID());
+            createNotification("Event: " + currentEvent.getTitle(),
+                    "No internet connection present, only text messages will be sent", context, currentEvent.getID());
             twitterAccessible = false;
             facebookAccessible = false;
         }
