@@ -67,7 +67,6 @@ public class SettingsFragment extends Fragment {
         buttonLogoutFacebook = (Button) rootView.findViewById(R.id.btn_settings_logoutFacebook);
         buttonLoginTwitter = (Button) rootView.findViewById(R.id.btn_settings_loginTwitter);
         buttonLogoutTwitter = (Button) rootView.findViewById(R.id.btn_settings_logoutTwitter);
-        buttonEditMessageTemplates = (Button) rootView.findViewById(R.id.btn_settings_editTemplates);
         buttonWipeDatabase = (Button) rootView.findViewById(R.id.btn_settings_wipeDatabase);
         buttonHelp = (Button) rootView.findViewById(R.id.btn_settings_help);
         buttonCredits = (Button) rootView.findViewById(R.id.btn_settings_credits);

@@ -189,45 +189,4 @@ public class Storage {
     public static void deleteReceiver(Receiver receiver){
         HomeActivity.dbHandler.deleteReceiver(receiver.getId());
     }
-
-
-    public static List<String> getMessageTemplates(EventType type) {
-
-        List<String> messageTemplates = new ArrayList<>();
-        String[] messageArray = null;
-
-        String[] anniversaryMessages = new String[] {};
-        String[] americanHolidayMessages = new String[] {};
-        String[] birthdayMessages = new String[] {};
-        String[] partyMessages = new String[] {
-                "Yo, party at my place in 1 hour!",
-                "I'm having a social gathering later, feel free to stop by.",
-                "Up for hanging out tonight? We've got a few people coming here.",
-                "Hey, how about we go do something this evening?"};
-        String[] weddingMessages = new String[] {};
-
-
-
-        switch (type) {
-            case Anniversary:
-                break;
-            case American_Holiday:
-                break;
-            case Birthday:
-                break;
-            case Party:
-                messageArray = partyMessages;
-                break;
-            case Wedding:
-                break;
-            case Other:
-
-        }
-
-        for(String message : messageArray) {
-            messageTemplates.add(message);
-        }
-
-        return messageTemplates;
-    }
 }
