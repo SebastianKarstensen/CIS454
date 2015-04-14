@@ -60,6 +60,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         boolean twitterAccessible = TwitterHelper.isTwitterLoggedIn();
         boolean facebookAccessible = true;
         //if there is a internet connection then check for twitter and facebook tokens
+
         if(isNetworkAvailable(context)){
             //Check if the user has logged onto twitter
             //If the user is not logged in then create a notification
@@ -163,7 +164,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
     public static void createNotification(String notificationtitle, String eventtitle, Context context, int eventID){
 
-
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.mipmap.ic_launcher)
@@ -176,7 +176,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
                 (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
         // Builds the notification and issues it.
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
-
     }
 
     public void SetAlarm(Context context)
