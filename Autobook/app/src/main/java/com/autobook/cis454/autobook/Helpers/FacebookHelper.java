@@ -23,6 +23,9 @@ public class FacebookHelper
 
     public boolean isFacebookLoggedIn()
     {
+        if(accessToken == null){
+            return false;
+        }
         return accessToken.isExpired();
     }
 
