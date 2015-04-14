@@ -4,20 +4,24 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 import com.autobook.cis454.autobook.R;
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
-import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
@@ -27,9 +31,11 @@ import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.SendButton;
-import com.facebook.GraphRequest;
+
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class FacebookLoginFragment extends Fragment
 {
@@ -37,10 +43,16 @@ public class FacebookLoginFragment extends Fragment
     Button logoutButton;
     CallbackManager callbackManager;
     Button statusUpdateButton;
-    AccessToken accessToken;
+    /*SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    String json = mSharedPreferences.getString("fb_access_token","");
+    Gson gson = new Gson();
+    AccessToken accessToken = gson.fromJson(json, AccessToken.class);*/
+    AccessToken accessToken = AccessToken.getCurrentAccessToken();
+    AccessTokenTracker accessTokenTracker;
     ShareContent shareContent;
     ShareContent.Builder builder;
     Uri uri = Uri.parse("google.com");
+    EditText fbMsgTextView;
 
     public FacebookLoginFragment()
     {
@@ -53,6 +65,8 @@ public class FacebookLoginFragment extends Fragment
         super.onCreate(savedInstanceState);
         callbackManager = CallbackManager.Factory.create();
         shareContent = new ShareLinkContent.Builder().setContentUrl(uri).build();
+        
+
 
     }
 
@@ -61,6 +75,7 @@ public class FacebookLoginFragment extends Fragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_facebook_login, container, false);
+        fbMsgTextView = (EditText) view.findViewById(R.id.editTextFBMsg);
 
         loginButton = (LoginButton) view.findViewById(R.id.login_button);
         //loginButton.setReadPermissions("user_friends");
@@ -124,7 +139,7 @@ public class FacebookLoginFragment extends Fragment
 
 
                 Bundle params = new Bundle();
-                params.putString("message", "This is a test message");
+                params.putString("message", fbMsgTextView.getText().toString());
 /* make the API call */
                 new GraphRequest(
                         accessToken,
