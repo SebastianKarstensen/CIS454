@@ -18,11 +18,11 @@ import org.json.JSONObject;
  */
 public class FacebookHelper
 {
-    SharedPreferences mSharedPreferences = Autobook.getAppContext().getSharedPreferences("MyPref", 0);;
-    AccessToken accessToken = AccessToken.getCurrentAccessToken();
+    static SharedPreferences mSharedPreferences = Autobook.getAppContext().getSharedPreferences("MyPref", 0);;
+    static AccessToken accessToken;
 
 
-    public boolean isFacebookLoggedIn()
+    public static boolean isFacebookLoggedIn()
     {
         Gson gson = new Gson();
         String aToken = mSharedPreferences.getString("fb_access_token", null);
@@ -33,7 +33,7 @@ public class FacebookHelper
         return accessToken.isExpired();
     }
 
-    public void postToFBWall(String message)
+    public static void postToFBWall(String message)
     {
         GraphRequest.GraphJSONObjectCallback callback = new GraphRequest.GraphJSONObjectCallback()
         {
