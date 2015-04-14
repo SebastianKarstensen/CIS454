@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.autobook.cis454.autobook.Activities.HomeActivity;
 import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Helpers.Converters;
+import com.autobook.cis454.autobook.Helpers.FacebookHelper;
 import com.autobook.cis454.autobook.Helpers.SMSHelper;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Helpers.TwitterHelper;
@@ -53,12 +54,13 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         ArrayList<Receiver> receiverList = (ArrayList<Receiver>) Storage.getReceiversForEvent(eventID);
         System.out.println("@@@ There are this many receivers" + receiverList.size());
         Event currentEvent = Storage.getEvent(eventID);
+        FacebookHelper facebook = new FacebookHelper();
 
         String twitterMessage = currentEvent.getTwitterMessage();
         String facebookMessage = currentEvent.getFacebookMessage();
         String textMessage = currentEvent.getTextMessage();
         boolean twitterAccessible = TwitterHelper.isTwitterLoggedIn();
-        boolean facebookAccessible = true;
+        boolean facebookAccessible = facebook.isFacebookLoggedIn();
         //if there is a internet connection then check for twitter and facebook tokens
 
         if(isNetworkAvailable(context)){
@@ -89,7 +91,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         //send facebook message if there is one
         if(facebookAccessible && !facebookMessage.equals("")){
             //Wallpost the facebook message
-            //Facebook post here
+            facebook.postToFBWall(facebookMessage);
         }
 
         for (int i = 0; i < receiverList.size(); i++){
