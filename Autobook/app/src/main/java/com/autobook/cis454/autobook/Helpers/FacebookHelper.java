@@ -18,11 +18,15 @@ import org.json.JSONObject;
  */
 public class FacebookHelper
 {
-    SharedPreferences mSharedPreferences;
+    SharedPreferences mSharedPreferences = Autobook.getAppContext().getSharedPreferences("MyPref", 0);;
     AccessToken accessToken = AccessToken.getCurrentAccessToken();
+
 
     public boolean isFacebookLoggedIn()
     {
+        Gson gson = new Gson();
+        String aToken = mSharedPreferences.getString("fb_access_token", null);
+        accessToken = gson.fromJson(aToken,AccessToken.class);
         if(accessToken == null){
             return false;
         }
