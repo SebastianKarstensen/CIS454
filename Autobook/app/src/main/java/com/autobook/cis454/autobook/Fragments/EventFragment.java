@@ -195,31 +195,9 @@ public class EventFragment extends Fragment {
 
                         Calendar thisMoment = Calendar.getInstance();
                         thisMoment.setTime(new Date(System.currentTimeMillis()));
-                        int thisYear = thisMoment.get(Calendar.YEAR);
-                        int thisMonth = thisMoment.get(Calendar.MONTH);
-                        int thisDay = thisMoment.get(Calendar.DAY_OF_MONTH);
-                        int thisHour = thisMoment.get(Calendar.HOUR_OF_DAY);
-                        int thisMinute = thisMoment.get(Calendar.MINUTE);
 
-                        if(calendar.get(Calendar.YEAR) < thisYear) {
+                        if(calendar.getTime().getTime() < thisMoment.getTime().getTime()) {
                             Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        else if (calendar.get(Calendar.MONTH) < thisMonth) {
-                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        else if (calendar.get(Calendar.DAY_OF_MONTH) < thisDay) {
-                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        else if (calendar.get(Calendar.HOUR_OF_DAY) < thisHour) {
-                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        else if (calendar.get(Calendar.MINUTE) <= thisMinute) {
-                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
-                            return;
                         }
 
                         event.setDate(calendar.getTime());
