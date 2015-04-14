@@ -198,6 +198,7 @@ public class EventFragment extends Fragment {
 
                         if(calendar.getTime().getTime() < thisMoment.getTime().getTime()) {
                             Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
+                            return;
                         }
 
                         event.setDate(calendar.getTime());
