@@ -41,6 +41,7 @@ public class FacebookHelper
             public void onCompleted(JSONObject object,GraphResponse response)
             {
 //                Toast.makeText(Autobook.getAppContext(), response.getRawResponse(), Toast.LENGTH_LONG).show();
+
             }
         };
 
@@ -54,6 +55,14 @@ public class FacebookHelper
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
 //                        Toast.makeText(Autobook.getAppContext(),response.getRawResponse(),Toast.LENGTH_LONG).show();
+                        if(response == null){
+                            Toast.makeText(Autobook.getAppContext(), "Please authorize Autobook to post on your behalf on facebook", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        if(response.getRawResponse().equals("")){
+                            Toast.makeText(Autobook.getAppContext(), "Please authorize Autobook to post on your behalf on facebook", Toast.LENGTH_LONG).show();
+                            return;
+                        }
                     }
                 }
         ).executeAsync();
