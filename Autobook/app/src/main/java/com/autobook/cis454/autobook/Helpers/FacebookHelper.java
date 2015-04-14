@@ -30,7 +30,7 @@ public class FacebookHelper
         if(accessToken == null){
             return false;
         }
-        return accessToken.isExpired();
+        return !accessToken.isExpired();
     }
 
     public static void postToFBWall(String message)
@@ -40,7 +40,7 @@ public class FacebookHelper
             @Override
             public void onCompleted(JSONObject object,GraphResponse response)
             {
-                Toast.makeText(Autobook.getAppContext(), response.getRawResponse(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(Autobook.getAppContext(), response.getRawResponse(), Toast.LENGTH_LONG).show();
             }
         };
 
@@ -53,7 +53,7 @@ public class FacebookHelper
                 HttpMethod.POST,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        Toast.makeText(Autobook.getAppContext(),response.getRawResponse(),Toast.LENGTH_LONG).show();
+//                        Toast.makeText(Autobook.getAppContext(),response.getRawResponse(),Toast.LENGTH_LONG).show();
                     }
                 }
         ).executeAsync();

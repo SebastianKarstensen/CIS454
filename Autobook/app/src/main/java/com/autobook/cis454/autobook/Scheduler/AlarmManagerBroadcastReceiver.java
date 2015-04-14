@@ -54,13 +54,12 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         ArrayList<Receiver> receiverList = (ArrayList<Receiver>) Storage.getReceiversForEvent(eventID);
         System.out.println("@@@ There are this many receivers" + receiverList.size());
         Event currentEvent = Storage.getEvent(eventID);
-        FacebookHelper facebook = new FacebookHelper();
 
         String twitterMessage = currentEvent.getTwitterMessage();
         String facebookMessage = currentEvent.getFacebookMessage();
         String textMessage = currentEvent.getTextMessage();
         boolean twitterAccessible = TwitterHelper.isTwitterLoggedIn();
-        boolean facebookAccessible = facebook.isFacebookLoggedIn();
+        boolean facebookAccessible = FacebookHelper.isFacebookLoggedIn();
         //if there is a internet connection then check for twitter and facebook tokens
 
         if(isNetworkAvailable(context)){
@@ -91,7 +90,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         //send facebook message if there is one
         if(facebookAccessible && !facebookMessage.equals("")){
             //Wallpost the facebook message
-            facebook.postToFBWall(facebookMessage);
+            FacebookHelper.postToFBWall(facebookMessage);
         }
 
         for (int i = 0; i < receiverList.size(); i++){
