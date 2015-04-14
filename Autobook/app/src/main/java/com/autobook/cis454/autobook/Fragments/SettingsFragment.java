@@ -60,6 +60,7 @@ public class SettingsFragment extends Fragment {
     public void onCreate(Bundle savedInstance)
     {
         super.onCreate(savedInstance);
+        mSharedPreferences = getActivity().getSharedPreferences("MyPref", 0);
         callbackManager = CallbackManager.Factory.create();
     }
 
@@ -95,8 +96,6 @@ public class SettingsFragment extends Fragment {
                 String json = gson.toJson(accessToken);
                 e.putString("fb_access_token", json);
                 e.commit();
-                buttonLoginFacebook.setVisibility(View.GONE);
-                buttonLogoutFacebook.setVisibility(View.VISIBLE);
                 Toast.makeText(getActivity(), "Login Success!", Toast.LENGTH_LONG).show();
             }
 
