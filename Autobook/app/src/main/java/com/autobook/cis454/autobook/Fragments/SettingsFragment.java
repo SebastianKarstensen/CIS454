@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 import com.autobook.cis454.autobook.Activities.HomeActivity;
 import com.autobook.cis454.autobook.Helpers.TwitterHelper;
@@ -25,9 +28,11 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.FacebookSdk;
+import com.google.gson.Gson;
 
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
@@ -47,6 +52,7 @@ public class SettingsFragment extends Fragment {
     Button buttonWipeDatabase;
     Button buttonHelp;
     Button buttonCredits;
+    SharedPreferences mSharedPreferences;
 
     public SettingsFragment() {
     }
@@ -71,11 +77,11 @@ public class SettingsFragment extends Fragment {
         buttonHelp = (Button) rootView.findViewById(R.id.btn_settings_help);
         buttonCredits = (Button) rootView.findViewById(R.id.btn_settings_credits);
 
-        buttonLoginFacebook.setReadPermissions("user_friends");
+        //buttonLoginFacebook.setReadPermissions("user_friends");
         // If using in a fragment
         buttonLoginFacebook.setFragment(this);
         // Other app specific specialization
-        //loginButton.setPublishPermissions();
+        buttonLoginFacebook.setPublishPermissions("publish_actions");
         // Callback registration
         buttonLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
         {
@@ -84,6 +90,13 @@ public class SettingsFragment extends Fragment {
             {
                 // App code
                 accessToken = loginResult.getAccessToken();
+                Editor e = mSharedPreferences.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(accessToken);
+                e.putString("fb_access_token", json);
+                e.commit();
+                buttonLoginFacebook.setVisibility(View.GONE);
+                buttonLogoutFacebook.setVisibility(View.VISIBLE);
                 Toast.makeText(getActivity(), "Login Success!", Toast.LENGTH_LONG).show();
             }
 
@@ -99,6 +112,21 @@ public class SettingsFragment extends Fragment {
             {
                 // App code
                 Toast.makeText(getActivity(), exception.toString(), Toast.LENGTH_LONG).show();
+            }
+
+
+        });
+
+        buttonLogoutFacebook.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v){
+                LoginManager.getInstance().logOut();
+                Editor e = mSharedPreferences.edit();
+                e.putString("fb_access_token", null);
+                e.commit();
+                buttonLogoutFacebook.setVisibility(View.GONE);
+                buttonLoginFacebook.setVisibility(View.VISIBLE);
             }
         });
 

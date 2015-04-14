@@ -17,23 +17,30 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.SendButton;
+import com.facebook.GraphRequest;
 
 import org.json.JSONObject;
 
 public class FacebookLoginFragment extends Fragment
 {
     LoginButton loginButton;
+    Button logoutButton;
     CallbackManager callbackManager;
     Button statusUpdateButton;
     AccessToken accessToken;
     ShareContent shareContent;
-
+    ShareContent.Builder builder;
+    Uri uri = Uri.parse("google.com");
 
     public FacebookLoginFragment()
     {
@@ -45,6 +52,8 @@ public class FacebookLoginFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
         callbackManager = CallbackManager.Factory.create();
+        shareContent = new ShareLinkContent.Builder().setContentUrl(uri).build();
+
     }
 
     @Override
@@ -54,17 +63,18 @@ public class FacebookLoginFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_facebook_login, container, false);
 
         loginButton = (LoginButton) view.findViewById(R.id.login_button);
-        loginButton.setReadPermissions("user_friends");
+        //loginButton.setReadPermissions("user_friends");
         // If using in a fragment
         loginButton.setFragment(this);
         // Other app specific specialization
-        //loginButton.setPublishPermissions();
+        loginButton.setPublishPermissions("publish_actions");
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
                 accessToken = loginResult.getAccessToken();
+
                 Toast.makeText(getActivity(),"Login Success!", Toast.LENGTH_LONG).show();
             }
 
@@ -81,12 +91,53 @@ public class FacebookLoginFragment extends Fragment
             }
         });
 
-        statusUpdateButton = (Button) view.findViewById(R.id.button_status_update);
-        statusUpdateButton.setOnClickListener(new View.OnClickListener()
+        logoutButton = (Button) view.findViewById(R.id.button_fb_logout);
+        logoutButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                /*GraphRequest request = GraphRequest.newMeRequest(
+                        accessToken,
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+                                // Application code
+                               Toast.makeText(getActivity(),response.getRawResponse(),Toast.LENGTH_LONG).show();
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,link");
+                request.setParameters(parameters);
+                request.executeAsync();*/
+                GraphRequest.GraphJSONObjectCallback callback = new GraphRequest.GraphJSONObjectCallback()
+                {
+                    @Override
+                    public void onCompleted(JSONObject object,GraphResponse response)
+                    {
+                        Toast.makeText(getActivity(), response.getRawResponse(),Toast.LENGTH_LONG).show();
+                    }
+                };
+
+
+
+                Bundle params = new Bundle();
+                params.putString("message", "This is a test message");
+/* make the API call */
+                new GraphRequest(
+                        accessToken,
+                        "/me/feed",
+                        params,
+                        HttpMethod.POST,
+                        new GraphRequest.Callback() {
+                            public void onCompleted(GraphResponse response) {
+            /* handle the result */
+                                Toast.makeText(getActivity(),response.getRawResponse(),Toast.LENGTH_LONG).show();
+                            }
+                        }
+                ).executeAsync();
 
             }
         });
@@ -94,7 +145,7 @@ public class FacebookLoginFragment extends Fragment
 
         SendButton sendButton = (SendButton) view.findViewById(R.id.button_status_update);
         sendButton.setFragment(this);
-        //sendButton.setShareContent(shareContent);
+        sendButton.setShareContent(shareContent);
         sendButton.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>()
         {
             @Override

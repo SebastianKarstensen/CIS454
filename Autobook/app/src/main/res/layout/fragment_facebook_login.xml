@@ -20,4 +20,11 @@
         android:id="@+id/button_status_update"
         android:layout_gravity="center_horizontal|bottom"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:id="@+id/button_fb_logout"
+        android:layout_gravity="right|center_vertical"/>
+
 </FrameLayout>

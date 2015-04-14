@@ -32,4 +32,5 @@ dependencies {
     compile 'com.roomorama:caldroid:1.1.8'
     compile files('libs/restfb-1.9.0.jar')
     compile 'com.facebook.android:facebook-android-sdk:4.0.1'
+    compile files('libs/gson-2.3.1.jar')
 }
