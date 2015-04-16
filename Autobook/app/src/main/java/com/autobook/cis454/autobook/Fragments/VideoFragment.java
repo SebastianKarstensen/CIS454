@@ -45,7 +45,7 @@ public class VideoFragment extends Fragment{
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
 
-        mWebView.loadUrl("https://www.youtube.com/watch?v=cTcvdqfe-HA");
+        mWebView.loadUrl("https://www.youtube.com/watch?v=IHuEwSJT3K8");
         mWebView.setWebViewClient(new HelloWebViewClient());
 
         return rootView;
