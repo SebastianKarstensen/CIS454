@@ -4,6 +4,16 @@
     android:layout_height="match_parent">
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Credits"
+        android:id="@+id/textView12"
+        android:layout_gravity="center_horizontal"
+        android:textSize="35sp"
+        android:gravity="center_horizontal"
+        android:layout_margin="20dp" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -24,13 +34,15 @@
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="190dp"
-                    android:src="@drawable/image_contact_placeholder"/>
+                    android:src="@drawable/profile_pic_preston"
+                    android:id="@+id/" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Anders Kroyer"
-                    android:gravity="center"/>
+                    android:text="Preston Cannedy"
+                    android:gravity="center"
+                    android:id="@+id/" />
 
                 </LinearLayout>
 
@@ -45,13 +57,15 @@
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="190dp"
-                    android:src="@drawable/image_contact_placeholder"/>
+                    android:src="@drawable/profile_pic_anders"
+                    android:id="@+id/" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Anders Kroyer"/>
+                    android:text="Anders Kroyer"
+                    android:id="@+id/" />
 
             </LinearLayout>
 
@@ -71,13 +85,15 @@
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="190dp"
-                    android:src="@drawable/image_contact_placeholder"/>
+                    android:src="@drawable/profile_pic_kenton"
+                    android:id="@+id/" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Anders Kroyer"
-                    android:gravity="center"/>
+                    android:text="Kenton Guan"
+                    android:gravity="center"
+                    android:id="@+id/" />
 
             </LinearLayout>
 
@@ -92,13 +108,15 @@
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="190dp"
-                    android:src="@drawable/image_contact_placeholder"/>
+                    android:src="@drawable/profile_pic_sebastian"
+                    android:id="@+id/" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Anders Kroyer"
-                    android:gravity="center"/>
+                    android:text="Sebastian Karstensen"
+                    android:gravity="center"
+                    android:id="@+id/" />
 
             </LinearLayout>
 
