@@ -19,11 +19,9 @@ import android.widget.TextView;
 
 import com.autobook.cis454.autobook.R;
 
+//This class describes a fragment which displays a hardcoded URL.
 public class VideoFragment extends Fragment{
 
-    private WebView mWebView;
-    private LinearLayout mContentView;
-    private FrameLayout mCustomViewContainer;
     private View mCustomView;
     private WebChromeClient.CustomViewCallback mCustomViewCallback;
     FrameLayout.LayoutParams COVER_SCREEN_GRAVITY_CENTER = new FrameLayout.LayoutParams(
@@ -38,16 +36,19 @@ public class VideoFragment extends Fragment{
 
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
 
-        mContentView = (LinearLayout) rootView.findViewById(R.id.linearlayout);
-        mWebView = (WebView) rootView.findViewById(R.id.webView);
-        mCustomViewContainer = (FrameLayout) rootView.findViewById(R.id.fullscreen_custom_content);
+        //Find and save layout entities
+        LinearLayout mContentView = (LinearLayout) rootView.findViewById(R.id.linearlayout);
+        WebView mWebView = (WebView) rootView.findViewById(R.id.webView);
+        FrameLayout mCustomViewContainer = (FrameLayout) rootView.findViewById(R.id.fullscreen_custom_content);
 
+        //Setup web settings
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setPluginState(WebSettings.PluginState.ON);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
 
+        //Set the url to our tutorial video
         mWebView.loadUrl("https://www.youtube.com/watch?v=IHuEwSJT3K8");
         //mWebView.setWebViewClient(new HelloWebViewClient());
         mWebView.setWebChromeClient(new WebChromeClient());
