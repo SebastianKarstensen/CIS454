@@ -30,16 +30,17 @@ import com.autobook.cis454.autobook.R;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
-//    private static ArrayList<PendingIntent> intentArray = new ArrayList<>();
+//This class has the methods used to set custom autobook alarms. It also handles the execution
+//of these alarms
+public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
     final public static String ONE_TIME = "onetime";
     @Override
     public void onReceive(Context context, Intent intent) {
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
-        //Acquire the lock
+        //Acquire lock to keep phone awake.
         wl.acquire();
 
         System.out.println("An alarm was triggered");
@@ -48,20 +49,24 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         v.vibrate(1000);
         //From here on we proccess the event and send messages accordingly
         Bundle b = intent.getExtras();
+        //Get the event ID so we can retrieve the correct data from the database.
         int eventID = (Integer) b.get("eventID");
 
         HomeActivity.dbHandler.updateEverything();
         ArrayList<Receiver> receiverList = (ArrayList<Receiver>) Storage.getReceiversForEvent(eventID);
         System.out.println("@@@ There are this many receivers" + receiverList.size());
+        //Get the event we need to execute
         Event currentEvent = Storage.getEvent(eventID);
 
+        //Save the messages which needs to be sent
         String twitterMessage = currentEvent.getTwitterMessage();
         String facebookMessage = currentEvent.getFacebookMessage();
         String textMessage = currentEvent.getTextMessage();
+        //Check if facebook and twitter tokens are present.
         boolean twitterAccessible = TwitterHelper.isTwitterLoggedIn();
         boolean facebookAccessible = FacebookHelper.isFacebookLoggedIn();
-        //if there is a internet connection then check for twitter and facebook tokens
 
+        //if there is a internet connection then check for twitter and facebook tokens
         if(isNetworkAvailable(context)){
             //Check if the user has logged onto twitter
             //If the user is not logged in then create a notification
@@ -93,6 +98,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             FacebookHelper.postToFBWall(facebookMessage);
         }
 
+        //Go through all the receivers and send messages to every one of them if possible
         for (int i = 0; i < receiverList.size(); i++){
             System.out.println("Receiver Number " + i);
             Receiver currentReceiver = receiverList.get(i);
@@ -102,7 +108,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
             //send twitter message if possible
             if(twitterTag != null && twitterMessage != null && !twitterTag.equals("") && !twitterMessage.equals("") && twitterAccessible){
-//                Toast.makeText(context, "Twitter message:" + twitterMessage + " sent to twitter " + twitterTag, Toast.LENGTH_LONG).show();
                 try{
                     String tweet = "@" + twitterTag + " " + twitterMessage;
                     new TwitterHelper.UpdateTwitterStatus().execute(tweet);
@@ -110,15 +115,12 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
                     e.printStackTrace();
                 }
             } else{
-//                Toast.makeText(context, "Tweeting failed", Toast.LENGTH_LONG).show();
             }
 
             //send SMS if possible
             if(phoneNumber != null && !phoneNumber.equals("") && textMessage != null && !textMessage.equals("")){
-//                Toast.makeText(context, "Text message: " + textMessage + " sent to number: " + phoneNumber, Toast.LENGTH_LONG).show();
                 SMSHelper.sendSMS(phoneNumber, textMessage);
             } else {
-//                Toast.makeText(context, "Receiver does not have phone number", Toast.LENGTH_LONG).show();
             }
         }
 //        Toast.makeText(context, "Number of receivers: " + receiverList.size() + " for event: ", Toast.LENGTH_LONG).show();
@@ -128,23 +130,29 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         wl.release();
     }
 
+    //This method is used to set a custom alarm which will have the eventID as an extra on the pending intent
     public static void setEventNotifications(Context context, Event event){
         AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         int eventId = event.getID();
 
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
+        //Put the eventID as extra on the intent
         intent.putExtra("eventID", eventId);
 
+        //Get the date and convert it
         Date date = event.getDate();
         long l = Converters.timeDifferenceFromNow(date);
+
+        //Create the alarm intent using the date and the intent with the eventID
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context.getApplicationContext(), eventId, intent, 0);
 
+        //Set the alarm
         alarmMgr.set(AlarmManager.RTC_WAKEUP,
                     System.currentTimeMillis() + l,
                     alarmIntent);
-//        intentArray.add(alarmIntent);
     }
 
+    //Cancel an alarm
     public void cancelAlarm(Context context, Event event)
     {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -152,10 +160,13 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
 
+        //Get the alarm based off its ID which will be the eventID
         PendingIntent sender = PendingIntent.getBroadcast(context.getApplicationContext(), eventId, intent, 0);
+        //Cancel that alarm
         alarmManager.cancel(sender);
     }
 
+    //Helper method used to check if there is an internet connection
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -163,6 +174,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    //Create an android notification
     public static void createNotification(String notificationtitle, String eventtitle, Context context, int eventID){
 
         NotificationCompat.Builder mBuilder =
@@ -172,28 +184,14 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
                         .setContentText(eventtitle);
         // Sets an ID for the notification
         int mNotificationId = eventID;
-        // Gets an instance of the NotificationManager service
+
+        // Get a notification manager
         NotificationManager mNotifyMgr =
                 (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-        // Builds the notification and issues it.
+
+        // Build the notification and display it.
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
     }
 
-    public void SetAlarm(Context context)
-    {
-        AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        intent.putExtra(ONE_TIME, Boolean.FALSE);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-        //After after 30 seconds
-        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 5 , pi);
-    }
 
-    public void setOnetimeTimer(Context context){
-        AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        intent.putExtra(ONE_TIME, Boolean.TRUE);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
-    }
 }
