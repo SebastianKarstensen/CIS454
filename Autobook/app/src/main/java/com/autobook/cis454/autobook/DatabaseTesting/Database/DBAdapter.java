@@ -71,6 +71,7 @@ public class DBAdapter {
             super(c, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
+        //Create the database
         @Override
         public void onCreate(SQLiteDatabase db) {
             try{
@@ -82,6 +83,8 @@ public class DBAdapter {
                 System.out.println("@@@" + e.getMessage());
             }
         }
+
+        //Remake the database when database version upgraded
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data");
@@ -94,17 +97,20 @@ public class DBAdapter {
         }
     }
 
+    //Open connection to database
     public DBAdapter open() throws SQLException
     {
       db = DBHelper.getWritableDatabase();
       return this;
     }
 
+    //Close connection to database
     public void close()
     {
         DBHelper.close();
     }
 
+    //Drop all tables and remake them, same as onUpgrade
     public void deleteEverything(){
         db.execSQL("DROP TABLE IF EXISTS " + RECEIVER_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + EVENT_TABLE);
@@ -138,6 +144,7 @@ public class DBAdapter {
         return db.delete(RECEIVER_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
+    //Get all receivers and put them into a list of hashmaps
     public ArrayList<HashMap<String, ?>> getAllReceivers(){
         Cursor c = db.query(RECEIVER_TABLE, new String[] {KEY_ROWID, KEY_NAME, KEY_FACEBOOK, KEY_TWITTER, KEY_PHONENUMBER, KEY_URL}, null, null, null, null, null);
         ArrayList<HashMap<String, ?>> receiverList = new ArrayList<HashMap<String, ?>>();
@@ -191,17 +198,6 @@ public class DBAdapter {
         return mCursor;
     }
 
-    public Cursor getFirstReceiver(){
-
-        String selectQuery = "SELECT * FROM " + RECEIVER_TABLE + " WHERE id = 0";
-        Cursor mCursor = db.rawQuery(selectQuery, null);
-
-        if(mCursor != null){
-            mCursor.moveToFirst();
-        }
-        return mCursor;
-    }
-
     //CRUD EVENT
     public long insertEvent(String date, String facebookMessage, String twitterMessage,
                             String textMessage, String eventType, String title){
@@ -216,17 +212,15 @@ public class DBAdapter {
         return db.insert(EVENT_TABLE, null, initialValues);
     }
 
+    //Get the current max id based off the autoincrement table
     public int getAutoIncrementMax(){
         String query = "SELECT * FROM SQLITE_SEQUENCE";
         int autoincrementSize = 0;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){
             do{
-//                System.out.println("@@@ tableName: " +cursor.getString(cursor.getColumnIndex("name")));
-//                System.out.println("@@@ autoInc: " + cursor.getString(cursor.getColumnIndex("seq")));
                 if(cursor.getString(cursor.getColumnIndex("name")).equals(EVENT_TABLE)){
                     String autoInc = cursor.getString(cursor.getColumnIndex("seq"));
-//                    System.out.println("@@@ event AutoInc: " + autoInc);
                     if(Integer.parseInt(autoInc) > autoincrementSize){
                         autoincrementSize = Integer.parseInt(autoInc);
                     }
@@ -252,6 +246,7 @@ public class DBAdapter {
         return db.update(EVENT_TABLE, initialValues, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
+    //Get all events and return them as a list of hashmaps
     public ArrayList<HashMap<String, ?>> getAllEvents(){
         Cursor c = db.query(EVENT_TABLE, new String[] {KEY_ROWID, KEY_DATE, KEY_FACEBOOKMESSAGE, KEY_TWITTERMESSAGE,
                 KEY_TEXTMESSAGE, KEY_EVENTTYPE, KEY_TITLE}, null, null, null, null, null);
@@ -302,11 +297,6 @@ public class DBAdapter {
     }
 
     public int getMaxEventID(){
-//        String query = "select max(id) as eventid from " + EVENT_TABLE;
-//        Cursor c = db.rawQuery(query, null);
-//        c.moveToFirst();
-//        int eventid = c.getInt(0);
-//        return eventid;
         int eventID = getAutoIncrementMax();
         return eventID;
     }
@@ -329,7 +319,6 @@ public class DBAdapter {
             do {
                 int eventID = c.getInt(0);
                 int receiverID = c.getInt(1);
-               // System.out.println("eventID : " + eventID + " receiverID: " + receiverID);
                 HashMap message = new HashMap();
                 message.put(KEY_EVENT_ID, eventID);
                 message.put(KEY_RECEIVER_ID, receiverID);
@@ -337,16 +326,11 @@ public class DBAdapter {
                 messageList.add(message);
             } while (c. moveToNext());
         }
-
         return messageList;
-
     }
 
     public boolean deleteMessage(long eventID, long receiverId){
         return db.delete(MESSAGES_TABLE, KEY_EVENT_ID + "=" + eventID + " and " + KEY_RECEIVER_ID + "=" + receiverId, null) > 0;
     }
-
-
-
 
 }
