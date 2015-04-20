@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class MyDatabaseHandler {
 
     public DBAdapter db;
+    //Save the database contents in memory with these arraylists
     ArrayList<HashMap<String, ?>> receiverList = new ArrayList<HashMap<String, ?>>();
     ArrayList<HashMap<String, ?>> eventList = new ArrayList<HashMap<String, ?>>();
     ArrayList<HashMap<String, ?>> messageList = new ArrayList<>();
@@ -77,12 +78,10 @@ public class MyDatabaseHandler {
     public HashMap<String,?> getReceiver(int receiverID){
         updateReceiverList();
         ArrayList<HashMap<String, ?>> receiverList = getReceiverList();
-//        System.out.println("@@@ Receiverlistsize: " + receiverList.size());
         for(int i = 0; i < receiverList.size(); i++){
             HashMap<String, ?> entry = receiverList.get(i);
             String entryID = (String) entry.get(DBAdapter.KEY_RECEIVER_ID);
             int intid = Integer.parseInt(entryID);
-//            System.out.println("@@@ We are looking for ReceiverID: " + receiverID + " and right now we have: " + intid);
             if(intid == receiverID){
                 return entry;
             }
@@ -91,7 +90,6 @@ public class MyDatabaseHandler {
     }
 
     //EVENT
-//    public int getEventListSize(){ return eventList.size(); }
     public void updateEventList() {
         try {
             db.open();
@@ -145,13 +143,10 @@ public class MyDatabaseHandler {
     public HashMap<String,?> getEvent(int eventID){
         updateEventList();
         ArrayList<HashMap<String, ?>> eventList = getEventList();
-//        System.out.println("@@@ Eventlistsize: " + eventList.size());
         for(int i = 0; i < eventList.size(); i++){
             HashMap<String, ?> entry = eventList.get(i);
             String entryID = (String) entry.get(DBAdapter.KEY_EVENT_ID);
             int intid = Integer.parseInt(entryID);
-//            System.out.println("@@@ We are looking for EventID: " + eventID + " and right now we have: " + intid);
-//            System.out.println("@@@ MaxID should be:"  + maxEventId());
             if(intid == eventID){
                 return entry;
             }
@@ -174,7 +169,6 @@ public class MyDatabaseHandler {
         try {
             db.open();
             long l = db.insertMessage(eventID, receiverID);
-            //System.out.println("inserted a message at: " + l);
             db.close();
         } catch (Exception e){
             e.printStackTrace();
@@ -211,6 +205,7 @@ public class MyDatabaseHandler {
         }
     }
 
+    //Checks if a person is assigned to a specific event
     public boolean messageExist(int eventID, int receiverID){
         ArrayList<HashMap<String, ?>> list = getReceiversForEvent(eventID);
         for(int i = 0; i < list.size(); i++){
