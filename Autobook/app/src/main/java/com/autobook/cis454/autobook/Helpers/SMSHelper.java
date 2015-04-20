@@ -5,7 +5,7 @@ import android.telephony.SmsManager;
 
 public class SMSHelper {
 
-    //method is not tested
+    //Send a SMS
     public static void sendSMS(String phoneNumber, String textmessage){
 
         SmsManager sms = SmsManager.getDefault();
