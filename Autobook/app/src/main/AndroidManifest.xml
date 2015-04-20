@@ -55,7 +55,6 @@
             android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_twitter_login" >
         </activity>
-        <activity android:name=".Scheduler.SchedulerActivity" />
 
         <receiver android:name=".Scheduler.AlarmManagerBroadcastReceiver">
 

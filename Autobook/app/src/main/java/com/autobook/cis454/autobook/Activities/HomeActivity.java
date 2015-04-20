@@ -16,7 +16,6 @@ import com.autobook.cis454.autobook.Helpers.Autobook;
 import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
 import com.autobook.cis454.autobook.Event.MediaType;
 import com.autobook.cis454.autobook.R;
-import com.autobook.cis454.autobook.Scheduler.SchedulerActivity;
 
 import java.util.ArrayList;
 
