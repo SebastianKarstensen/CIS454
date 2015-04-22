@@ -146,20 +146,11 @@ public class EventFragment extends Fragment {
 
                         Calendar thisMoment = Calendar.getInstance();
                         thisMoment.setTime(new Date(System.currentTimeMillis()));
-                        int thisYear = thisMoment.get(Calendar.YEAR);
-                        int thisMonth = thisMoment.get(Calendar.MONTH);
-                        int thisDay = thisMoment.get(Calendar.DAY_OF_MONTH);
 
-                        if(calendar.get(Calendar.YEAR) < thisYear) {
-                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        else if (calendar.get(Calendar.MONTH) < thisMonth) {
-                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        else if (calendar.get(Calendar.DAY_OF_MONTH) < thisDay) {
-                            Toast.makeText(getActivity(),"Events cannot be scheduled in the past",Toast.LENGTH_SHORT).show();
+                        Date rightnow = thisMoment.getTime();
+                        Date testdate = calendar.getTime();
+                        if(testdate.before(rightnow)){
+                            Toast.makeText(getActivity(), "Events cannot be scheduled in the past", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
