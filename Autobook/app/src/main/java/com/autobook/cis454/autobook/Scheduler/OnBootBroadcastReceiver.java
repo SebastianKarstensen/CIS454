@@ -6,7 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.autobook.cis454.autobook.Event.Event;
+import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by ander_000 on 25-04-2015.
@@ -16,29 +20,13 @@ public class OnBootBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        System.out.println("@@@ Booting up now and receiving something" );
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
 
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(context)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle("On boot test")
-                            .setContentText("O hai there");
-            // Sets an ID for the notification
-            int mNotificationId = 0;
+            ArrayList<Event> allEvents = (ArrayList<Event>) Storage.getEventsFromDatabase();
 
-            // Get a notification manager
-            NotificationManager mNotifyMgr =
-                    (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-
-            // Build the notification and display it.
-            mNotifyMgr.notify(mNotificationId, mBuilder.build());
-
-
+            for(Event e : allEvents){
+                AlarmManagerBroadcastReceiver.setEventNotifications(context, e);
+            }
         }
-
     }
-
-
-
 }
