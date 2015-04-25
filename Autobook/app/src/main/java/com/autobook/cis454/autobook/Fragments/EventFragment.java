@@ -149,20 +149,34 @@ public class EventFragment extends Fragment {
 
                         Date rightnow = thisMoment.getTime();
                         Date testdate = calendar.getTime();
-                        if(testdate.before(rightnow)){
-                            Toast.makeText(getActivity(), "Events cannot be scheduled in the past", Toast.LENGTH_SHORT).show();
+                        rightnow.setSeconds(00);
+                        testdate.setSeconds(00);
+                        rightnow.setMinutes(00);
+                        testdate.setMinutes(00);
+
+
+                        System.out.println("comparing right now: " + rightnow.toString() + " with " + testdate.toString());
+                        if(testdate.getDate() == rightnow.getDate()) {
+                            System.out.println("the same day");
+                        }
+
+                        if(!testdate.before(rightnow)||testdate.getDate() == rightnow.getDate()){
+                            event.setDate(calendar.getTime());
+
+                            String dateString = dfDate.format(event.getDate());
+
+                            if(!isDateSet) {
+                                isDateSet = true;
+                                buttonTime.setEnabled(true);
+                            }
+                            buttonDate.setText(dateString);
                             return;
                         }
 
-                        event.setDate(calendar.getTime());
+                        Toast.makeText(getActivity(), "Events cannot be scheduled in the past", Toast.LENGTH_SHORT).show();
+                        return;
 
-                        String dateString = dfDate.format(event.getDate());
 
-                        if(!isDateSet) {
-                            isDateSet = true;
-                            buttonTime.setEnabled(true);
-                        }
-                        buttonDate.setText(dateString);
                     }
                 },year,month,day);
                 dateDialog.show();
