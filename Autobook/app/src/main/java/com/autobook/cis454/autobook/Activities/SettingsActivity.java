@@ -1,7 +1,7 @@
 package com.autobook.cis454.autobook.Activities;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -9,6 +9,9 @@ import com.autobook.cis454.autobook.Fragments.SettingsFragment;
 import com.autobook.cis454.autobook.R;
 import com.facebook.FacebookSdk;
 
+/*
+ * Activity for the settings
+ */
 public class SettingsActivity extends ActionBarActivity {
 
     @Override

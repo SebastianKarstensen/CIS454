@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-
 import com.autobook.cis454.autobook.Fragments.TwitterWebFragment;
 
 import twitter4j.PagableResponseList;
@@ -16,9 +15,6 @@ import twitter4j.User;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.ConfigurationBuilder;
 
-/**
- * Created by Kenton on 4/5/2015.
- */
 public class TwitterHelper
 {
     static SharedPreferences mSharedPreferences = Autobook.getAppContext().getSharedPreferences("MyPref", 0);

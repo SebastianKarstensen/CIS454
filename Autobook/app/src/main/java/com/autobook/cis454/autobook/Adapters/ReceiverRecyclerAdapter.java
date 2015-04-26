@@ -1,7 +1,6 @@
 package com.autobook.cis454.autobook.Adapters;
 
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +14,10 @@ import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
 import com.autobook.cis454.autobook.Scheduler.AlarmManagerBroadcastReceiver;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * Created by Sebastian on 27-03-2015.
+ * Adapter for the list of contacts
  */
 public class ReceiverRecyclerAdapter extends RecyclerView.Adapter<ReceiverRecyclerAdapter.ViewHolder> {
 

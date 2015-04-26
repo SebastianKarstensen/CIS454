@@ -2,9 +2,6 @@ package com.autobook.cis454.autobook.Notifications;
 
 import java.io.Serializable;
 
-/**
- * Created by Sebastian on 10-02-2015.
- */
 public class Receiver implements Serializable {
     private int id;
     private String name;

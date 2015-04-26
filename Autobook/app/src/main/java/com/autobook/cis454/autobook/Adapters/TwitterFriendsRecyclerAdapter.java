@@ -2,7 +2,6 @@ package com.autobook.cis454.autobook.Adapters;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -14,8 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.autobook.cis454.autobook.Helpers.Autobook;
-import com.autobook.cis454.autobook.Helpers.Converters;
-import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
 
 import java.io.InputStream;
@@ -24,7 +21,7 @@ import java.util.List;
 import twitter4j.User;
 
 /**
- * Created by Sebastian on 06-04-2015.
+ * Adapter for the list of Twitter friends
  */
 public class TwitterFriendsRecyclerAdapter extends RecyclerView.Adapter<TwitterFriendsRecyclerAdapter.ViewHolder> {
 

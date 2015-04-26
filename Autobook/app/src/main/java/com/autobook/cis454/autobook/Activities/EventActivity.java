@@ -1,6 +1,5 @@
 package com.autobook.cis454.autobook.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -11,6 +10,9 @@ import com.autobook.cis454.autobook.Fragments.EventFragment;
 import com.autobook.cis454.autobook.Fragments.EventsDialogFragment;
 import com.autobook.cis454.autobook.R;
 
+/*
+ * Activity for creating a new event
+ */
 public class EventActivity extends ActionBarActivity {
 
     @Override

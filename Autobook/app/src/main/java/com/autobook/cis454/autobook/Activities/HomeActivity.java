@@ -2,23 +2,25 @@ package com.autobook.cis454.autobook.Activities;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.autobook.cis454.autobook.Helpers.Autobook;
 import com.autobook.cis454.autobook.DatabaseTesting.Database.MyDatabaseHandler;
 import com.autobook.cis454.autobook.Event.MediaType;
+import com.autobook.cis454.autobook.Helpers.Autobook;
 import com.autobook.cis454.autobook.R;
 
 import java.util.ArrayList;
 
+/*
+ * Activity for the home screen
+ */
 public class HomeActivity extends ActionBarActivity {
 
     public static final String INTENT_EXTRA_MEDIA_TYPE = "EXTRA_MEDIA_TYPE";

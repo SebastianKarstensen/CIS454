@@ -1,19 +1,13 @@
 package com.autobook.cis454.autobook.Helpers;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.widget.ImageView;
-
 import com.autobook.cis454.autobook.Event.EventType;
 
-import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by Sebastian on 31-03-2015.
+ * Used to convert different types to other types
  */
 public class Converters {
 

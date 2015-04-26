@@ -25,9 +25,6 @@ import twitter4j.User;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-/**
- * Created by Sebastian on 02-03-2015.
- */
 public class TwitterWebFragment extends Fragment {
 
     Twitter twitter;

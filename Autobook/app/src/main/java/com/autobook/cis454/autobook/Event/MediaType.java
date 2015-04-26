@@ -1,8 +1,8 @@
 package com.autobook.cis454.autobook.Event;
 
 /**
- * Created by Sebastian on 01-03-2015.
+ * MediaType to be used with Event when clicked on the home screen.
  */
 public enum MediaType {
-    Facebook, Twitter, TextMessaging, Instagram, Null
+    Facebook, Twitter, TextMessaging, Null
 }

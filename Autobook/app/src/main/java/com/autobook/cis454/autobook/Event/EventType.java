@@ -1,7 +1,7 @@
 package com.autobook.cis454.autobook.Event;
 
 /**
- * Created by Sebastian on 10-02-2015.
+ * EventType to be used with Event
  */
 public enum EventType
 {

@@ -5,10 +5,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.autobook.cis454.autobook.Fragments.AgendaFragment;
 import com.autobook.cis454.autobook.Fragments.CalendarFragment;
 import com.autobook.cis454.autobook.R;
 
+/*
+ * Activity for the calendar
+ */
 public class CalendarActivity extends ActionBarActivity {
 
     @Override

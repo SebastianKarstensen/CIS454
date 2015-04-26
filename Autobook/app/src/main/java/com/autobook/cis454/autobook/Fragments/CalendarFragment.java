@@ -1,24 +1,15 @@
 package com.autobook.cis454.autobook.Fragments;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Activities.AgendaActivity;
-import com.autobook.cis454.autobook.Activities.CalendarActivity;
-import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
 import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Helpers.Converters;
 import com.autobook.cis454.autobook.Helpers.Storage;

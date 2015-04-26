@@ -1,26 +1,18 @@
 package com.autobook.cis454.autobook.Helpers;
 
-import android.widget.Toast;
-
 import com.autobook.cis454.autobook.Activities.HomeActivity;
 import com.autobook.cis454.autobook.DatabaseTesting.Database.DBAdapter;
 import com.autobook.cis454.autobook.Event.Event;
 import com.autobook.cis454.autobook.Event.EventType;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 
-import java.lang.reflect.Array;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Sebastian on 31-03-2015.
- */
 public class Storage {
 
     //EVENTS

@@ -1,21 +1,17 @@
 package com.autobook.cis454.autobook.Helpers;
 
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.widget.Toast;
+
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.google.gson.Gson;
 
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.os.Bundle;
-import android.widget.Toast;
-
 import org.json.JSONObject;
 
-/**
- * Created by Kenton on 4/12/2015.
- */
 public class FacebookHelper
 {
     static SharedPreferences mSharedPreferences = Autobook.getAppContext().getSharedPreferences("MyPref", 0);;

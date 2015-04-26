@@ -26,9 +26,6 @@ import java.util.concurrent.ExecutionException;
 import twitter4j.PagableResponseList;
 import twitter4j.User;
 
-/**
- * Created by Sebastian on 06-04-2015.
- */
 public class TwitterFriendsFragment extends DialogFragment {
 
     public static final String ARG_TWITTER_HANDLE = "ARGUMENT_TWITTER_HANDLE";

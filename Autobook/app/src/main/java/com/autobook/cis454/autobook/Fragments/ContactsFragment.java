@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,22 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
 import com.autobook.cis454.autobook.Adapters.ReceiverRecyclerAdapter;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
-import com.roomorama.caldroid.CaldroidFragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
-/**
- * Created by Sebastian on 31-03-2015.
- */
 public class ContactsFragment extends Fragment {
 
     public static final String ARG_EVENT = "ARGUMENT_EVENT";

@@ -5,28 +5,20 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
-import com.autobook.cis454.autobook.Activities.CalendarActivity;
 import com.autobook.cis454.autobook.Activities.EventActivity;
-import com.autobook.cis454.autobook.Activities.HomeActivity;
 import com.autobook.cis454.autobook.Adapters.EventRecyclerAdapter;
 import com.autobook.cis454.autobook.Event.Event;
-import com.autobook.cis454.autobook.Helpers.Autobook;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.R;
 import com.autobook.cis454.autobook.Scheduler.AlarmManagerBroadcastReceiver;
 
 import java.util.Date;
 
-/**
- * Created by Sebastian on 11-04-2015.
- */
 public class EventsDialogFragment extends DialogFragment {
 
     public static final String INTENT_EXTRA_EVENT = "EXTRA_EVENT";

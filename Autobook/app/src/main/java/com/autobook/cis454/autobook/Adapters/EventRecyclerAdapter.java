@@ -7,14 +7,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.autobook.cis454.autobook.Event.Event;
-import com.autobook.cis454.autobook.Fragments.TwitterWebFragment;
 import com.autobook.cis454.autobook.R;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * Created by Sebastian on 27-03-2015.
+ * Adapter for the list of events
  */
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder> {
 

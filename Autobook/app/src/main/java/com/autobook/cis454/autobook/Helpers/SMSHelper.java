@@ -2,7 +2,6 @@ package com.autobook.cis454.autobook.Helpers;
 
 import android.telephony.SmsManager;
 
-
 public class SMSHelper {
 
     //Send a SMS

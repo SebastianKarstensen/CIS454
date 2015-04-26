@@ -2,28 +2,20 @@ package com.autobook.cis454.autobook.Fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 
 import com.autobook.cis454.autobook.Activities.HomeActivity;
 import com.autobook.cis454.autobook.Helpers.TwitterHelper;
 import com.autobook.cis454.autobook.R;
-import com.autobook.cis454.autobook.Scheduler.AlarmManagerBroadcastReceiver;
-
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -31,14 +23,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.facebook.FacebookSdk;
 import com.google.gson.Gson;
-
-import java.util.Date;
-import java.util.concurrent.ExecutionException;
-
-import twitter4j.PagableResponseList;
-import twitter4j.User;
 
 public class SettingsFragment extends Fragment {
 
@@ -48,7 +33,6 @@ public class SettingsFragment extends Fragment {
     Button buttonLogoutFacebook;
     Button buttonLoginTwitter;
     Button buttonLogoutTwitter;
-    Button buttonEditMessageTemplates;
     Button buttonWipeDatabase;
     Button buttonHelp;
     Button buttonCredits;

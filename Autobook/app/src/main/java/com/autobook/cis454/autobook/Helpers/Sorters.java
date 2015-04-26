@@ -6,9 +6,6 @@ import java.util.Comparator;
 
 import twitter4j.User;
 
-/**
- * Created by Sebastian on 06-04-2015.
- */
 public class Sorters {
 
     /*

@@ -20,16 +20,12 @@ import android.widget.Toast;
 
 import com.autobook.cis454.autobook.Adapters.TwitterFriendsRecyclerAdapter;
 import com.autobook.cis454.autobook.Helpers.Autobook;
-import com.autobook.cis454.autobook.Helpers.Converters;
 import com.autobook.cis454.autobook.Helpers.Storage;
 import com.autobook.cis454.autobook.Helpers.TwitterHelper;
 import com.autobook.cis454.autobook.Notifications.Receiver;
 import com.autobook.cis454.autobook.R;
 import com.autobook.cis454.autobook.Scheduler.AlarmManagerBroadcastReceiver;
 
-/**
- * Created by Sebastian on 31-03-2015.
- */
 public class ContactsDetailFragment extends Fragment {
 
     private static final String ARG_RECEIVER = "ARGUMENT_RECEIVER";
