@@ -1,0 +1,114 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.autobook.cis454.autobook.Activities.HomeActivity"
+    android:background="@drawable/background_gradient_main">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:id="@+id/image_home_logo"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/autobook_logo_v01"
+            android:layout_weight="2"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView_btn_twitter"
+                android:layout_weight="1"
+                android:src="@drawable/btn_home_twitter"
+                android:clickable="false"
+                android:adjustViewBounds="false"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView_btn_facebook"
+                android:layout_weight="1"
+                android:src="@drawable/btn_home_facebook"
+                android:clickable="false"
+                android:cropToPadding="false"
+                android:adjustViewBounds="false"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView_btn_text"
+                android:layout_weight="1"
+                android:src="@drawable/btn_home_text"
+                android:clickable="false"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView_btn_calendar"
+                android:layout_weight="1"
+                android:src="@drawable/btn_home_calendar"
+                android:clickable="false"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView_btn_contacts"
+                android:layout_weight="1"
+                android:src="@drawable/btn_home_contacts"
+                android:clickable="false"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView_btn_settings"
+                android:layout_weight="1"
+                android:src="@drawable/btn_home_settings"
+                android:clickable="false"
+                android:focusableInTouchMode="false"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:id="@+id/textView_settings_header"
+                android:layout_gravity="center_horizontal"
+                android:textSize="35sp"
+                android:gravity="center_horizontal" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="100"
+                android:gravity="center_horizontal">
+
+                <com.facebook.login.widget.LoginButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_settings_loginFacebook"
+                    android:layout_marginTop="30dp"
+                    android:singleLine="false"
+                    android:layout_weight="60" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Logout from Facebook"
+                    android:id="@+id/btn_settings_logoutFacebook"
+                    android:layout_marginTop="30dp"
+                    android:singleLine="false"
+                    android:layout_weight="60"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:weightSum="100">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Login to Twitter"
+                    android:id="@+id/btn_settings_loginTwitter"
+                    android:layout_marginTop="30dp"
+                    android:singleLine="false"
+                    android:layout_weight="60" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Logout from Twitter"
+                    android:id="@+id/btn_settings_logoutTwitter"
+                    android:layout_marginTop="30dp"
+                    android:singleLine="false"
+                    android:layout_weight="60" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:weightSum="100" >
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Reset Database"
+                    android:id="@+id/btn_settings_wipeDatabase"
+                    android:layout_marginTop="30dp"
+                    android:singleLine="false"
+                    android:layout_weight="60" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:weightSum="100" >
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Tutorial"
+                    android:id="@+id/btn_settings_help"
+                    android:layout_marginTop="30dp"
+                    android:singleLine="false"
+                    android:layout_weight="60" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:weightSum="100" >
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Credits"
+                    android:id="@+id/btn_settings_credits"
+                    android:layout_marginTop="30dp"
+                    android:singleLine="false"
+                    android:layout_weight="60" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>
